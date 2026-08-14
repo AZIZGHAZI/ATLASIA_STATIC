@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Observatoire Social — ATLASIA</title>
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Leaflet.js pour la carte -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  
+  <!-- Chart.js pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  
+  <style>
+    /* Overrides spécifiques à la page */
+      </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-icon">A</div>
+      <div class="logo-text">
+        <span class="logo-name">ATLASIA</span>
+        <span class="logo-tagline">Mapping Society · Powering Insight</span>
+      </div>
+    </div>
+
+    <!-- Recherche dans la sidebar -->
+    <div class="sidebar-search">
+      <input type="text" placeholder="Rechercher dans la plateforme..." id="sidebarSearch">
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">PLATEFORME</div>
+      
+            <a href="dashboard.html" class="nav-item ">
+        <span class="nav-icon">⚡</span>
+        <span>Intelligence Stratégique</span>
+              </a>
+            <a href="espaces-travail.html" class="nav-item ">
+        <span class="nav-icon">📁</span>
+        <span>Espaces de Travail</span>
+                <span class="nav-badge">3</span>
+              </a>
+            <a href="production.html" class="nav-item ">
+        <span class="nav-icon">📊</span>
+        <span>Production & Collecte</span>
+              </a>
+            <a href="referentiel.html" class="nav-item ">
+        <span class="nav-icon">🗄️</span>
+        <span>Référentiel de Données</span>
+              </a>
+            <a href="ai-studio.html" class="nav-item ">
+        <span class="nav-icon">🤖</span>
+        <span>AI Research Studio</span>
+                <span class="nav-badge">IA</span>
+              </a>
+            <a href="observatoire.html" class="nav-item active">
+        <span class="nav-icon">🔭</span>
+        <span>Observatoire Social</span>
+              </a>
+            <a href="observatoire-psychosocial.html" class="nav-item ">
+        <span class="nav-icon">🧠</span>
+        <span>Dynamiques Psychosociales</span>
+                <span class="nav-badge">V2</span>
+              </a>
+            <a href="mots-sociaux.html" class="nav-item ">
+        <span class="nav-icon">☁️</span>
+        <span>Mots sociaux du web</span>
+                <span class="nav-badge">✨</span>
+              </a>
+            <a href="bibliotheque.html" class="nav-item ">
+        <span class="nav-icon">📚</span>
+        <span>Bibliothèque Scientifique</span>
+                <span class="nav-badge">4</span>
+              </a>
+            <a href="reseau.html" class="nav-item ">
+        <span class="nav-icon">🤝</span>
+        <span>Réseau des Chercheurs</span>
+              </a>
+      
+      <div class="nav-section-label" style="margin-top:8px;">COMPTE</div>
+      <a href="profil.html" class="nav-item ">
+        <span class="nav-icon">👤</span>
+        <span>Mon Profil</span>
+      </a>
+      <a href="actualites.html" class="nav-item ">
+        <span class="nav-icon">📰</span>
+        <span>Actualités</span>
+      </a>
+      <a href="parametres.html" class="nav-item ">
+        <span class="nav-icon">⚙️</span>
+        <span>Paramètres</span>
+      </a>
+      <a href="admin.html" class="nav-item ">
+        <span class="nav-icon">🔒</span>
+        <span>Administration</span>
+      </a>
+    </nav>
+
+    <!-- Section aide -->
+    <div class="sidebar-help">
+      <div class="help-title">🤔 Besoin d'aide ?</div>
+      <div class="help-desc">Accédez à la documentation et au support technique.</div>
+      <a href="#" class="help-link">Consultez notre centre d'aide →</a>
+    </div>
+
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      
+      <!-- Hamburger (mobile) -->
+      <button class="header-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" style="display:none;" id="menuToggle">
+        ☰
+      </button>
+
+      <!-- Recherche globale -->
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Rechercher dans la plateforme ATLASIA..." id="globalSearch">
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <div class="header-btn" data-tooltip="Notifications" onclick="alert('Aucune nouvelle notification')">
+          🔔
+          <span class="notification-badge"></span>
+        </div>
+        <div class="header-btn" data-tooltip="Messages" onclick="alert('Messagerie')">💬</div>
+        <div class="header-btn" data-tooltip="Aide" onclick="alert('Centre d\'aide')">❓</div>
+        
+        <!-- User profile -->
+        <div class="header-user">
+          <div class="user-avatar">GA</div>
+          <div class="user-info">
+            <span class="user-name">Ghazi Abdessalam</span>
+            <span class="user-role">Chercheur Principal</span>
+          </div>
+          <span style="color:#94a3b8; margin-left:4px;">▾</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="page-content" id="pageContent">
+      <!-- Page header -->
+            <div class="page-header">
+        <div>
+          <h1 class="page-title">Observatoire Social</h1>
+                    <p class="page-subtitle">Suivi des indicateurs sociaux et tendances au Maroc</p>
+                  </div>
+                <div class="page-actions"><button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ Imprimer</button></div>
+              </div>
+      
+<!-- Indicateurs nationaux (données réelles HCP) -->
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:20px;">
+  <div class="indicator-card orange"><div class="indicator-label">Chômage national (T2 2026)</div><div class="indicator-value" style="color:#f59e0b;">9,5%</div><div class="indicator-trend" style="color:#64748b;">Urbain 11,9%</div></div>
+  <div class="indicator-card blue"><div class="indicator-label">Taux d'activité (T2 2026)</div><div class="indicator-value" style="color:#2563eb;">42,2%</div><div class="indicator-trend" style="color:#64748b;">Rural 47,3%</div></div>
+  <div class="indicator-card green"><div class="indicator-label">Population (RGPH 2024)</div><div class="indicator-value" style="color:#10b981;font-size:19px;">36 828 330</div><div class="indicator-trend" style="color:#64748b;">Urbaine 23 110 108</div></div>
+  <div class="indicator-card blue" style="border-color:#8b5cf6;"><div class="indicator-label">Lits hospitaliers (2022)</div><div class="indicator-value" style="color:#8b5cf6;">21 455</div><div class="indicator-trend" style="color:#64748b;">152 hôpitaux</div></div>
+  <div class="indicator-card red"><div class="indicator-label">Admissions (2022)</div><div class="indicator-value" style="color:#ef4444;font-size:19px;">1 043 904</div><div class="indicator-trend" style="color:#64748b;">Hôpitaux publics</div></div>
+</div>
+<div style="font-size:12px;color:#94a3b8;margin:-10px 0 16px;">Source : HCP — EMO 2026 (T2), Point de Conjoncture N°50 (Juillet 2026), IPC Avril-Mai 2026, Chiffres Clés 2026</div>
+
+<!-- ===== ÉVOLUTION TEMPORELLE (séries HCP 2015-2023) ===== -->
+<div class="card" style="margin-bottom:16px;">
+  <div class="card-header">
+    <div class="card-title">📈 Évolution des indicateurs nationaux (2015 – T2 2026)</div>
+    <span class="badge badge-info" style="align-self:center;">Séries HCP — Annuaires 2017-2024 · EMO T2 2026</span>
+  </div>
+  <div class="card-body">
+    <div class="dashboard-grid">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#334155;margin-bottom:6px;">Chômage &amp; activité (15 ans et plus)</div>
+        <div style="position:relative;height:240px;"><canvas id="evoEmploiChart"></canvas></div>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#334155;margin-bottom:6px;">Produit intérieur brut (prix courants)</div>
+        <div style="position:relative;height:240px;"><canvas id="evoPibChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+    <div class="map-update-info" style="padding:10px 16px;">ℹ️ Le taux de chômage national est passé de 9,7% en 2015 à 9,5% en T2 2026. PIB en hausse de 74% (2015 → 2025).</div>
+</div>
+
+<!-- Évolution de la population (recensements) -->
+<div class="card" style="margin-bottom:16px;">
+  <div class="card-header">
+    <div class="card-title">👥 Évolution de la population du Maroc (RGPH 1971–2024)</div>
+    <span class="badge badge-info" style="align-self:center;">Recensements HCP</span>
+  </div>
+  <div class="card-body"><div style="position:relative;height:180px;"><canvas id="evoPopChart"></canvas></div></div>
+</div>
+
+<!-- Graphiques -->
+<div class="dashboard-grid" style="margin-bottom:16px;">
+  <div class="card">
+    <div class="card-header"><div class="card-title">📊 Taux de chômage par région (T2 2026)</div></div>
+    <div class="card-body"><canvas id="chomageChart" height="240"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">👨‍👩‍👧‍👦 Population par région (RGPH 2024)</div></div>
+    <div class="card-body"><canvas id="popChart" height="240"></canvas></div>
+  </div>
+</div>
+
+<!-- Tableau des indicateurs par région -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">📋 Tableau de bord des indicateurs régionaux</div>
+    <div style="display:flex;gap:10px;">
+      <span class="badge badge-info" style="align-self:center;">Source : HCP — EMO 2026 (T2), Point de Conjoncture N°50 (Juillet 2026), IPC Avril-Mai 2026, Chiffres Clés 2026</span>
+    </div>
+  </div>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Région</th>
+          <th>Population (2024)</th>
+          <th>Chômage (T2 2026)</th>
+          <th>Activité (T2 2026)</th>
+          <th>Hôpitaux (2022)</th>
+          <th>Lits (2022)</th>
+          <th>Admissions (2022)</th>
+        </tr>
+      </thead>
+      <tbody>
+                <tr>
+          <td><strong>Tanger-Tétouan-Al Hoceïma</strong></td>
+          <td>4 030 222</td>
+          <td><span style="color:#10b981;font-weight:600;">6,1%</span></td>
+          <td>46,8%</td>
+          <td>18</td>
+          <td>2 015</td>
+          <td>134 367</td>
+        </tr>
+                <tr>
+          <td><strong>L&#039;Oriental</strong></td>
+          <td>2 294 665</td>
+          <td><span style="color:#ef4444;font-weight:600;">12,7%</span></td>
+          <td>36,6%</td>
+          <td>15</td>
+          <td>2 118</td>
+          <td>80 365</td>
+        </tr>
+                <tr>
+          <td><strong>Fès-Meknès</strong></td>
+          <td>4 467 911</td>
+          <td><span style="color:#f59e0b;font-weight:600;">10,9%</span></td>
+          <td>40,0%</td>
+          <td>19</td>
+          <td>2 729</td>
+          <td>142 475</td>
+        </tr>
+                <tr>
+          <td><strong>Rabat-Salé-Kénitra</strong></td>
+          <td>5 132 639</td>
+          <td><span style="color:#10b981;font-weight:600;">8,8%</span></td>
+          <td>42,2%</td>
+          <td>19</td>
+          <td>3 826</td>
+          <td>141 208</td>
+        </tr>
+                <tr>
+          <td><strong>Béni Mellal-Khénifra</strong></td>
+          <td>2 525 801</td>
+          <td><span style="color:#10b981;font-weight:600;">7,9%</span></td>
+          <td>40,2%</td>
+          <td>11</td>
+          <td>1 306</td>
+          <td>72 355</td>
+        </tr>
+                <tr>
+          <td><strong>Casablanca-Settat</strong></td>
+          <td>7 688 967</td>
+          <td><span style="color:#ef4444;font-weight:600;">12,8%</span></td>
+          <td>46,7%</td>
+          <td>25</td>
+          <td>3 832</td>
+          <td>167 496</td>
+        </tr>
+                <tr>
+          <td><strong>Marrakech-Safi</strong></td>
+          <td>4 892 393</td>
+          <td><span style="color:#10b981;font-weight:600;">7,9%</span></td>
+          <td>43,1%</td>
+          <td>16</td>
+          <td>2 427</td>
+          <td>130 260</td>
+        </tr>
+                <tr>
+          <td><strong>Drâa-Tafilalet</strong></td>
+          <td>1 655 623</td>
+          <td><span style="color:#10b981;font-weight:600;">8,3%</span></td>
+          <td>30,5%</td>
+          <td>11</td>
+          <td>838</td>
+          <td>52 636</td>
+        </tr>
+                <tr>
+          <td><strong>Souss-Massa</strong></td>
+          <td>3 020 431</td>
+          <td><span style="color:#10b981;font-weight:600;">7,1%</span></td>
+          <td>37,6%</td>
+          <td>8</td>
+          <td>1 535</td>
+          <td>87 367</td>
+        </tr>
+                <tr>
+          <td><strong>Guelmim-Oued Noun</strong></td>
+          <td>448 685</td>
+          <td><span style="color:#ef4444;font-weight:600;">13,8%</span></td>
+          <td>40,8%</td>
+          <td>5</td>
+          <td>370</td>
+          <td>13 004</td>
+        </tr>
+                <tr>
+          <td><strong>Laâyoune-Sakia El Hamra</strong></td>
+          <td>451 028</td>
+          <td><span style="color:#f59e0b;font-weight:600;">9,2%</span></td>
+          <td>39,7%</td>
+          <td>4</td>
+          <td>379</td>
+          <td>16 727</td>
+        </tr>
+                <tr>
+          <td><strong>Dakhla-Oued Ed-Dahab</strong></td>
+          <td>219 965</td>
+          <td><span style="color:#ef4444;font-weight:600;">20,3%</span></td>
+          <td>59,2%</td>
+          <td>1</td>
+          <td>80</td>
+          <td>5 644</td>
+        </tr>
+              </tbody>
+    </table>
+  </div>
+  <div class="map-update-info" style="padding:10px 16px;">ℹ️ Données emploi issues de l'Enquête sur la main-d'œuvre (EMO) du HCP, 2ᵉ trimestre 2026. « n.s. » = taux non significatif (faible effectif, Dakhla-Oued Ed-Dahab). Données santé (hôpitaux, lits, admissions) : Ministère de la Santé 2022.</div>
+</div>
+
+<script>
+const chomageRows = [{"nom":"Dakhla-Oued Ed-Dahab","v":20.3},{"nom":"Guelmim-Oued Noun","v":13.8},{"nom":"Casablanca-Settat","v":12.8},{"nom":"L'Oriental","v":12.7},{"nom":"Fès-Meknès","v":10.9},{"nom":"Laâyoune-Sakia El Hamra","v":9.2},{"nom":"Rabat-Salé-Kénitra","v":8.8},{"nom":"Drâa-Tafilalet","v":8.3},{"nom":"Béni Mellal-Khénifra","v":7.9},{"nom":"Marrakech-Safi","v":7.9},{"nom":"Souss-Massa","v":7.1},{"nom":"Tanger-Tétouan-Al Hoceïma","v":6.1}];
+const popRows     = [{"nom":"Casablanca-Settat","v":7688967},{"nom":"Rabat-Salé-Kénitra","v":5132639},{"nom":"Marrakech-Safi","v":4892393},{"nom":"Fès-Meknès","v":4467911},{"nom":"Tanger-Tétouan-Al Hoceïma","v":4030222},{"nom":"Souss-Massa","v":3020431},{"nom":"Béni Mellal-Khénifra","v":2525801},{"nom":"L'Oriental","v":2294665},{"nom":"Drâa-Tafilalet","v":1655623},{"nom":"Laâyoune-Sakia El Hamra","v":451028},{"nom":"Guelmim-Oued Noun","v":448685},{"nom":"Dakhla-Oued Ed-Dahab","v":219965}];
+
+// ===== Séries temporelles nationales (HCP) =====
+const series   = {"description":"Évolution des principaux indicateurs nationaux — HCP, 2015-T2 2026","annees":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,"T2 2026"],"taux_chomage":{"libelle":"Taux de chômage national (15 ans et plus, %)","unite":"%","valeurs":[9.7,9.4,10.2,9.5,9.2,11.9,12.3,11.8,13,13.3,13,9.5],"source":"HCP — Annuaires Statistiques, table 14-4 (emploi, ensemble)"},"taux_activite":{"libelle":"Taux d'activité national (15 ans et plus, %)","unite":"%","valeurs":[47.4,46.4,46.7,46,45.8,44.8,45.3,44.3,43.6,43.5,43.5,42.2],"source":"HCP — Annuaires Statistiques, table 14-4 (emploi, ensemble)"},"pib_prix_courants_mdh":{"libelle":"Produit intérieur brut aux prix courants (Millions DH)","unite":"MDH","valeurs":[988021,1016119,1063297,1106822,1152806,1089521,1284154,1330158,1463358,1614569,1720201,null],"source":"HCP — Annuaires Statistiques, synthèse des principaux indicateurs. Valeurs prix courants (susceptibles de révisions entre éditions)."}};
+const popRec   = {"description":"Population légale du Maroc selon les Recensements Généraux de la Population et de l'Habitat (RGPH)","unite":"habitants","annees":[1971,1982,1994,2004,2014,2024],"valeurs":[15379000,20419000,26073717,29891708,33848242,36828330],"source":"HCP — RGPH (Annuaire Statistique du Maroc 2024)"};
+
+if (series && series.annees) {
+  // Évolution chômage + activité (axe %)
+  new Chart(document.getElementById('evoEmploiChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: series.annees,
+      datasets: [
+        { label: 'Taux de chômage (%)', data: series.taux_chomage.valeurs, borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,.08)', tension:.3, fill:true, pointRadius:4, pointBackgroundColor:'#ef4444' },
+        { label: "Taux d'activité (%)", data: series.taux_activite.valeurs, borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,.06)', tension:.3, fill:true, pointRadius:4, pointBackgroundColor:'#2563eb' }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{position:'bottom', labels:{boxWidth:12,font:{size:11}}}, tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+c.raw+'%'}} },
+      scales:{ y:{ ticks:{callback:v=>v+'%'}, grid:{color:'rgba(0,0,0,.04)'} }, x:{grid:{display:false}} }
+    }
+  });
+
+  // Évolution PIB (Milliards DH)
+  new Chart(document.getElementById('evoPibChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: series.annees,
+      datasets: [{ label:'PIB (Milliards DH)', data: series.pib_prix_courants_mdh.valeurs.map(v=> v==null ? null : v/1000), backgroundColor:'#10b981', borderRadius:6 }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' '+Number(c.raw).toLocaleString('fr-FR',{maximumFractionDigits:0})+' Mds DH'}} },
+      scales:{ y:{ ticks:{callback:v=>v+' Mds'}, grid:{color:'rgba(0,0,0,.04)'} }, x:{grid:{display:false}} }
+    }
+  });
+}
+
+// Évolution population (recensements)
+if (popRec && popRec.annees && document.getElementById('evoPopChart')) {
+  new Chart(document.getElementById('evoPopChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: popRec.annees,
+      datasets: [{ label:'Population légale', data: popRec.valeurs, borderColor:'#8b5cf6', backgroundColor:'rgba(139,92,246,.10)', tension:.3, fill:true, pointRadius:5, pointBackgroundColor:'#8b5cf6' }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' '+Number(c.raw).toLocaleString('fr-FR')+' hab.'}} },
+      scales:{ y:{ ticks:{callback:v=>(v/1000000).toLocaleString('fr-FR')+' M'}, grid:{color:'rgba(0,0,0,.04)'} }, x:{grid:{display:false}} }
+    }
+  });
+}
+
+// Chômage par région (2023)
+new Chart(document.getElementById('chomageChart').getContext('2d'), {
+  type: 'bar',
+  data: {
+    labels: chomageRows.map(r => r.nom),
+    datasets: [{
+      label: 'Taux de chômage T2 2026 (%)',
+      data: chomageRows.map(r => r.v),
+      backgroundColor: ctx => { const v = ctx.raw; return v > 15 ? '#fca5a5' : (v > 11 ? '#fcd34d' : '#6ee7b7'); },
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend:{display:false}, tooltip:{callbacks:{label: c => ' ' + c.raw + '%'}} },
+    scales: { x: { min:0, max:22, ticks:{callback:v=>v+'%'}, grid:{color:'rgba(0,0,0,.04)'} }, y:{grid:{display:false}, ticks:{font:{size:10}}} }
+  }
+});
+
+// Population par région (RGPH 2024)
+new Chart(document.getElementById('popChart').getContext('2d'), {
+  type: 'bar',
+  data: {
+    labels: popRows.map(r => r.nom),
+    datasets: [{
+      label: 'Population 2024',
+      data: popRows.map(r => r.v),
+      backgroundColor: '#3b82f6',
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}, tooltip:{callbacks:{label: c => ' ' + Number(c.raw).toLocaleString('fr-FR') + ' hab.'}}},
+    scales:{x:{ticks:{callback:v=> (v/1000000).toLocaleString('fr-FR')+' M'}, grid:{color:'rgba(0,0,0,.04)'}}, y:{grid:{display:false}, ticks:{font:{size:10}}}}
+  }
+});
+</script>
+    </div><!-- end page-content -->
+  </div><!-- end main-content -->
+</div><!-- end app-layout -->
+
+<!-- ===== MODAL IA EMBARQUÉE (Charte · Principe 7 : IA embarquée) ===== -->
+<div class="ai-modal-overlay" id="aiModalOverlay" onclick="if(event.target===this)closeAiModal()">
+  <div class="ai-modal" role="dialog" aria-modal="true">
+    <div class="ai-modal-head">
+      <div class="ai-modal-title"><span>✨</span> <span id="aiModalTitle">Assistant d'analyse ATLASIA</span></div>
+      <button class="ai-modal-close" onclick="closeAiModal()" aria-label="Fermer">×</button>
+    </div>
+    <div class="ai-modal-body" id="aiModalBody"></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   IA EMBARQUÉE ATLASIA — grounded sur les données disponibles
+   Chaque page enregistre ses analyses dans window.ATLASIA_AI[cle].
+   Une analyse = { title, interpretation, tendance, recommandation, source }
+   Conforme à la Charte : réponses fondées uniquement sur les données
+   de la plateforme, avec mention explicite des sources.
+   ===================================================================== */
+window.ATLASIA_AI = window.ATLASIA_AI || {};
+
+function _aiRender(a){
+  var html = '';
+  if(a.interpretation){ html += '<h4>🔎 Interprétation potentielle</h4><p>'+a.interpretation+'</p>'; }
+  if(a.tendance){ html += '<h4>📈 Tendance prospective</h4><p>'+a.tendance+'</p>'; }
+  if(a.recommandation){ html += '<h4>🎯 Recommandation opérationnelle</h4><p>'+a.recommandation+'</p>'; }
+  if(a.resume){ html += '<h4>📝 Synthèse</h4><p>'+a.resume+'</p>'; }
+  html += '<p class="ai-source">'+(a.source ? ('Source : '+a.source+'. ') : '')+
+          'Lecture analytique fondée sur les données disponibles dans la plateforme — non une vérité absolue.</p>';
+  return html;
+}
+
+var _aiCurrent = null; // { key, title, a }
+
+function _aiFooterHTML(){
+  return '<div class="ai-ask">'+
+    '<textarea id="aiQuestion" class="ai-ask-input" rows="2" '+
+      'placeholder="Posez une question sur ces données (optionnel)…"></textarea>'+
+    '<button class="ai-btn" onclick="atlasiaAsk()"><span class="ai-spark">✨</span> Demander à l\'IA</button>'+
+  '</div>';
+}
+
+// Appelle le proxy IA générative (api/ai.php). Repli local géré côté serveur.
+function _aiCall(payload, body){
+  fetch('api/ai.php', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).then(function(r){ return r.json(); })
+    .then(function(res){
+      var badge = res.mode === 'ai'
+        ? '<span class="ai-mode ai-mode-live">✨ IA générative</span>'
+        : '<span class="ai-mode ai-mode-local">🔒 Analyse locale</span>';
+      body.innerHTML = badge + (res.text || '') + _aiFooterHTML();
+    })
+    .catch(function(){
+      // réseau totalement indisponible => rendu local pur
+      body.innerHTML = (_aiCurrent && _aiCurrent.a ? _aiRender(_aiCurrent.a)
+        : '<p>Service IA indisponible.</p>') + _aiFooterHTML();
+    });
+}
+
+function atlasiaAI(key, title){
+  var overlay = document.getElementById('aiModalOverlay');
+  var body = document.getElementById('aiModalBody');
+  var titleEl = document.getElementById('aiModalTitle');
+  var a = window.ATLASIA_AI[key] || null;
+  _aiCurrent = { key:key, title:(a && a.title) ? a.title : (title||''), a:a };
+  titleEl.textContent = _aiCurrent.title || "Assistant d'analyse ATLASIA";
+  overlay.classList.add('open');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> Analyse des données disponibles…</div>';
+  _aiCall({ key:key, title:_aiCurrent.title, context:(a||{}) }, body);
+}
+
+// Question libre de l'utilisateur sur le même élément (grounding conservé).
+function atlasiaAsk(){
+  var q = (document.getElementById('aiQuestion')||{}).value || '';
+  if(!q.trim()){ return; }
+  var body = document.getElementById('aiModalBody');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> L\'IA analyse votre question…</div>';
+  var a = _aiCurrent ? _aiCurrent.a : null;
+  _aiCall({ key:(_aiCurrent&&_aiCurrent.key)||'', title:(_aiCurrent&&_aiCurrent.title)||'',
+            context:(a||{}), question:q }, body);
+}
+function closeAiModal(){ document.getElementById('aiModalOverlay').classList.remove('open'); }
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAiModal(); });
+</script>
+
+<!-- Scripts globaux -->
+<script>
+// Init Lucide icons
+if (typeof lucide !== 'undefined') lucide.createIcons();
+
+// Mobile menu toggle
+function initMobileMenu() {
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900) {
+    if (toggle) toggle.style.display = 'flex';
+  } else {
+    if (toggle) toggle.style.display = 'none';
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) sidebar.classList.remove('open');
+  }
+}
+window.addEventListener('resize', initMobileMenu);
+initMobileMenu();
+
+// Close sidebar on outside click (mobile)
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900 && sidebar && !sidebar.contains(e.target) && e.target !== toggle) {
+    sidebar.classList.remove('open');
+  }
+});
+
+// Search global
+document.getElementById('globalSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  if (q.length >= 3) {
+    console.log('Recherche:', q);
+  }
+});
+
+// Sidebar search
+document.getElementById('sidebarSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(q) ? '' : 'none';
+  });
+});
+
+// Animate cards on load
+document.querySelectorAll('.stat-card, .card, .project-card, .file-card').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(12px)';
+  setTimeout(() => {
+    el.style.transition = 'opacity .3s ease, transform .3s ease';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, i * 60);
+});
+</script>
+
+
+</body>
+</html>

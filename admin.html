@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration des données — ATLASIA</title>
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Leaflet.js pour la carte -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  
+  <!-- Chart.js pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  
+  <style>
+    /* Overrides spécifiques à la page */
+      </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-icon">A</div>
+      <div class="logo-text">
+        <span class="logo-name">ATLASIA</span>
+        <span class="logo-tagline">Mapping Society · Powering Insight</span>
+      </div>
+    </div>
+
+    <!-- Recherche dans la sidebar -->
+    <div class="sidebar-search">
+      <input type="text" placeholder="Rechercher dans la plateforme..." id="sidebarSearch">
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">PLATEFORME</div>
+      
+            <a href="dashboard.html" class="nav-item ">
+        <span class="nav-icon">⚡</span>
+        <span>Intelligence Stratégique</span>
+              </a>
+            <a href="espaces-travail.html" class="nav-item ">
+        <span class="nav-icon">📁</span>
+        <span>Espaces de Travail</span>
+                <span class="nav-badge">3</span>
+              </a>
+            <a href="production.html" class="nav-item ">
+        <span class="nav-icon">📊</span>
+        <span>Production & Collecte</span>
+              </a>
+            <a href="referentiel.html" class="nav-item ">
+        <span class="nav-icon">🗄️</span>
+        <span>Référentiel de Données</span>
+              </a>
+            <a href="ai-studio.html" class="nav-item ">
+        <span class="nav-icon">🤖</span>
+        <span>AI Research Studio</span>
+                <span class="nav-badge">IA</span>
+              </a>
+            <a href="observatoire.html" class="nav-item ">
+        <span class="nav-icon">🔭</span>
+        <span>Observatoire Social</span>
+              </a>
+            <a href="observatoire-psychosocial.html" class="nav-item ">
+        <span class="nav-icon">🧠</span>
+        <span>Dynamiques Psychosociales</span>
+                <span class="nav-badge">V2</span>
+              </a>
+            <a href="mots-sociaux.html" class="nav-item ">
+        <span class="nav-icon">☁️</span>
+        <span>Mots sociaux du web</span>
+                <span class="nav-badge">✨</span>
+              </a>
+            <a href="bibliotheque.html" class="nav-item ">
+        <span class="nav-icon">📚</span>
+        <span>Bibliothèque Scientifique</span>
+                <span class="nav-badge">4</span>
+              </a>
+            <a href="reseau.html" class="nav-item ">
+        <span class="nav-icon">🤝</span>
+        <span>Réseau des Chercheurs</span>
+              </a>
+      
+      <div class="nav-section-label" style="margin-top:8px;">COMPTE</div>
+      <a href="profil.html" class="nav-item ">
+        <span class="nav-icon">👤</span>
+        <span>Mon Profil</span>
+      </a>
+      <a href="actualites.html" class="nav-item ">
+        <span class="nav-icon">📰</span>
+        <span>Actualités</span>
+      </a>
+      <a href="parametres.html" class="nav-item ">
+        <span class="nav-icon">⚙️</span>
+        <span>Paramètres</span>
+      </a>
+      <a href="admin.html" class="nav-item active">
+        <span class="nav-icon">🔒</span>
+        <span>Administration</span>
+      </a>
+    </nav>
+
+    <!-- Section aide -->
+    <div class="sidebar-help">
+      <div class="help-title">🤔 Besoin d'aide ?</div>
+      <div class="help-desc">Accédez à la documentation et au support technique.</div>
+      <a href="#" class="help-link">Consultez notre centre d'aide →</a>
+    </div>
+
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      
+      <!-- Hamburger (mobile) -->
+      <button class="header-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" style="display:none;" id="menuToggle">
+        ☰
+      </button>
+
+      <!-- Recherche globale -->
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Rechercher dans la plateforme ATLASIA..." id="globalSearch">
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <div class="header-btn" data-tooltip="Notifications" onclick="alert('Aucune nouvelle notification')">
+          🔔
+          <span class="notification-badge"></span>
+        </div>
+        <div class="header-btn" data-tooltip="Messages" onclick="alert('Messagerie')">💬</div>
+        <div class="header-btn" data-tooltip="Aide" onclick="alert('Centre d\'aide')">❓</div>
+        
+        <!-- User profile -->
+        <div class="header-user">
+          <div class="user-avatar">GA</div>
+          <div class="user-info">
+            <span class="user-name">Ghazi Abdessalam</span>
+            <span class="user-role">Chercheur Principal</span>
+          </div>
+          <span style="color:#94a3b8; margin-left:4px;">▾</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="page-content" id="pageContent">
+      <!-- Page header -->
+            <div class="page-header">
+        <div>
+          <h1 class="page-title">Administration des données</h1>
+                    <p class="page-subtitle">Mise à jour annuelle des données statistiques (HCP)</p>
+                  </div>
+              </div>
+      
+<!-- ===== ÉCRAN DE CONNEXION (affiché tant que non authentifié) ===== -->
+<div id="loginGate" class="card" style="max-width:460px;margin:40px auto;">
+  <div class="card-header"><div class="card-title">🔒 Accès administrateur</div></div>
+  <div class="card-body">
+    <p style="font-size:13px;color:#64748b;margin-bottom:14px;">Cette section permet la mise à jour annuelle des données statistiques. Entrez le mot de passe administrateur.</p>
+    <div class="form-group">
+      <label class="form-label">Mot de passe</label>
+      <input type="password" id="adminPassword" class="form-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')unlockAdmin()">
+    </div>
+    <div id="loginError" style="display:none;color:#ef4444;font-size:13px;margin-bottom:10px;">❌ Mot de passe incorrect.</div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="unlockAdmin()">Déverrouiller</button>
+  </div>
+</div>
+
+<!-- ===== PANNEAU D'ADMINISTRATION (masqué jusqu'à connexion) ===== -->
+<div id="adminPanel" style="display:none;">
+
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header">
+      <div class="card-title">⚙️ Paramètres généraux</div>
+      <span class="badge badge-info">Source : HCP — EMO 2026 (T2), Point de Conjoncture N°50 (Juillet 2026), IPC Avril-Mai 2026, Chiffres Clés 2026</span>
+    </div>
+    <div class="card-body">
+      <div class="form-row" style="display:grid;grid-template-columns:1fr 2fr;gap:14px;">
+        <div class="form-group">
+          <label class="form-label">Année de référence</label>
+          <input type="text" id="anneeRef" class="form-input" value="2026">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Source des données</label>
+          <input type="text" id="metaSource" class="form-input" value="HCP — EMO 2026 (T2), Point de Conjoncture N°50 (Juillet 2026), IPC Avril-Mai 2026, Chiffres Clés 2026">
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
+        <button class="btn btn-primary" onclick="saveData()">💾 Enregistrer les modifications</button>
+        <button class="btn btn-outline" onclick="exportJSON()">📤 Exporter en JSON</button>
+        <span id="saveStatus" style="align-self:center;font-size:13px;"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RAFRAÎCHISSEMENT DU CORPUS PSYCHOSOCIAL (presse réelle) ===== -->
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header">
+      <div class="card-title">🧠 Observatoire psychosocial — corpus presse</div>
+      <span class="badge badge-info">Dernier scrape : 04/08/2026 11:04 · 400 articles</span>
+    </div>
+    <div class="card-body">
+      <p style="font-size:13px;color:#64748b;margin:0 0 12px;">
+        Recalcule les fréquences réelles de mots sociaux, les sujets dominants et le volume par région
+        à partir des flux RSS de la presse marocaine publique (Hespress, Medias24, TelQuel, Yabiladi…).
+        <br><em>Nécessite Python 3 + <code>feedparser</code> côté serveur.</em>
+      </p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <button class="btn btn-primary" onclick="refreshPsycho()">🔄 Rafraîchir les données psychosociales</button>
+        <span id="psyStatus" style="font-size:13px;"></span>
+      </div>
+      <pre id="psyLog" style="display:none;margin-top:12px;background:#0f172a;color:#e2e8f0;padding:12px;border-radius:8px;font-size:12px;max-height:220px;overflow:auto;white-space:pre-wrap;"></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">🗺️ Données régionales — 12 régions</div>
+    </div>
+    <div class="table-wrapper">
+      <table id="regionsTable">
+        <thead>
+          <tr>
+            <th style="min-width:180px;">Région</th>
+            <th>Population (2024)</th>
+            <th>Chômage (%)</th>
+            <th>Activité (%)</th>
+            <th>Hôpitaux</th>
+            <th>Lits</th>
+            <th>Admissions</th>
+          </tr>
+        </thead>
+        <tbody>
+                    <tr data-id="tanger-tetouan-al-hoceima">
+            <td>
+              <strong>Tanger-Tétouan-Al Hoceïma</strong><br>
+              <span style="font-size:11px;color:#94a3b8;">Tanger</span>
+            </td>
+            <td><input type="number" class="form-input adm-input" data-field="population" value="4030222" style="width:110px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="chomage" value="10.1" style="width:80px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="activite" value="48.7" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="hopitaux" value="18" style="width:70px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="lits" value="2015" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="admissions" value="134367" style="width:100px;"></td>
+          </tr>
+                    <tr data-id="l-oriental">
+            <td>
+              <strong>L&#039;Oriental</strong><br>
+              <span style="font-size:11px;color:#94a3b8;">Oujda</span>
+            </td>
+            <td><input type="number" class="form-input adm-input" data-field="population" value="2294665" style="width:110px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="chomage" value="19.6" style="width:80px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="activite" value="40.1" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="hopitaux" value="15" style="width:70px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="lits" value="2118" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="admissions" value="80365" style="width:100px;"></td>
+          </tr>
+                    <tr data-id="fes-meknes">
+            <td>
+              <strong>Fès-Meknès</strong><br>
+              <span style="font-size:11px;color:#94a3b8;">Fès</span>
+            </td>
+            <td><input type="number" class="form-input adm-input" data-field="population" value="4467911" style="width:110px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="chomage" value="14.2" style="width:80px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="activite" value="41.8" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="hopitaux" value="19" style="width:70px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="lits" value="2729" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="admissions" value="142475" style="width:100px;"></td>
+          </tr>
+                    <tr data-id="rabat-sale-kenitra">
+            <td>
+              <strong>Rabat-Salé-Kénitra</strong><br>
+              <span style="font-size:11px;color:#94a3b8;">Rabat</span>
+            </td>
+            <td><input type="number" class="form-input adm-input" data-field="population" value="5132639" style="width:110px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="chomage" value="11.6" style="width:80px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="activite" value="44" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="hopitaux" value="19" style="width:70px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="lits" value="3826" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="admissions" value="141208" style="width:100px;"></td>
+          </tr>
+                    <tr data-id="beni-mellal-khenifra">
+            <td>
+              <strong>Béni Mellal-Khénifra</strong><br>
+              <span style="font-size:11px;color:#94a3b8;">Béni Mellal</span>
+            </td>
+            <td><input type="number" class="form-input adm-input" data-field="population" value="2525801" style="width:110px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="chomage" value="12.8" style="width:80px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="activite" value="40" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="hopitaux" value="11" style="width:70px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="lits" value="1306" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="admissions" value="72355" style="width:100px;"></td>
+          </tr>
+                    <tr data-id="casablanca-settat">
+            <td>
+              <strong>Casablanca-Settat</strong><br>
+              <span style="font-size:11px;color:#94a3b8;">Casablanca</span>
+            </td>
+            <td><input type="number" class="form-input adm-input" data-field="population" value="7688967" style="width:110px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="chomage" value="15" style="width:80px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="activite" value="46.1" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="hopitaux" value="25" style="width:70px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="lits" value="3832" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="admissions" value="167496" style="width:100px;"></td>
+          </tr>
+                    <tr data-id="marrakech-safi">
+            <td>
+              <strong>Marrakech-Safi</strong><br>
+              <span style="font-size:11px;color:#94a3b8;">Marrakech</span>
+            </td>
+            <td><input type="number" class="form-input adm-input" data-field="population" value="4892393" style="width:110px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="chomage" value="7.7" style="width:80px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="activite" value="44" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="hopitaux" value="16" style="width:70px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="lits" value="2427" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="admissions" value="130260" style="width:100px;"></td>
+          </tr>
+                    <tr data-id="draa-tafilalet">
+            <td>
+              <strong>Drâa-Tafilalet</strong><br>
+              <span style="font-size:11px;color:#94a3b8;">Errachidia</span>
+            </td>
+            <td><input type="number" class="form-input adm-input" data-field="population" value="1655623" style="width:110px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="chomage" value="11.9" style="width:80px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="activite" value="41.7" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="hopitaux" value="11" style="width:70px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="lits" value="838" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="admissions" value="52636" style="width:100px;"></td>
+          </tr>
+                    <tr data-id="souss-massa">
+            <td>
+              <strong>Souss-Massa</strong><br>
+              <span style="font-size:11px;color:#94a3b8;">Agadir</span>
+            </td>
+            <td><input type="number" class="form-input adm-input" data-field="population" value="3020431" style="width:110px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="chomage" value="13.5" style="width:80px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="activite" value="39" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="hopitaux" value="8" style="width:70px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="lits" value="1535" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="admissions" value="87367" style="width:100px;"></td>
+          </tr>
+                    <tr data-id="guelmim-oued-noun">
+            <td>
+              <strong>Guelmim-Oued Noun</strong><br>
+              <span style="font-size:11px;color:#94a3b8;">Guelmim</span>
+            </td>
+            <td><input type="number" class="form-input adm-input" data-field="population" value="448685" style="width:110px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="chomage" value="20.3" style="width:80px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="activite" value="45.3" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="hopitaux" value="5" style="width:70px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="lits" value="370" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="admissions" value="13004" style="width:100px;"></td>
+          </tr>
+                    <tr data-id="laayoune-sakia-el-hamra">
+            <td>
+              <strong>Laâyoune-Sakia El Hamra</strong><br>
+              <span style="font-size:11px;color:#94a3b8;">Laâyoune</span>
+            </td>
+            <td><input type="number" class="form-input adm-input" data-field="population" value="451028" style="width:110px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="chomage" value="20.3" style="width:80px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="activite" value="45.3" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="hopitaux" value="4" style="width:70px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="lits" value="379" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="admissions" value="16727" style="width:100px;"></td>
+          </tr>
+                    <tr data-id="dakhla-oued-ed-dahab">
+            <td>
+              <strong>Dakhla-Oued Ed-Dahab</strong><br>
+              <span style="font-size:11px;color:#94a3b8;">Dakhla</span>
+            </td>
+            <td><input type="number" class="form-input adm-input" data-field="population" value="219965" style="width:110px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="chomage" value="20.3" style="width:80px;"></td>
+            <td><input type="number" step="0.1" class="form-input adm-input" data-field="activite" value="45.3" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="hopitaux" value="1" style="width:70px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="lits" value="80" style="width:80px;"></td>
+            <td><input type="number" class="form-input adm-input" data-field="admissions" value="5644" style="width:100px;"></td>
+          </tr>
+                  </tbody>
+      </table>
+    </div>
+    <div class="map-update-info" style="padding:10px 16px;">💡 Modifiez les valeurs puis cliquez sur « Enregistrer ». Une sauvegarde automatique de l'ancienne version est créée à chaque enregistrement.</div>
+  </div>
+
+  <!-- ===== ÉDITION DES SÉRIES TEMPORELLES NATIONALES ===== -->
+    <div class="card" style="margin-top:16px;">
+    <div class="card-header">
+      <div class="card-title">📈 Séries temporelles nationales (évolution annuelle)</div>
+      <button class="btn btn-outline btn-sm" onclick="addSeriesYear()">➕ Ajouter une année</button>
+    </div>
+    <div class="table-wrapper">
+      <table id="seriesTable">
+        <thead>
+          <tr>
+            <th style="width:110px;">Année</th>
+            <th>Taux de chômage (%)</th>
+            <th>Taux d'activité (%)</th>
+            <th>PIB prix courants (MDH)</th>
+            <th style="width:60px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+                    <tr>
+            <td><input type="number" class="form-input ser-input" data-field="annee" value="2015" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="chomage" value="9.7" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="activite" value="47.4" style="width:90px;"></td>
+            <td><input type="number" class="form-input ser-input" data-field="pib" value="988021" style="width:130px;"></td>
+            <td><button class="btn btn-outline btn-sm" onclick="this.closest('tr').remove()" title="Supprimer">🗑️</button></td>
+          </tr>
+                    <tr>
+            <td><input type="number" class="form-input ser-input" data-field="annee" value="2016" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="chomage" value="9.4" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="activite" value="46.4" style="width:90px;"></td>
+            <td><input type="number" class="form-input ser-input" data-field="pib" value="1016119" style="width:130px;"></td>
+            <td><button class="btn btn-outline btn-sm" onclick="this.closest('tr').remove()" title="Supprimer">🗑️</button></td>
+          </tr>
+                    <tr>
+            <td><input type="number" class="form-input ser-input" data-field="annee" value="2017" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="chomage" value="10.2" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="activite" value="46.7" style="width:90px;"></td>
+            <td><input type="number" class="form-input ser-input" data-field="pib" value="1063297" style="width:130px;"></td>
+            <td><button class="btn btn-outline btn-sm" onclick="this.closest('tr').remove()" title="Supprimer">🗑️</button></td>
+          </tr>
+                    <tr>
+            <td><input type="number" class="form-input ser-input" data-field="annee" value="2018" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="chomage" value="9.5" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="activite" value="46" style="width:90px;"></td>
+            <td><input type="number" class="form-input ser-input" data-field="pib" value="1106822" style="width:130px;"></td>
+            <td><button class="btn btn-outline btn-sm" onclick="this.closest('tr').remove()" title="Supprimer">🗑️</button></td>
+          </tr>
+                    <tr>
+            <td><input type="number" class="form-input ser-input" data-field="annee" value="2019" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="chomage" value="9.2" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="activite" value="45.8" style="width:90px;"></td>
+            <td><input type="number" class="form-input ser-input" data-field="pib" value="1152806" style="width:130px;"></td>
+            <td><button class="btn btn-outline btn-sm" onclick="this.closest('tr').remove()" title="Supprimer">🗑️</button></td>
+          </tr>
+                    <tr>
+            <td><input type="number" class="form-input ser-input" data-field="annee" value="2020" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="chomage" value="11.9" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="activite" value="44.8" style="width:90px;"></td>
+            <td><input type="number" class="form-input ser-input" data-field="pib" value="1089521" style="width:130px;"></td>
+            <td><button class="btn btn-outline btn-sm" onclick="this.closest('tr').remove()" title="Supprimer">🗑️</button></td>
+          </tr>
+                    <tr>
+            <td><input type="number" class="form-input ser-input" data-field="annee" value="2021" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="chomage" value="12.3" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="activite" value="45.3" style="width:90px;"></td>
+            <td><input type="number" class="form-input ser-input" data-field="pib" value="1284154" style="width:130px;"></td>
+            <td><button class="btn btn-outline btn-sm" onclick="this.closest('tr').remove()" title="Supprimer">🗑️</button></td>
+          </tr>
+                    <tr>
+            <td><input type="number" class="form-input ser-input" data-field="annee" value="2022" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="chomage" value="11.8" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="activite" value="44.3" style="width:90px;"></td>
+            <td><input type="number" class="form-input ser-input" data-field="pib" value="1330158" style="width:130px;"></td>
+            <td><button class="btn btn-outline btn-sm" onclick="this.closest('tr').remove()" title="Supprimer">🗑️</button></td>
+          </tr>
+                    <tr>
+            <td><input type="number" class="form-input ser-input" data-field="annee" value="2023" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="chomage" value="13" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="activite" value="43.6" style="width:90px;"></td>
+            <td><input type="number" class="form-input ser-input" data-field="pib" value="1463358" style="width:130px;"></td>
+            <td><button class="btn btn-outline btn-sm" onclick="this.closest('tr').remove()" title="Supprimer">🗑️</button></td>
+          </tr>
+                    <tr>
+            <td><input type="number" class="form-input ser-input" data-field="annee" value="2024" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="chomage" value="13.3" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="activite" value="43.5" style="width:90px;"></td>
+            <td><input type="number" class="form-input ser-input" data-field="pib" value="1614569" style="width:130px;"></td>
+            <td><button class="btn btn-outline btn-sm" onclick="this.closest('tr').remove()" title="Supprimer">🗑️</button></td>
+          </tr>
+                    <tr>
+            <td><input type="number" class="form-input ser-input" data-field="annee" value="2025" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="chomage" value="13" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="activite" value="43.5" style="width:90px;"></td>
+            <td><input type="number" class="form-input ser-input" data-field="pib" value="1720201" style="width:130px;"></td>
+            <td><button class="btn btn-outline btn-sm" onclick="this.closest('tr').remove()" title="Supprimer">🗑️</button></td>
+          </tr>
+                    <tr>
+            <td><input type="number" class="form-input ser-input" data-field="annee" value="0" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="chomage" value="9.5" style="width:90px;"></td>
+            <td><input type="number" step="0.1" class="form-input ser-input" data-field="activite" value="42.2" style="width:90px;"></td>
+            <td><input type="number" class="form-input ser-input" data-field="pib" value="0" style="width:130px;"></td>
+            <td><button class="btn btn-outline btn-sm" onclick="this.closest('tr').remove()" title="Supprimer">🗑️</button></td>
+          </tr>
+                  </tbody>
+      </table>
+    </div>
+    <div class="map-update-info" style="padding:10px 16px;">📊 Pour la mise à jour annuelle : ajoutez une ligne avec la nouvelle année et ses valeurs (chômage/activité issus de la table 14-4 « Emploi : Ensemble » de l'annuaire, PIB issu de la synthèse des principaux indicateurs), puis « Enregistrer ».</div>
+  </div>
+  
+</div>
+
+<script>
+const ADMIN_PASSWORD = 'atlasia2024';
+// Données complètes chargées côté serveur (pour préserver les champs non éditables)
+const FULL_DATA = {"_meta":{"source":"HCP — EMO 2026 (T2), Point de Conjoncture N°50 (Juillet 2026), IPC Avril-Mai 2026, Chiffres Clés 2026","derniere_mise_a_jour":"2026-08-04","last_update":"2026-08-04","annee_reference":"2026","notes":"Indicateurs nationaux d'emploi issus de l'Enquête sur la main-d'œuvre (EMO) du HCP, 2e trimestre 2026. Croissance et conjoncture : Point de Conjoncture N°50 (juillet 2026). Indice des prix à la consommation : IPC base 100 = 2017, mai 2026. Chiffres clés 2025\/2026. Les données régionales emploi 2023 (Enquête Emploi) sont conservées à titre historique ; les taux régionaux T2 2026 (activité\/emploi\/chômage\/sous-utilisation) proviennent de l'EMO T2 2026."},"national_series":{"description":"Évolution des principaux indicateurs nationaux — HCP, 2015-T2 2026","annees":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,"T2 2026"],"taux_chomage":{"libelle":"Taux de chômage national (15 ans et plus, %)","unite":"%","valeurs":[9.7,9.4,10.2,9.5,9.2,11.9,12.3,11.8,13,13.3,13,9.5],"source":"HCP — Annuaires Statistiques, table 14-4 (emploi, ensemble)"},"taux_activite":{"libelle":"Taux d'activité national (15 ans et plus, %)","unite":"%","valeurs":[47.4,46.4,46.7,46,45.8,44.8,45.3,44.3,43.6,43.5,43.5,42.2],"source":"HCP — Annuaires Statistiques, table 14-4 (emploi, ensemble)"},"pib_prix_courants_mdh":{"libelle":"Produit intérieur brut aux prix courants (Millions DH)","unite":"MDH","valeurs":[988021,1016119,1063297,1106822,1152806,1089521,1284154,1330158,1463358,1614569,1720201,null],"source":"HCP — Annuaires Statistiques, synthèse des principaux indicateurs. Valeurs prix courants (susceptibles de révisions entre éditions)."}},"population_recensements":{"description":"Population légale du Maroc selon les Recensements Généraux de la Population et de l'Habitat (RGPH)","unite":"habitants","annees":[1971,1982,1994,2004,2014,2024],"valeurs":[15379000,20419000,26073717,29891708,33848242,36828330],"source":"HCP — RGPH (Annuaire Statistique du Maroc 2024)"},"national":{"population_2024":36828330,"population_urbaine":23110108,"population_rurale":13718222,"pib_2023_mDH":1463358,"superficie_km2":710850,"taux_chomage_national_2023":13,"taux_chomage_urbain_2023":16.8,"taux_chomage_rural_2023":6.3,"taux_activite_national_2023":43.6,"taux_activite_urbain_2023":41.8,"taux_activite_rural_2023":47.3,"hopitaux_publics_2022":152,"lits_hopitaux_2022":21455,"admissions_hopitaux_2022":1043904,"periode_reference":"T2 2026","taux_chomage_2026_t2":9.5,"taux_chomage_urbain_2026_t2":11.9,"taux_chomage_rural_2026_t2":5.4,"taux_chomage_hommes_2026_t2":8.1,"taux_chomage_femmes_2026_t2":14.8,"taux_chomage_jeunes_15_24_2026_t2":27.2,"taux_chomage_25_34_2026_t2":14.5,"taux_activite_2026_t2":42.2,"taux_activite_hommes_2026_t2":66.5,"taux_activite_femmes_2026_t2":18.1,"taux_emploi_2026_t2":38.2,"taux_emploi_hommes_2026_t2":61.1,"taux_emploi_femmes_2026_t2":15.4,"taux_sous_utilisation_2026_t2":18.9,"population_age_travailler_2026_t2":27886000,"main_oeuvre_2026_t2":11764000,"emploi_remunere_2026_t2":10643000,"emploi_source":"HCP — Enquête sur la main-d'œuvre (EMO), T2 2026","pib_croissance_2026_t1":4.6,"pib_croissance_2026_t2":4.8,"pib_croissance_2026_t3_prev":5.4,"taux_directeur_bam_2026":2.25,"inflation_2026_t1":-0.1,"inflation_2026_t2":1.1,"va_agricole_2026_t2":20.5,"va_tertiaire_2026_t1":4.3,"industrie_manuf_2026_t2":0.3,"consommation_menages_2026_t2":4.7,"masse_monetaire_m3_mdh_2026":2149531,"masse_monetaire_m3_var":12.1,"creances_economie_var":10.2,"exportations_mdh_2026":315822,"exportations_var":8.5,"importations_mdh_2026":390524,"importations_var":12.2,"solde_commercial_mdh_2026":-74702,"taux_couverture_2026":80.9,"recettes_mre_mdh_2026":50223,"recettes_mre_var":8.8,"nuitees_tourisme_milliers_2026":14040,"nuitees_tourisme_var":11.2,"indice_masi_2026":18874.97,"indice_masi_var":5,"capitalisation_boursiere_mdh_2026":1100599,"capitalisation_boursiere_var":16.5,"conjoncture_source":"HCP — Point de Conjoncture N°50, Juillet 2026","ipc_general_mai_2026":120.4,"ipc_var_mensuelle_mai_2026":-0.9,"ipc_var_annuelle_mai_2026":1.2,"ipc_var_5mois_2026":0.5,"ipc_alimentaire_mai_2026":129.1,"ipc_alimentaire_var_mensuelle":-2.1,"ipc_non_alimentaire_mai_2026":114.8,"ipc_source":"HCP — Indice des Prix à la Consommation, mai 2026","pib_2025_mdh":1720201,"pib_2024r_mdh":1614569,"population_2025":37010000,"population_urbaine_2025":23372000,"densite_2025":52.1,"taux_natalite_2025":13.9,"taux_mortalite_2025":6.1,"taux_activite_2025":43.5,"taux_activite_hommes_2025":68.5,"taux_activite_femmes_2025":19,"taux_chomage_2025":13,"taux_chomage_urbain_2025":16.4,"taux_chomage_rural_2025":6.6,"smig_horaire_2025":17.1,"smag_journalier_2025":93,"indice_production_industrielle_manuf_2025":127.7,"chiffres_cles_source":"HCP — Chiffres Clés 2026"},"regions":[{"id":"tanger-tetouan-al-hoceima","nom":"Tanger-Tétouan-Al Hoceïma","nom_arabe":"طنجة - تطوان - الحسيمة","chef_lieu":"Tanger","population":{"total_2024":4030222,"source":"RGPH 2024"},"emploi":{"taux_activite_2023":48.7,"taux_chomage_2023":10.1,"taux_activite_urbain_2023":44.8,"taux_chomage_urbain_2023":14.1,"taux_activite_rural_2023":55.7,"taux_chomage_rural_2023":4.2,"source":"HCP — Enquête Emploi 2023"},"sante":{"hopitaux_publics_2022":18,"lits_fonctionnels_2022":2015,"admissions_2022":134367,"journees_hospitalisation_2022":469795,"source":"Ministère de la Santé 2022"},"emploi_2026_t2":{"taux_activite":46.8,"taux_emploi":43.9,"taux_chomage":6.1,"taux_chomage_note":null,"taux_sous_utilisation":15.6,"source":"HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"}},{"id":"l-oriental","nom":"L'Oriental","nom_arabe":"الشرق","chef_lieu":"Oujda","population":{"total_2024":2294665,"source":"RGPH 2024"},"emploi":{"taux_activite_2023":40.1,"taux_chomage_2023":19.6,"taux_activite_urbain_2023":38.9,"taux_chomage_urbain_2023":21.3,"taux_activite_rural_2023":43.5,"taux_chomage_rural_2023":15.2,"source":"HCP — Enquête Emploi 2023"},"sante":{"hopitaux_publics_2022":15,"lits_fonctionnels_2022":2118,"admissions_2022":80365,"journees_hospitalisation_2022":335036,"source":"Ministère de la Santé 2022"},"emploi_2026_t2":{"taux_activite":36.6,"taux_emploi":31.9,"taux_chomage":12.7,"taux_chomage_note":null,"taux_sous_utilisation":26.2,"source":"HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"}},{"id":"fes-meknes","nom":"Fès-Meknès","nom_arabe":"فاس - مكناس","chef_lieu":"Fès","population":{"total_2024":4467911,"source":"RGPH 2024"},"emploi":{"taux_activite_2023":41.8,"taux_chomage_2023":14.2,"taux_activite_urbain_2023":39.4,"taux_chomage_urbain_2023":19.3,"taux_activite_rural_2023":46.5,"taux_chomage_rural_2023":5.5,"source":"HCP — Enquête Emploi 2023"},"sante":{"hopitaux_publics_2022":19,"lits_fonctionnels_2022":2729,"admissions_2022":142475,"journees_hospitalisation_2022":565277,"source":"Ministère de la Santé 2022"},"emploi_2026_t2":{"taux_activite":40,"taux_emploi":35.6,"taux_chomage":10.9,"taux_chomage_note":null,"taux_sous_utilisation":23.4,"source":"HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"}},{"id":"rabat-sale-kenitra","nom":"Rabat-Salé-Kénitra","nom_arabe":"الرباط - سلا - القنيطرة","chef_lieu":"Rabat","population":{"total_2024":5132639,"source":"RGPH 2024"},"emploi":{"taux_activite_2023":44,"taux_chomage_2023":11.6,"taux_activite_urbain_2023":42.1,"taux_chomage_urbain_2023":14.5,"taux_activite_rural_2023":49.9,"taux_chomage_rural_2023":4.3,"source":"HCP — Enquête Emploi 2023"},"sante":{"hopitaux_publics_2022":19,"lits_fonctionnels_2022":3826,"admissions_2022":141208,"journees_hospitalisation_2022":772384,"source":"Ministère de la Santé 2022"},"emploi_2026_t2":{"taux_activite":42.2,"taux_emploi":38.4,"taux_chomage":8.8,"taux_chomage_note":null,"taux_sous_utilisation":14.7,"source":"HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"}},{"id":"beni-mellal-khenifra","nom":"Béni Mellal-Khénifra","nom_arabe":"بني ملال - خنيفرة","chef_lieu":"Béni Mellal","population":{"total_2024":2525801,"source":"RGPH 2024"},"emploi":{"taux_activite_2023":40,"taux_chomage_2023":12.8,"taux_activite_urbain_2023":35.5,"taux_chomage_urbain_2023":17.7,"taux_activite_rural_2023":45.4,"taux_chomage_rural_2023":8.2,"source":"HCP — Enquête Emploi 2023"},"sante":{"hopitaux_publics_2022":11,"lits_fonctionnels_2022":1306,"admissions_2022":72355,"journees_hospitalisation_2022":244989,"source":"Ministère de la Santé 2022"},"emploi_2026_t2":{"taux_activite":40.2,"taux_emploi":37,"taux_chomage":7.9,"taux_chomage_note":null,"taux_sous_utilisation":16.6,"source":"HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"}},{"id":"casablanca-settat","nom":"Casablanca-Settat","nom_arabe":"الدار البيضاء - سطات","chef_lieu":"Casablanca","population":{"total_2024":7688967,"source":"RGPH 2024"},"emploi":{"taux_activite_2023":46.1,"taux_chomage_2023":15,"taux_activite_urbain_2023":44.3,"taux_chomage_urbain_2023":17.8,"taux_activite_rural_2023":52.9,"taux_chomage_rural_2023":6.1,"source":"HCP — Enquête Emploi 2023"},"sante":{"hopitaux_publics_2022":25,"lits_fonctionnels_2022":3832,"admissions_2022":167496,"journees_hospitalisation_2022":757897,"source":"Ministère de la Santé 2022"},"emploi_2026_t2":{"taux_activite":46.7,"taux_emploi":40.7,"taux_chomage":12.8,"taux_chomage_note":null,"taux_sous_utilisation":20.7,"source":"HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"}},{"id":"marrakech-safi","nom":"Marrakech-Safi","nom_arabe":"مراكش - آسفي","chef_lieu":"Marrakech","population":{"total_2024":4892393,"source":"RGPH 2024"},"emploi":{"taux_activite_2023":44,"taux_chomage_2023":7.7,"taux_activite_urbain_2023":41.7,"taux_chomage_urbain_2023":12.2,"taux_activite_rural_2023":46,"taux_chomage_rural_2023":4.1,"source":"HCP — Enquête Emploi 2023"},"sante":{"hopitaux_publics_2022":16,"lits_fonctionnels_2022":2427,"admissions_2022":130260,"journees_hospitalisation_2022":501645,"source":"Ministère de la Santé 2022"},"emploi_2026_t2":{"taux_activite":43.1,"taux_emploi":39.7,"taux_chomage":7.9,"taux_chomage_note":null,"taux_sous_utilisation":16.9,"source":"HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"}},{"id":"draa-tafilalet","nom":"Drâa-Tafilalet","nom_arabe":"درعة - تافيلالت","chef_lieu":"Errachidia","population":{"total_2024":1655623,"source":"RGPH 2024"},"emploi":{"taux_activite_2023":41.7,"taux_chomage_2023":11.9,"taux_activite_urbain_2023":38.7,"taux_chomage_urbain_2023":18,"taux_activite_rural_2023":43.5,"taux_chomage_rural_2023":8.6,"source":"HCP — Enquête Emploi 2023"},"sante":{"hopitaux_publics_2022":11,"lits_fonctionnels_2022":838,"admissions_2022":52636,"journees_hospitalisation_2022":171737,"source":"Ministère de la Santé 2022"},"emploi_2026_t2":{"taux_activite":30.5,"taux_emploi":28,"taux_chomage":8.3,"taux_chomage_note":null,"taux_sous_utilisation":16.2,"source":"HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"}},{"id":"souss-massa","nom":"Souss-Massa","nom_arabe":"سوس - ماسة","chef_lieu":"Agadir","population":{"total_2024":3020431,"source":"RGPH 2024"},"emploi":{"taux_activite_2023":39,"taux_chomage_2023":13.5,"taux_activite_urbain_2023":40.7,"taux_chomage_urbain_2023":15.5,"taux_activite_rural_2023":35.8,"taux_chomage_rural_2023":9.5,"source":"HCP — Enquête Emploi 2023"},"sante":{"hopitaux_publics_2022":8,"lits_fonctionnels_2022":1535,"admissions_2022":87367,"journees_hospitalisation_2022":355469,"source":"Ministère de la Santé 2022"},"emploi_2026_t2":{"taux_activite":37.6,"taux_emploi":34.9,"taux_chomage":7.1,"taux_chomage_note":null,"taux_sous_utilisation":17.6,"source":"HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"}},{"id":"guelmim-oued-noun","nom":"Guelmim-Oued Noun","nom_arabe":"كلميم - واد نون","chef_lieu":"Guelmim","population":{"total_2024":448685,"source":"RGPH 2024"},"emploi":{"taux_activite_2023":45.3,"taux_chomage_2023":20.3,"taux_activite_urbain_2023":43.4,"taux_chomage_urbain_2023":22.8,"taux_activite_rural_2023":53.8,"taux_chomage_rural_2023":11,"note":"Données HCP 2023 regroupées sous 'Régions du Sud'","source":"HCP — Enquête Emploi 2023 + Annuaire Régional Guelmim 2021"},"sante":{"hopitaux_publics_2022":5,"lits_fonctionnels_2022":370,"admissions_2022":13004,"journees_hospitalisation_2022":43838,"source":"Ministère de la Santé 2022"},"emploi_2026_t2":{"taux_activite":40.8,"taux_emploi":35.2,"taux_chomage":13.8,"taux_chomage_note":null,"taux_sous_utilisation":33.7,"source":"HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"}},{"id":"laayoune-sakia-el-hamra","nom":"Laâyoune-Sakia El Hamra","nom_arabe":"العيون - الساقية الحمراء","chef_lieu":"Laâyoune","population":{"total_2024":451028,"source":"RGPH 2024"},"emploi":{"taux_activite_2023":45.3,"taux_chomage_2023":20.3,"taux_activite_urbain_2023":43.4,"taux_chomage_urbain_2023":22.8,"note":"Données HCP 2023 regroupées sous 'Régions du Sud'","source":"HCP — Enquête Emploi 2023"},"sante":{"hopitaux_publics_2022":4,"lits_fonctionnels_2022":379,"admissions_2022":16727,"journees_hospitalisation_2022":54424,"source":"Ministère de la Santé 2022"},"emploi_2026_t2":{"taux_activite":39.7,"taux_emploi":36,"taux_chomage":9.2,"taux_chomage_note":null,"taux_sous_utilisation":28.2,"source":"HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"}},{"id":"dakhla-oued-ed-dahab","nom":"Dakhla-Oued Ed-Dahab","nom_arabe":"الداخلة - وادي الذهب","chef_lieu":"Dakhla","population":{"total_2024":219965,"source":"RGPH 2024"},"emploi":{"taux_activite_2023":45.3,"taux_chomage_2023":20.3,"taux_activite_urbain_2023":43.4,"taux_chomage_urbain_2023":22.8,"note":"Données HCP 2023 regroupées sous 'Régions du Sud'","source":"HCP — Enquête Emploi 2023"},"sante":{"hopitaux_publics_2022":1,"lits_fonctionnels_2022":80,"admissions_2022":5644,"journees_hospitalisation_2022":17479,"source":"Ministère de la Santé 2022"},"emploi_2026_t2":{"taux_activite":59.2,"taux_emploi":57.8,"taux_chomage":null,"taux_chomage_note":"Non significatif (faible effectif)","taux_sous_utilisation":8.6,"source":"HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"}}],"psychosocial":{"_meta":{"titre":"Observatoire National des Dynamiques Psychosociales","accroche":"Une page d'analyse basée sur la psychologie sociale appliquée pour expliquer le climat social, comprendre les changements comportementaux et appuyer la prise de décision.","version":"V2.0 — corpus presse réel","derniere_mise_a_jour":"04\/08\/2026 11:04","sources":["Hespress FR","Hespress — Économie","Hespress — Société","Hespress — Politique","Hespress — Régions","Hespress — Sport","Hespress — Monde","Medias24","TelQuel","Yabiladi","Le Site Info","La Vie Éco","Challenge","Aujourd'hui le Maroc","Barlamane","Le Desk","Bladi","Maroc Local","Le Reporter","EcoActu"],"nb_articles":400,"methode":"Fréquences réelles calculées sur les titres et chapôs des articles RSS de la presse marocaine publique. La carte est colorée selon un critère MESURABLE : le volume d'articles rattachés à chaque région.","note":"Corpus presse publique (RSS). Les couleurs de la carte traduisent le volume de données disponibles par région, non l'intensité réelle des phénomènes."},"kpis":{"volume_total":400,"mentions_total":539,"etudes_total":261,"regions_couvertes":12,"nb_regions":12,"nb_sujets":14,"nb_mots":24},"regions":{"rabat-sale-kenitra":{"nom":"Rabat-Salé-Kénitra","articles_presse":33,"mentions":29,"themes_distincts":7,"volume_total":33,"sujets":["Migration","Femmes","Santé","Justice","Sécurité"],"derniere_maj":"04\/08\/2026 11:04"},"casablanca-settat":{"nom":"Casablanca-Settat","articles_presse":22,"mentions":14,"themes_distincts":8,"volume_total":22,"sujets":["Justice","Investissement","Chômage","Éducation","Santé"],"derniere_maj":"04\/08\/2026 11:04"},"marrakech-safi":{"nom":"Marrakech-Safi","articles_presse":4,"mentions":0,"themes_distincts":0,"volume_total":4,"sujets":[],"derniere_maj":"04\/08\/2026 11:04"},"fes-meknes":{"nom":"Fès-Meknès","articles_presse":16,"mentions":14,"themes_distincts":10,"volume_total":16,"sujets":["Manifestation","Prix","Cherté de la vie","Justice","Investissement"],"derniere_maj":"04\/08\/2026 11:04"},"tanger-tetouan-al-hoceima":{"nom":"Tanger-Tétouan-Al Hoceïma","articles_presse":29,"mentions":19,"themes_distincts":9,"volume_total":29,"sujets":["Migration","Jeunesse","Éducation","Santé","Numérique"],"derniere_maj":"04\/08\/2026 11:04"},"souss-massa":{"nom":"Souss-Massa","articles_presse":10,"mentions":2,"themes_distincts":2,"volume_total":10,"sujets":["Santé","Emploi"],"derniere_maj":"04\/08\/2026 11:04"},"l-oriental":{"nom":"L'Oriental","articles_presse":14,"mentions":6,"themes_distincts":4,"volume_total":14,"sujets":["Justice","Eau","Migration","Emploi"],"derniere_maj":"04\/08\/2026 11:04"},"beni-mellal-khenifra":{"nom":"Béni Mellal-Khénifra","articles_presse":3,"mentions":1,"themes_distincts":1,"volume_total":3,"sujets":["Migration"],"derniere_maj":"04\/08\/2026 11:04"},"draa-tafilalet":{"nom":"Drâa-Tafilalet","articles_presse":2,"mentions":1,"themes_distincts":1,"volume_total":2,"sujets":["Emploi"],"derniere_maj":"04\/08\/2026 11:04"},"guelmim-oued-noun":{"nom":"Guelmim-Oued Noun","articles_presse":29,"mentions":14,"themes_distincts":7,"volume_total":29,"sujets":["Femmes","Éducation","Migration","Emploi","Santé"],"derniere_maj":"04\/08\/2026 11:04"},"laayoune-sakia-el-hamra":{"nom":"Laâyoune-Sakia El Hamra","articles_presse":5,"mentions":5,"themes_distincts":4,"volume_total":5,"sujets":["Sécurité","Santé","Emploi","Jeunesse"],"derniere_maj":"04\/08\/2026 11:04"},"dakhla-oued-ed-dahab":{"nom":"Dakhla-Oued Ed-Dahab","articles_presse":3,"mentions":1,"themes_distincts":1,"volume_total":3,"sujets":["Emploi"],"derniere_maj":"04\/08\/2026 11:04"}},"mots_cles":[{"mot":"Migration","freq":136,"etudes":61,"regions":["Rabat-Salé-Kénitra","Tanger-Tétouan-Al Hoceïma"],"associes":["Justice","Sécurité","Jeunesse","Éducation"]},{"mot":"Femmes","freq":55,"etudes":21,"regions":["Rabat-Salé-Kénitra","Guelmim-Oued Noun"],"associes":["Emploi","Chômage","Jeunesse","Inégalités"]},{"mot":"Prix","freq":45,"etudes":11,"regions":["Fès-Meknès","Tanger-Tétouan-Al Hoceïma"],"associes":["Cherté de la vie","Grève","Transport","Retraite"]},{"mot":"Investissement","freq":37,"etudes":24,"regions":["Casablanca-Settat","Tanger-Tétouan-Al Hoceïma"],"associes":["Éducation","Justice","Sécurité","Retraite"]},{"mot":"Justice","freq":32,"etudes":16,"regions":["Casablanca-Settat","L'Oriental"],"associes":["Migration","Investissement","Manifestation","Sécurité"]},{"mot":"Éducation","freq":30,"etudes":22,"regions":["Tanger-Tétouan-Al Hoceïma","Guelmim-Oued Noun"],"associes":["Santé","Jeunesse","Emploi","Environnement"]},{"mot":"Santé","freq":30,"etudes":16,"regions":["Rabat-Salé-Kénitra","Tanger-Tétouan-Al Hoceïma"],"associes":["Éducation","Emploi","Numérique","Sécurité"]},{"mot":"Jeunesse","freq":29,"etudes":17,"regions":["Tanger-Tétouan-Al Hoceïma","Guelmim-Oued Noun"],"associes":["Emploi","Éducation","Migration","Chômage"]},{"mot":"Emploi","freq":27,"etudes":12,"regions":["Guelmim-Oued Noun","Dakhla-Oued Ed-Dahab"],"associes":["Chômage","Jeunesse","Éducation","Femmes"]},{"mot":"Sécurité","freq":26,"etudes":13,"regions":["Laâyoune-Sakia El Hamra","Rabat-Salé-Kénitra"],"associes":["Migration","Investissement","Santé","Justice"]},{"mot":"Chômage","freq":22,"etudes":10,"regions":["Guelmim-Oued Noun","Rabat-Salé-Kénitra"],"associes":["Emploi","Jeunesse","Femmes","Éducation"]},{"mot":"Eau","freq":12,"etudes":2,"regions":["L'Oriental"],"associes":[]},{"mot":"Cherté de la vie","freq":9,"etudes":3,"regions":["Fès-Meknès"],"associes":["Prix","Grève","Transport"]},{"mot":"Numérique","freq":9,"etudes":4,"regions":["Tanger-Tétouan-Al Hoceïma"],"associes":["Emploi","Santé","Éducation"]},{"mot":"Grève","freq":8,"etudes":4,"regions":["Fès-Meknès","Casablanca-Settat"],"associes":["Cherté de la vie","Prix","Transport","Jeunesse"]},{"mot":"Environnement","freq":8,"etudes":7,"regions":[],"associes":["Jeunesse","Éducation","Emploi","Chômage"]},{"mot":"Retraite","freq":8,"etudes":5,"regions":["Tanger-Tétouan-Al Hoceïma"],"associes":["Prix","Investissement","Sécurité","Migration"]},{"mot":"Manifestation","freq":4,"etudes":4,"regions":["Fès-Meknès"],"associes":["Justice","Investissement","Prix"]},{"mot":"Transport","freq":3,"etudes":1,"regions":[],"associes":["Cherté de la vie","Prix","Grève"]},{"mot":"Inégalités","freq":3,"etudes":2,"regions":[],"associes":["Emploi","Chômage","Jeunesse","Femmes"]},{"mot":"Protection sociale","freq":2,"etudes":2,"regions":["Rabat-Salé-Kénitra"],"associes":["Santé"]},{"mot":"Tourisme","freq":2,"etudes":2,"regions":["Casablanca-Settat"],"associes":["Investissement"]},{"mot":"Agriculture","freq":1,"etudes":1,"regions":["Tanger-Tétouan-Al Hoceïma"],"associes":[]},{"mot":"Logement","freq":1,"etudes":1,"regions":[],"associes":[]}],"sujets":[{"nom":"Migration","freq":136,"evolution":-3,"region":"Rabat-Salé-Kénitra"},{"nom":"Femmes","freq":55,"evolution":220,"region":"Rabat-Salé-Kénitra"},{"nom":"Éducation","freq":30,"evolution":0,"region":"Tanger-Tétouan-Al Hoceïma"},{"nom":"Santé","freq":30,"evolution":120,"region":"Rabat-Salé-Kénitra"},{"nom":"Jeunesse","freq":29,"evolution":43,"region":"Tanger-Tétouan-Al Hoceïma"},{"nom":"Emploi","freq":27,"evolution":300,"region":"Guelmim-Oued Noun"},{"nom":"Sécurité","freq":26,"evolution":-38,"region":"Laâyoune-Sakia El Hamra"},{"nom":"Chômage","freq":22,"evolution":300,"region":"Casablanca-Settat"},{"nom":"Eau","freq":12,"evolution":0,"region":"L'Oriental"},{"nom":"Cherté de la vie","freq":9,"evolution":100,"region":"Fès-Meknès"},{"nom":"Environnement","freq":8,"evolution":-60,"region":"Tanger-Tétouan-Al Hoceïma"},{"nom":"Manifestation","freq":4,"evolution":100,"region":"Fès-Meknès"},{"nom":"Logement","freq":1,"evolution":-99,"region":"Tanger-Tétouan-Al Hoceïma"},{"nom":"Agriculture","freq":1,"evolution":100,"region":"Tanger-Tétouan-Al Hoceïma"}]},"secteurs":{"libelle":"Répartition de l'emploi par secteur d'activité (T2 2026)","source":"HCP — Enquête sur la main-d'œuvre (EMO), T2 2026","valeurs":[{"secteur":"Services","part":49.3},{"secteur":"Agriculture, forêt et pêche","part":24.1},{"secteur":"Industrie (y c. artisanat)","part":13.7},{"secteur":"BTP","part":12.7}]},"evolution":{"libelle":"Évolution trimestrielle des indicateurs d'emploi (2026)","source":"HCP — Enquête sur la main-d'œuvre (EMO), 2026","trimestres":["T1 2026","T2 2026"],"taux_chomage":[12.8,9.5],"taux_activite":[43.5,42.2],"pib_croissance":[4.6,4.8],"inflation":[-0.1,1.1],"note":"Le taux de chômage T1 2026 (12,8 %) reflète le pic saisonnier hivernal ; le repli à 9,5 % au T2 2026 traduit la reprise de l'activité agricole et touristique."}};
+let adminPwd = '';
+
+function unlockAdmin() {
+  const pwd = document.getElementById('adminPassword').value;
+  if (pwd === ADMIN_PASSWORD) {
+    adminPwd = pwd;
+    document.getElementById('loginGate').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    document.getElementById('loginError').style.display = 'none';
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+
+function collectData() {
+  const data = JSON.parse(JSON.stringify(FULL_DATA));
+  if (!data._meta) data._meta = {};
+  data._meta.annee_reference = document.getElementById('anneeRef').value.trim();
+  data._meta.source = document.getElementById('metaSource').value.trim();
+
+  document.querySelectorAll('#regionsTable tbody tr').forEach(tr => {
+    const id = tr.getAttribute('data-id');
+    const region = data.regions.find(x => (x.id || '') === id);
+    if (!region) return;
+    const getVal = f => tr.querySelector(`.adm-input[data-field="${f}"]`).value;
+    region.population = region.population || {};
+    region.population.total_2024 = parseInt(getVal('population')) || 0;
+    region.emploi = region.emploi || {};
+    region.emploi.taux_chomage_2023  = parseFloat(getVal('chomage'));
+    region.emploi.taux_activite_2023 = parseFloat(getVal('activite'));
+    region.sante = region.sante || {};
+    region.sante.hopitaux_publics_2022  = parseInt(getVal('hopitaux')) || 0;
+    region.sante.lits_fonctionnels_2022 = parseInt(getVal('lits')) || 0;
+    region.sante.admissions_2022        = parseInt(getVal('admissions')) || 0;
+  });
+
+  // ===== Collecte des séries temporelles nationales =====
+  const seriesTable = document.getElementById('seriesTable');
+  if (seriesTable) {
+    if (!data.national_series) data.national_series = {};
+    const ns = data.national_series;
+    ns.description = ns.description || "Évolution des principaux indicateurs nationaux (source : HCP, Annuaires Statistiques du Maroc)";
+    ns.taux_chomage = ns.taux_chomage || {libelle:"Taux de chômage national (15 ans et plus, %)", unite:"%"};
+    ns.taux_activite = ns.taux_activite || {libelle:"Taux d'activité national (15 ans et plus, %)", unite:"%"};
+    ns.pib_prix_courants_mdh = ns.pib_prix_courants_mdh || {libelle:"Produit intérieur brut aux prix courants (Millions DH)", unite:"MDH"};
+
+    const rows = [];
+    seriesTable.querySelectorAll('tbody tr').forEach(tr => {
+      const g = f => tr.querySelector(`.ser-input[data-field="${f}"]`).value;
+      const annee = parseInt(g('annee'));
+      if (!annee) return;
+      rows.push({
+        annee: annee,
+        chomage: parseFloat(g('chomage')),
+        activite: parseFloat(g('activite')),
+        pib: parseInt(g('pib')) || 0
+      });
+    });
+    rows.sort((a,b) => a.annee - b.annee); // tri chronologique
+    ns.annees = rows.map(r => r.annee);
+    ns.taux_chomage.valeurs = rows.map(r => r.chomage);
+    ns.taux_activite.valeurs = rows.map(r => r.activite);
+    ns.pib_prix_courants_mdh.valeurs = rows.map(r => r.pib);
+  }
+
+  return data;
+}
+
+function addSeriesYear() {
+  const tbody = document.querySelector('#seriesTable tbody');
+  if (!tbody) return;
+  const last = tbody.querySelector('tr:last-child .ser-input[data-field="annee"]');
+  const nextYear = last ? (parseInt(last.value) + 1) : new Date().getFullYear();
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="number" class="form-input ser-input" data-field="annee" value="${nextYear}" style="width:90px;"></td>
+    <td><input type="number" step="0.1" class="form-input ser-input" data-field="chomage" value="" style="width:90px;"></td>
+    <td><input type="number" step="0.1" class="form-input ser-input" data-field="activite" value="" style="width:90px;"></td>
+    <td><input type="number" class="form-input ser-input" data-field="pib" value="" style="width:130px;"></td>
+    <td><button class="btn btn-outline btn-sm" onclick="this.closest('tr').remove()" title="Supprimer">🗑️</button></td>`;
+  tbody.appendChild(tr);
+}
+
+function saveData() {
+  const status = document.getElementById('saveStatus');
+  status.textContent = '⏳ Enregistrement...';
+  status.style.color = '#64748b';
+  fetch('api/update_data.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ password: adminPwd, data: collectData() })
+  })
+  .then(r => r.json())
+  .then(res => {
+    if (res.success) {
+      status.textContent = '✅ ' + res.message + ' (' + (res.nb_regions||'') + ' régions)';
+      status.style.color = '#10b981';
+    } else {
+      status.textContent = '❌ ' + res.message;
+      status.style.color = '#ef4444';
+    }
+  })
+  .catch(err => {
+    status.textContent = '❌ Erreur réseau : ' + err + ' (lancez l\'application via un serveur PHP)';
+    status.style.color = '#ef4444';
+  });
+}
+
+function refreshPsycho() {
+  const status = document.getElementById('psyStatus');
+  const log = document.getElementById('psyLog');
+  status.textContent = '⏳ Scraping de la presse en cours (30–60 s)…';
+  status.style.color = '#64748b';
+  log.style.display = 'none';
+  fetch('api/refresh_psychosocial.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ password: adminPwd })
+  })
+  .then(r => r.json())
+  .then(res => {
+    status.textContent = (res.ok ? '✅ ' : '⚠️ ') + res.message;
+    status.style.color = res.ok ? '#10b981' : '#f59e0b';
+    if (res.log) { log.style.display = 'block'; log.textContent = res.log; }
+  })
+  .catch(err => {
+    status.textContent = '❌ Erreur réseau : ' + err;
+    status.style.color = '#ef4444';
+  });
+}
+
+function exportJSON() {
+  const data = collectData();
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'regions_data_' + (data._meta.annee_reference || 'export') + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+
+    </div><!-- end page-content -->
+  </div><!-- end main-content -->
+</div><!-- end app-layout -->
+
+<!-- ===== MODAL IA EMBARQUÉE (Charte · Principe 7 : IA embarquée) ===== -->
+<div class="ai-modal-overlay" id="aiModalOverlay" onclick="if(event.target===this)closeAiModal()">
+  <div class="ai-modal" role="dialog" aria-modal="true">
+    <div class="ai-modal-head">
+      <div class="ai-modal-title"><span>✨</span> <span id="aiModalTitle">Assistant d'analyse ATLASIA</span></div>
+      <button class="ai-modal-close" onclick="closeAiModal()" aria-label="Fermer">×</button>
+    </div>
+    <div class="ai-modal-body" id="aiModalBody"></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   IA EMBARQUÉE ATLASIA — grounded sur les données disponibles
+   Chaque page enregistre ses analyses dans window.ATLASIA_AI[cle].
+   Une analyse = { title, interpretation, tendance, recommandation, source }
+   Conforme à la Charte : réponses fondées uniquement sur les données
+   de la plateforme, avec mention explicite des sources.
+   ===================================================================== */
+window.ATLASIA_AI = window.ATLASIA_AI || {};
+
+function _aiRender(a){
+  var html = '';
+  if(a.interpretation){ html += '<h4>🔎 Interprétation potentielle</h4><p>'+a.interpretation+'</p>'; }
+  if(a.tendance){ html += '<h4>📈 Tendance prospective</h4><p>'+a.tendance+'</p>'; }
+  if(a.recommandation){ html += '<h4>🎯 Recommandation opérationnelle</h4><p>'+a.recommandation+'</p>'; }
+  if(a.resume){ html += '<h4>📝 Synthèse</h4><p>'+a.resume+'</p>'; }
+  html += '<p class="ai-source">'+(a.source ? ('Source : '+a.source+'. ') : '')+
+          'Lecture analytique fondée sur les données disponibles dans la plateforme — non une vérité absolue.</p>';
+  return html;
+}
+
+var _aiCurrent = null; // { key, title, a }
+
+function _aiFooterHTML(){
+  return '<div class="ai-ask">'+
+    '<textarea id="aiQuestion" class="ai-ask-input" rows="2" '+
+      'placeholder="Posez une question sur ces données (optionnel)…"></textarea>'+
+    '<button class="ai-btn" onclick="atlasiaAsk()"><span class="ai-spark">✨</span> Demander à l\'IA</button>'+
+  '</div>';
+}
+
+// Appelle le proxy IA générative (api/ai.php). Repli local géré côté serveur.
+function _aiCall(payload, body){
+  fetch('api/ai.php', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).then(function(r){ return r.json(); })
+    .then(function(res){
+      var badge = res.mode === 'ai'
+        ? '<span class="ai-mode ai-mode-live">✨ IA générative</span>'
+        : '<span class="ai-mode ai-mode-local">🔒 Analyse locale</span>';
+      body.innerHTML = badge + (res.text || '') + _aiFooterHTML();
+    })
+    .catch(function(){
+      // réseau totalement indisponible => rendu local pur
+      body.innerHTML = (_aiCurrent && _aiCurrent.a ? _aiRender(_aiCurrent.a)
+        : '<p>Service IA indisponible.</p>') + _aiFooterHTML();
+    });
+}
+
+function atlasiaAI(key, title){
+  var overlay = document.getElementById('aiModalOverlay');
+  var body = document.getElementById('aiModalBody');
+  var titleEl = document.getElementById('aiModalTitle');
+  var a = window.ATLASIA_AI[key] || null;
+  _aiCurrent = { key:key, title:(a && a.title) ? a.title : (title||''), a:a };
+  titleEl.textContent = _aiCurrent.title || "Assistant d'analyse ATLASIA";
+  overlay.classList.add('open');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> Analyse des données disponibles…</div>';
+  _aiCall({ key:key, title:_aiCurrent.title, context:(a||{}) }, body);
+}
+
+// Question libre de l'utilisateur sur le même élément (grounding conservé).
+function atlasiaAsk(){
+  var q = (document.getElementById('aiQuestion')||{}).value || '';
+  if(!q.trim()){ return; }
+  var body = document.getElementById('aiModalBody');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> L\'IA analyse votre question…</div>';
+  var a = _aiCurrent ? _aiCurrent.a : null;
+  _aiCall({ key:(_aiCurrent&&_aiCurrent.key)||'', title:(_aiCurrent&&_aiCurrent.title)||'',
+            context:(a||{}), question:q }, body);
+}
+function closeAiModal(){ document.getElementById('aiModalOverlay').classList.remove('open'); }
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAiModal(); });
+</script>
+
+<!-- Scripts globaux -->
+<script>
+// Init Lucide icons
+if (typeof lucide !== 'undefined') lucide.createIcons();
+
+// Mobile menu toggle
+function initMobileMenu() {
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900) {
+    if (toggle) toggle.style.display = 'flex';
+  } else {
+    if (toggle) toggle.style.display = 'none';
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) sidebar.classList.remove('open');
+  }
+}
+window.addEventListener('resize', initMobileMenu);
+initMobileMenu();
+
+// Close sidebar on outside click (mobile)
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900 && sidebar && !sidebar.contains(e.target) && e.target !== toggle) {
+    sidebar.classList.remove('open');
+  }
+});
+
+// Search global
+document.getElementById('globalSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  if (q.length >= 3) {
+    console.log('Recherche:', q);
+  }
+});
+
+// Sidebar search
+document.getElementById('sidebarSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(q) ? '' : 'none';
+  });
+});
+
+// Animate cards on load
+document.querySelectorAll('.stat-card, .card, .project-card, .file-card').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(12px)';
+  setTimeout(() => {
+    el.style.transition = 'opacity .3s ease, transform .3s ease';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, i * 60);
+});
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intelligence Stratégique — ATLASIA</title>
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Leaflet.js pour la carte -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  
+  <!-- Chart.js pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  
+  <style>
+    /* Overrides spécifiques à la page */
+      </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-icon">A</div>
+      <div class="logo-text">
+        <span class="logo-name">ATLASIA</span>
+        <span class="logo-tagline">Mapping Society · Powering Insight</span>
+      </div>
+    </div>
+
+    <!-- Recherche dans la sidebar -->
+    <div class="sidebar-search">
+      <input type="text" placeholder="Rechercher dans la plateforme..." id="sidebarSearch">
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">PLATEFORME</div>
+      
+            <a href="dashboard.html" class="nav-item active">
+        <span class="nav-icon">⚡</span>
+        <span>Intelligence Stratégique</span>
+              </a>
+            <a href="espaces-travail.html" class="nav-item ">
+        <span class="nav-icon">📁</span>
+        <span>Espaces de Travail</span>
+                <span class="nav-badge">3</span>
+              </a>
+            <a href="production.html" class="nav-item ">
+        <span class="nav-icon">📊</span>
+        <span>Production & Collecte</span>
+              </a>
+            <a href="referentiel.html" class="nav-item ">
+        <span class="nav-icon">🗄️</span>
+        <span>Référentiel de Données</span>
+              </a>
+            <a href="ai-studio.html" class="nav-item ">
+        <span class="nav-icon">🤖</span>
+        <span>AI Research Studio</span>
+                <span class="nav-badge">IA</span>
+              </a>
+            <a href="observatoire.html" class="nav-item ">
+        <span class="nav-icon">🔭</span>
+        <span>Observatoire Social</span>
+              </a>
+            <a href="observatoire-psychosocial.html" class="nav-item ">
+        <span class="nav-icon">🧠</span>
+        <span>Dynamiques Psychosociales</span>
+                <span class="nav-badge">V2</span>
+              </a>
+            <a href="mots-sociaux.html" class="nav-item ">
+        <span class="nav-icon">☁️</span>
+        <span>Mots sociaux du web</span>
+                <span class="nav-badge">✨</span>
+              </a>
+            <a href="bibliotheque.html" class="nav-item ">
+        <span class="nav-icon">📚</span>
+        <span>Bibliothèque Scientifique</span>
+                <span class="nav-badge">4</span>
+              </a>
+            <a href="reseau.html" class="nav-item ">
+        <span class="nav-icon">🤝</span>
+        <span>Réseau des Chercheurs</span>
+              </a>
+      
+      <div class="nav-section-label" style="margin-top:8px;">COMPTE</div>
+      <a href="profil.html" class="nav-item ">
+        <span class="nav-icon">👤</span>
+        <span>Mon Profil</span>
+      </a>
+      <a href="actualites.html" class="nav-item ">
+        <span class="nav-icon">📰</span>
+        <span>Actualités</span>
+      </a>
+      <a href="parametres.html" class="nav-item ">
+        <span class="nav-icon">⚙️</span>
+        <span>Paramètres</span>
+      </a>
+      <a href="admin.html" class="nav-item ">
+        <span class="nav-icon">🔒</span>
+        <span>Administration</span>
+      </a>
+    </nav>
+
+    <!-- Section aide -->
+    <div class="sidebar-help">
+      <div class="help-title">🤔 Besoin d'aide ?</div>
+      <div class="help-desc">Accédez à la documentation et au support technique.</div>
+      <a href="#" class="help-link">Consultez notre centre d'aide →</a>
+    </div>
+
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      
+      <!-- Hamburger (mobile) -->
+      <button class="header-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" style="display:none;" id="menuToggle">
+        ☰
+      </button>
+
+      <!-- Recherche globale -->
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Rechercher dans la plateforme ATLASIA..." id="globalSearch">
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <div class="header-btn" data-tooltip="Notifications" onclick="alert('Aucune nouvelle notification')">
+          🔔
+          <span class="notification-badge"></span>
+        </div>
+        <div class="header-btn" data-tooltip="Messages" onclick="alert('Messagerie')">💬</div>
+        <div class="header-btn" data-tooltip="Aide" onclick="alert('Centre d\'aide')">❓</div>
+        
+        <!-- User profile -->
+        <div class="header-user">
+          <div class="user-avatar">GA</div>
+          <div class="user-info">
+            <span class="user-name">Ghazi Abdessalam</span>
+            <span class="user-role">Chercheur Principal</span>
+          </div>
+          <span style="color:#94a3b8; margin-left:4px;">▾</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="page-content" id="pageContent">
+      <!-- Page header -->
+            <div class="page-header">
+        <div>
+          <h1 class="page-title">Intelligence Stratégique</h1>
+                    <p class="page-subtitle">Tableau de bord décisionnel — État de la société marocaine</p>
+                  </div>
+                <div class="page-actions">
+  <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+  <button class="btn btn-primary btn-sm" onclick="generateBrief()">📋 Executive Brief</button>
+</div>
+              </div>
+      
+<!-- ===== SYNTHÈSE EXÉCUTIVE : 3 messages clés (Charte · Principe 5 : Executive First) ===== -->
+<div class="exec-summary">
+  <div class="exec-summary-title">🎯 Synthèse exécutive — 3 messages clés</div>
+  <div class="exec-messages">
+    <div class="exec-msg msg-success">
+      <div class="exec-msg-icon">📉</div>
+      <div class="exec-msg-text">Le chômage recule à 9,5% au 2ᵉ trimestre 2026 (contre 12,8 % au T1), porté par la reprise agricole et touristique.</div>
+      <div class="ai-actions"><button class="ai-btn" onclick="atlasiaAI('msg_chomage')"><span class="ai-spark">✨</span> En savoir plus</button></div>
+    </div>
+    <div class="exec-msg msg-warning">
+      <div class="exec-msg-icon">👥</div>
+      <div class="exec-msg-text">Le taux d'activité s'établit à 42,2% (T2 2026) : la participation des femmes (18,1 %) reste très inférieure à celle des hommes (66,5 %).</div>
+      <div class="ai-actions"><button class="ai-btn" onclick="atlasiaAI('msg_activite')"><span class="ai-spark">✨</span> En savoir plus</button></div>
+    </div>
+    <div class="exec-msg msg-success">
+      <div class="exec-msg-icon">💰</div>
+      <div class="exec-msg-text">La croissance du PIB atteint 4,8% au T2 2026 (estimation), avec une inflation maîtrisée à 1,2% sur un an.</div>
+      <div class="ai-actions"><button class="ai-btn" onclick="atlasiaAI('msg_pib')"><span class="ai-spark">✨</span> En savoir plus</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KPI CARDS (données réelles HCP) ===== -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon orange">💼</div>
+    <div class="stat-body">
+      <div class="stat-label">Taux de chômage</div>
+      <div class="stat-value">9,5%</div>
+      <div class="stat-change">HCP — EMO T2 2026</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon blue">👥</div>
+    <div class="stat-body">
+      <div class="stat-label">Taux d'activité</div>
+      <div class="stat-value">42,2%</div>
+      <div class="stat-change">HCP — EMO T2 2026</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon green">📈</div>
+    <div class="stat-body">
+      <div class="stat-label">Croissance du PIB</div>
+      <div class="stat-value">+4,8%</div>
+      <div class="stat-change">T2 2026 (estimé)</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon purple">🛒</div>
+    <div class="stat-body">
+      <div class="stat-label">Inflation (IPC)</div>
+      <div class="stat-value">+1,2%</div>
+      <div class="stat-change">Sur un an · mai 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CARTE + TENDANCES ===== -->
+<div class="dashboard-grid" style="margin-bottom:16px;">
+
+  <!-- Carte du Maroc -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">🗺️ Carte des données sociales</div>
+      <div class="map-indicator-select">
+        <label>Indicateur :</label>
+        <select id="mapIndicator" onchange="updateMapIndicator(this.value)">
+          <option value="chomage">Taux de chômage (T2 2026)</option>
+          <option value="activite">Taux d'activité (T2 2026)</option>
+          <option value="population">Population (RGPH 2024)</option>
+          <option value="sante">Sous-utilisation (T2 2026)</option>
+        </select>
+      </div>
+    </div>
+    <div id="morocco-map" style="height:330px;"></div>
+    <div class="map-legend" id="mapLegend"></div>
+    <div class="map-update-info">🗺️ 12 régions (découpage 2015) — Source : HCP — EMO 2026 (T2), Point de Conjoncture N°50 (Juillet 2026), IPC Avril-Mai 2026, Chiffres Clés 2026. Cliquez sur une région pour les détails.</div>
+  </div>
+
+  <!-- Tendances clés (séries réelles HCP) -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">📈 Évolution nationale — Chômage, Activité &amp; PIB (HCP)</div>
+      <div class="chart-period-select">
+        <button class="period-btn" onclick="setPeriod(this, '3ans')">3 ans</button>
+        <button class="period-btn" onclick="setPeriod(this, '5ans')">5 ans</button>
+        <button class="period-btn active" onclick="setPeriod(this, 'all')">Depuis 2015</button>
+      </div>
+    </div>
+    <div class="card-body" style="padding-top:12px;">
+      <canvas id="trendsChart" height="270"></canvas>
+    </div>
+    <div class="card-footer" style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+      <div style="display:flex;align-items:center;gap:5px;font-size:12px;"><span style="width:10px;height:10px;border-radius:50%;background:#ef4444;display:inline-block;"></span>Taux de chômage</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:12px;"><span style="width:10px;height:10px;border-radius:50%;background:#2563eb;display:inline-block;"></span>Taux d'activité</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:12px;"><span style="width:10px;height:10px;border-radius:2px;background:#10b981;display:inline-block;"></span>PIB (Md DH, axe droit)</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:#94a3b8;">Source : HCP — Annuaires 2017-2024 · EMO T2 2026</div>
+    </div>
+    <!-- Donnée interprétée (Charte · Principe 1) -->
+    <div class="card-body" style="padding-top:0;">
+      <div class="insight-box">
+        <div class="insight-head">🧠 Lecture analytique</div>
+        <div class="insight-row"><span class="insight-tag tag-interp">Interprétation</span><span class="insight-txt">Entre 2015 et 2023, le chômage monte de 9,7 % à 13,0 % puis recule à 9,5 % au T2 2026, porté par la reprise agricole (+20,5 %) et touristique. Le taux d'activité passe de 47,4 % (2015) à 42,2 % (T2 2026). Sur la même période, le PIB à prix courants progresse fortement (988 à 1&nbsp;720&nbsp;Md&nbsp;DH en 2025), une croissance en partie nominale (effet des prix).</span></div>
+        <div class="insight-row"><span class="insight-tag tag-trend">Tendance</span><span class="insight-txt">Si les conditions actuelles se maintiennent, le découplage entre croissance du PIB et repli de l'activité devrait persister, avec un chômage durablement au‑dessus de 12&nbsp;%.</span></div>
+        <div class="insight-row"><span class="insight-tag tag-reco">Recommandation</span><span class="insight-txt">Prioriser les dispositifs d'insertion des jeunes et des femmes (moteurs du recul d'activité) et suivre l'écart croissance/emploi comme indicateur d'alerte.</span></div>
+        <div class="insight-note">Lecture analytique fondée sur les données HCP disponibles — non une vérité absolue (Charte, Principe 1).</div>
+        <div class="ai-actions">
+          <button class="ai-btn" onclick="atlasiaAI('evolution_nationale')"><span class="ai-spark">✨</span> Expliquer ce graphique</button>
+          <button class="ai-btn" onclick="atlasiaAI('evolution_tendance')"><span class="ai-spark">✨</span> Interpréter la tendance</button>
+        </div>
+      </div>
+      <details class="meta-fiche">
+        <summary>ℹ️ Fiche de traçabilité &amp; méthodologie</summary>
+        <div class="meta-grid">
+          <div class="meta-item"><span class="meta-k">Source</span><span class="meta-v">HCP — Annuaires Statistiques du Maroc 2017-2024</span></div>
+          <div class="meta-item"><span class="meta-k">Typologie</span><span class="meta-v">Statistique officielle</span></div>
+          <div class="meta-item"><span class="meta-k">Période couverte</span><span class="meta-v">2015 → T2 2026</span></div>
+          <div class="meta-item"><span class="meta-k">Dernière mise à jour</span><span class="meta-v">2026-08-04</span></div>
+          <div class="meta-item"><span class="meta-k">Couverture</span><span class="meta-v">Nationale</span></div>
+          <div class="meta-item"><span class="meta-k">Degré de confiance</span><span class="meta-v">Élevé (source officielle)</span></div>
+          <div class="meta-item"><span class="meta-k">Mode de calcul</span><span class="meta-v">Taux HCP (activité/chômage) ; PIB à prix courants</span></div>
+          <div class="meta-item"><span class="meta-k">Limites</span><span class="meta-v">PIB nominal (non corrigé de l'inflation) ; révisions possibles entre éditions</span></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== INDICATEURS NATIONAUX (données réelles HCP) ===== -->
+<div class="card" style="margin-bottom:16px;">
+  <div class="card-header">
+    <div class="card-title">📊 Indicateurs nationaux clés</div>
+    <span class="badge badge-info">Source : HCP — EMO 2026 (T2), Point de Conjoncture N°50 (Juillet 2026), IPC Avril-Mai 2026, Chiffres Clés 2026</span>
+  </div>
+  <div class="card-body">
+    <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:14px;">
+      <div class="indicator-card orange">
+        <div class="indicator-label">Chômage (T2 2026)</div>
+        <div class="indicator-value" style="color:#f59e0b;">9,5%</div>
+        <div class="indicator-trend" style="color:#64748b;">Urbain 11,9% · Rural 5,4%</div>
+      </div>
+      <div class="indicator-card blue">
+        <div class="indicator-label">Taux d'emploi (T2 2026)</div>
+        <div class="indicator-value" style="color:#2563eb;">38,2%</div>
+        <div class="indicator-trend" style="color:#64748b;">Activité 42,2%</div>
+      </div>
+      <div class="indicator-card red">
+        <div class="indicator-label">Chômage des jeunes 15-24 ans</div>
+        <div class="indicator-value" style="color:#ef4444;">27,2%</div>
+        <div class="indicator-trend" style="color:#64748b;">25-34 ans : 14,5%</div>
+      </div>
+      <div class="indicator-card blue" style="border-color:#8b5cf6;">
+        <div class="indicator-label">Sous-utilisation main-d'œuvre</div>
+        <div class="indicator-value" style="color:#8b5cf6;">18,9%</div>
+        <div class="indicator-trend" style="color:#64748b;">Indicateur composite · T2 2026</div>
+      </div>
+      <div class="indicator-card green">
+        <div class="indicator-label">Population (2025)</div>
+        <div class="indicator-value" style="color:#10b981; font-size:20px;">37 010 000</div>
+        <div class="indicator-trend" style="color:#64748b;">Urbaine 23 372 000</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== INDICATEURS RÉGIONAUX (données réelles HCP) ===== -->
+<div class="card" style="margin-bottom:16px;">
+  <div class="card-header">
+    <div class="card-title">📋 Indicateurs régionaux — 12 régions</div>
+    <span class="badge badge-info">Source : HCP — EMO 2026 (T2), Point de Conjoncture N°50 (Juillet 2026), IPC Avril-Mai 2026, Chiffres Clés 2026</span>
+  </div>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Région</th>
+          <th>Chef-lieu</th>
+          <th>Population (2024)</th>
+          <th>Chômage (T2 2026)</th>
+          <th>Activité (T2 2026)</th>
+          <th>Emploi (T2 2026)</th>
+          <th>Sous-utilisation (T2 2026)</th>
+        </tr>
+      </thead>
+      <tbody>
+                <tr>
+          <td><strong>Tanger-Tétouan-Al Hoceïma</strong></td>
+          <td>Tanger</td>
+          <td>4 030 222</td>
+          <td><span style="color:#10b981;font-weight:600;">6,1%</span></td>
+          <td>46,8%</td>
+          <td>43,9%</td>
+          <td><span style="color:#10b981;font-weight:600;">15,6%</span></td>
+        </tr>
+                <tr>
+          <td><strong>L&#039;Oriental</strong></td>
+          <td>Oujda</td>
+          <td>2 294 665</td>
+          <td><span style="color:#ef4444;font-weight:600;">12,7%</span></td>
+          <td>36,6%</td>
+          <td>31,9%</td>
+          <td><span style="color:#ef4444;font-weight:600;">26,2%</span></td>
+        </tr>
+                <tr>
+          <td><strong>Fès-Meknès</strong></td>
+          <td>Fès</td>
+          <td>4 467 911</td>
+          <td><span style="color:#f59e0b;font-weight:600;">10,9%</span></td>
+          <td>40,0%</td>
+          <td>35,6%</td>
+          <td><span style="color:#f59e0b;font-weight:600;">23,4%</span></td>
+        </tr>
+                <tr>
+          <td><strong>Rabat-Salé-Kénitra</strong></td>
+          <td>Rabat</td>
+          <td>5 132 639</td>
+          <td><span style="color:#10b981;font-weight:600;">8,8%</span></td>
+          <td>42,2%</td>
+          <td>38,4%</td>
+          <td><span style="color:#10b981;font-weight:600;">14,7%</span></td>
+        </tr>
+                <tr>
+          <td><strong>Béni Mellal-Khénifra</strong></td>
+          <td>Béni Mellal</td>
+          <td>2 525 801</td>
+          <td><span style="color:#10b981;font-weight:600;">7,9%</span></td>
+          <td>40,2%</td>
+          <td>37,0%</td>
+          <td><span style="color:#10b981;font-weight:600;">16,6%</span></td>
+        </tr>
+                <tr>
+          <td><strong>Casablanca-Settat</strong></td>
+          <td>Casablanca</td>
+          <td>7 688 967</td>
+          <td><span style="color:#ef4444;font-weight:600;">12,8%</span></td>
+          <td>46,7%</td>
+          <td>40,7%</td>
+          <td><span style="color:#f59e0b;font-weight:600;">20,7%</span></td>
+        </tr>
+                <tr>
+          <td><strong>Marrakech-Safi</strong></td>
+          <td>Marrakech</td>
+          <td>4 892 393</td>
+          <td><span style="color:#10b981;font-weight:600;">7,9%</span></td>
+          <td>43,1%</td>
+          <td>39,7%</td>
+          <td><span style="color:#10b981;font-weight:600;">16,9%</span></td>
+        </tr>
+                <tr>
+          <td><strong>Drâa-Tafilalet</strong></td>
+          <td>Errachidia</td>
+          <td>1 655 623</td>
+          <td><span style="color:#10b981;font-weight:600;">8,3%</span></td>
+          <td>30,5%</td>
+          <td>28,0%</td>
+          <td><span style="color:#10b981;font-weight:600;">16,2%</span></td>
+        </tr>
+                <tr>
+          <td><strong>Souss-Massa</strong></td>
+          <td>Agadir</td>
+          <td>3 020 431</td>
+          <td><span style="color:#10b981;font-weight:600;">7,1%</span></td>
+          <td>37,6%</td>
+          <td>34,9%</td>
+          <td><span style="color:#10b981;font-weight:600;">17,6%</span></td>
+        </tr>
+                <tr>
+          <td><strong>Guelmim-Oued Noun</strong></td>
+          <td>Guelmim</td>
+          <td>448 685</td>
+          <td><span style="color:#ef4444;font-weight:600;">13,8%</span></td>
+          <td>40,8%</td>
+          <td>35,2%</td>
+          <td><span style="color:#ef4444;font-weight:600;">33,7%</span></td>
+        </tr>
+                <tr>
+          <td><strong>Laâyoune-Sakia El Hamra</strong></td>
+          <td>Laâyoune</td>
+          <td>451 028</td>
+          <td><span style="color:#f59e0b;font-weight:600;">9,2%</span></td>
+          <td>39,7%</td>
+          <td>36,0%</td>
+          <td><span style="color:#ef4444;font-weight:600;">28,2%</span></td>
+        </tr>
+                <tr>
+          <td><strong>Dakhla-Oued Ed-Dahab</strong></td>
+          <td>Dakhla</td>
+          <td>219 965</td>
+          <td><span style="color:#64748b;font-weight:600;">n.s.</span></td>
+          <td>59,2%</td>
+          <td>57,8%</td>
+          <td><span style="color:#10b981;font-weight:600;">8,6%</span></td>
+        </tr>
+              </tbody>
+    </table>
+  </div>
+  <div class="map-update-info" style="padding:10px 16px;">ℹ️ Données emploi régionales issues de l'Enquête sur la main-d'œuvre (EMO) du HCP, 2ᵉ trimestre 2026. « n.s. » = taux non significatif (faible effectif, Dakhla-Oued Ed-Dahab). La sous-utilisation composite agrège chômage, sous-emploi et main-d'œuvre potentielle.</div>
+</div>
+
+<!-- ===== ÉTUDES + ACTIVITÉ RÉSEAU + ACCÈS RAPIDE ===== -->
+<div class="dashboard-grid-3">
+
+  <!-- Études récentes -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">📄 Études récentes</div>
+      <a href="bibliotheque.html" class="btn btn-outline btn-sm">Voir tout</a>
+    </div>
+    <div class="card-body" style="padding-top:8px;">
+      <div class="study-item">
+        <div class="study-icon" style="background:#dbeafe;font-size:18px;">📊</div>
+        <div class="study-body">
+          <div class="study-title">Dynamiques migratoires au Maroc en 2024</div>
+          <div class="study-meta">Mai 2025</div>
+          <div class="study-tags"><span class="tag tag-blue">Migration</span><span class="tag tag-gray">HCP</span></div>
+        </div>
+      </div>
+      <div class="study-item">
+        <div class="study-icon" style="background:#d1fae5;font-size:18px;">💼</div>
+        <div class="study-body">
+          <div class="study-title">Les jeunes et le marché de l'emploi</div>
+          <div class="study-meta">Avril 2025</div>
+          <div class="study-tags"><span class="tag tag-green">Emploi</span><span class="tag tag-orange">Jeunesse</span></div>
+        </div>
+      </div>
+      <div class="study-item">
+        <div class="study-icon" style="background:#ede9fe;font-size:18px;">🎓</div>
+        <div class="study-body">
+          <div class="study-title">Perceptions sociales de l'éducation</div>
+          <div class="study-meta">Avril 2025</div>
+          <div class="study-tags"><span class="tag tag-purple">Éducation</span><span class="tag tag-gray">Société</span></div>
+        </div>
+      </div>
+      <div class="study-item" style="border-bottom:none; padding-bottom:0;">
+        <div class="study-icon" style="background:#ffedd5;font-size:18px;">🏠</div>
+        <div class="study-body">
+          <div class="study-title">Logement et conditions de vie urbaine</div>
+          <div class="study-meta">Mars 2025</div>
+          <div class="study-tags"><span class="tag tag-orange">Logement</span><span class="tag tag-blue">Urbain</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <a href="bibliotheque.html" class="btn btn-outline btn-sm" style="width:100%; justify-content:center;">Voir toutes les études →</a>
+    </div>
+  </div>
+
+  <!-- Activité du réseau -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">🤝 Activité du réseau</div>
+      <span class="badge badge-success">🟢 En ligne</span>
+    </div>
+    <div class="card-body" style="padding-top:8px;">
+      <div class="activity-item">
+        <div class="activity-avatar" style="background:#2563eb;">MA</div>
+        <div class="activity-body">
+          <div class="activity-text">Nouveau chercheur inscrit : <strong>Mohammed Alami</strong></div>
+          <div class="activity-time">Il y a 2 heures</div>
+        </div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-avatar" style="background:#10b981;">SB</div>
+        <div class="activity-body">
+          <div class="activity-text">Nouvelle étude partagée : <em>Relations sociales et cohésion</em></div>
+          <div class="activity-time">Il y a 5 heures</div>
+        </div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-avatar" style="background:#7c3aed;">KA</div>
+        <div class="activity-body">
+          <div class="activity-text">Nouveau commentaire dans le forum <strong>Sociologie</strong></div>
+          <div class="activity-time">Il y a 1 jour</div>
+        </div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-avatar" style="background:#f59e0b;">LM</div>
+        <div class="activity-body">
+          <div class="activity-text">Jeu de données publié : <em>Enquête HCP 2024 - Emploi</em></div>
+          <div class="activity-time">Il y a 2 jours</div>
+        </div>
+      </div>
+      <div class="activity-item" style="border-bottom:none;">
+        <div class="activity-avatar" style="background:#ef4444;">ZO</div>
+        <div class="activity-body">
+          <div class="activity-text">Rapport validé : <strong>Observatoire Social Q2 2025</strong></div>
+          <div class="activity-time">Il y a 3 jours</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <a href="reseau.html" class="btn btn-outline btn-sm" style="width:100%; justify-content:center;">Accéder au réseau →</a>
+    </div>
+  </div>
+
+  <!-- Accès rapide + Alertes -->
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">⚡ Accès rapide</div>
+      </div>
+      <div class="card-body">
+        <div class="quick-grid">
+          <div class="quick-btn" onclick="window.location='production.html'">
+            <div class="quick-icon" style="background:#dbeafe;">🔬</div>
+            <span>Nouvelle recherche</span>
+          </div>
+          <div class="quick-btn" onclick="window.location='referentiel.html'">
+            <div class="quick-icon" style="background:#d1fae5;">➕</div>
+            <span>Ajouter un jeu de données</span>
+          </div>
+          <div class="quick-btn" onclick="generateBrief()">
+            <div class="quick-icon" style="background:#ffedd5;">📝</div>
+            <span>Créer un rapport</span>
+          </div>
+          <div class="quick-btn" onclick="window.location='espaces-travail.html'">
+            <div class="quick-icon" style="background:#ede9fe;">💼</div>
+            <span>Espace collaboratif</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alertes -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">🚨 Alertes système</div>
+        <span class="badge badge-warning">3 alertes</span>
+      </div>
+      <div class="card-body">
+        <div class="alert-list">
+          <div class="alert-item danger">
+            <span class="alert-icon">🔴</span>
+            <span>Région Laâyoune : aucune collecte depuis 14 mois.</span>
+          </div>
+          <div class="alert-item warning">
+            <span class="alert-icon">⚠️</span>
+            <span>Indicateur chômage : hausse anormale détectée (Fès-Meknès).</span>
+          </div>
+          <div class="alert-item info">
+            <span class="alert-icon">ℹ️</span>
+            <span>3 nouveaux jeux de données en attente de validation.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== MODAL EXECUTIVE BRIEF ===== -->
+<div class="modal-overlay" id="briefModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📋 Générer un Executive Brief</div>
+      <div class="modal-close" onclick="closeBrief()">✕</div>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Titre du rapport</label>
+        <input class="form-input" value="Briefing Stratégique — État de la Société Marocaine · Juillet 2025">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Période couverte</label>
+          <select class="form-select">
+            <option>2024 – 2025</option><option>2020 – 2025</option><option>Trimestre en cours</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Format</label>
+          <select class="form-select">
+            <option>PDF (2 pages)</option><option>Word (.docx)</option><option>Présentation</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Indicateurs à inclure</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;">
+                    <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" checked style="width:16px;height:16px;"> Chômage          </label>
+                    <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" checked style="width:16px;height:16px;"> Éducation          </label>
+                    <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" checked style="width:16px;height:16px;"> Pauvreté          </label>
+                    <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" checked style="width:16px;height:16px;"> Migration          </label>
+                    <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" checked style="width:16px;height:16px;"> Confiance          </label>
+                    <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" checked style="width:16px;height:16px;"> Logement          </label>
+                  </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Note pour le décideur</label>
+        <textarea class="form-textarea" style="min-height:80px;" placeholder="Contexte ou instructions supplémentaires..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeBrief()">Annuler</button>
+      <button class="btn btn-primary" onclick="alert('Brief en cours de génération par l\'IA...\n\nDocument prêt dans quelques secondes.');closeBrief()">
+        🤖 Générer avec IA
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== CARTE DU MAROC (Leaflet) — 12 régions, données réelles HCP =====
+const indicatorsData = {
+  chomage: {
+    label: 'Taux de chômage T2 2026 (%)',
+    unit: '%',
+    colors: ['#fee2e2','#fecaca','#fca5a5','#f87171','#ef4444','#dc2626','#b91c1c','#991b1b'],
+    data: {"Tanger-Tétouan-Al Hoceïma":{"value":6.1,"label":"Tanger-Tétouan-Al Hoceïma"},"L'Oriental":{"value":12.7,"label":"L'Oriental"},"Fès-Meknès":{"value":10.9,"label":"Fès-Meknès"},"Rabat-Salé-Kénitra":{"value":8.8,"label":"Rabat-Salé-Kénitra"},"Béni Mellal-Khénifra":{"value":7.9,"label":"Béni Mellal-Khénifra"},"Casablanca-Settat":{"value":12.8,"label":"Casablanca-Settat"},"Marrakech-Safi":{"value":7.9,"label":"Marrakech-Safi"},"Drâa-Tafilalet":{"value":8.3,"label":"Drâa-Tafilalet"},"Souss-Massa":{"value":7.1,"label":"Souss-Massa"},"Guelmim-Oued Noun":{"value":13.8,"label":"Guelmim-Oued Noun"},"Laâyoune-Sakia El Hamra":{"value":9.2,"label":"Laâyoune-Sakia El Hamra"},"Dakhla-Oued Ed-Dahab":{"value":20.3,"label":"Dakhla-Oued Ed-Dahab"}},
+    ranges: ['< 7%','7-8%','8-10%','10-12%','12-13%','> 13%']
+  },
+  activite: {
+    label: "Taux d'activité T2 2026 (%)",
+    unit: '%',
+    colors: ['#dbeafe','#bfdbfe','#93c5fd','#60a5fa','#3b82f6','#2563eb','#1d4ed8','#1e40af'],
+    data: {"Tanger-Tétouan-Al Hoceïma":{"value":46.8,"label":"Tanger-Tétouan-Al Hoceïma"},"L'Oriental":{"value":36.6,"label":"L'Oriental"},"Fès-Meknès":{"value":40,"label":"Fès-Meknès"},"Rabat-Salé-Kénitra":{"value":42.2,"label":"Rabat-Salé-Kénitra"},"Béni Mellal-Khénifra":{"value":40.2,"label":"Béni Mellal-Khénifra"},"Casablanca-Settat":{"value":46.7,"label":"Casablanca-Settat"},"Marrakech-Safi":{"value":43.1,"label":"Marrakech-Safi"},"Drâa-Tafilalet":{"value":30.5,"label":"Drâa-Tafilalet"},"Souss-Massa":{"value":37.6,"label":"Souss-Massa"},"Guelmim-Oued Noun":{"value":40.8,"label":"Guelmim-Oued Noun"},"Laâyoune-Sakia El Hamra":{"value":39.7,"label":"Laâyoune-Sakia El Hamra"},"Dakhla-Oued Ed-Dahab":{"value":59.2,"label":"Dakhla-Oued Ed-Dahab"}},
+    ranges: ['< 36%','36-40%','40-43%','43-47%','47-55%','> 55%']
+  },
+  population: {
+    label: 'Population (RGPH 2024)',
+    unit: '',
+    colors: ['#d1fae5','#a7f3d0','#6ee7b7','#34d399','#10b981','#059669','#047857','#065f46'],
+    data: {"Tanger-Tétouan-Al Hoceïma":{"value":4030222,"label":"Tanger-Tétouan-Al Hoceïma"},"L'Oriental":{"value":2294665,"label":"L'Oriental"},"Fès-Meknès":{"value":4467911,"label":"Fès-Meknès"},"Rabat-Salé-Kénitra":{"value":5132639,"label":"Rabat-Salé-Kénitra"},"Béni Mellal-Khénifra":{"value":2525801,"label":"Béni Mellal-Khénifra"},"Casablanca-Settat":{"value":7688967,"label":"Casablanca-Settat"},"Marrakech-Safi":{"value":4892393,"label":"Marrakech-Safi"},"Drâa-Tafilalet":{"value":1655623,"label":"Drâa-Tafilalet"},"Souss-Massa":{"value":3020431,"label":"Souss-Massa"},"Guelmim-Oued Noun":{"value":448685,"label":"Guelmim-Oued Noun"},"Laâyoune-Sakia El Hamra":{"value":451028,"label":"Laâyoune-Sakia El Hamra"},"Dakhla-Oued Ed-Dahab":{"value":219965,"label":"Dakhla-Oued Ed-Dahab"}},
+    ranges: ['< 500k','0.5-1.5M','1.5-2.5M','2.5-4M','4-5M','> 5M']
+  },
+  sante: {
+    label: 'Sous-utilisation main-d\'œuvre T2 2026 (%)',
+    unit: '%',
+    colors: ['#ede9fe','#ddd6fe','#c4b5fd','#a78bfa','#8b5cf6','#7c3aed','#6d28d9','#5b21b6'],
+    data: {"Tanger-Tétouan-Al Hoceïma":{"value":15.6,"label":"Tanger-Tétouan-Al Hoceïma"},"L'Oriental":{"value":26.2,"label":"L'Oriental"},"Fès-Meknès":{"value":23.4,"label":"Fès-Meknès"},"Rabat-Salé-Kénitra":{"value":14.7,"label":"Rabat-Salé-Kénitra"},"Béni Mellal-Khénifra":{"value":16.6,"label":"Béni Mellal-Khénifra"},"Casablanca-Settat":{"value":20.7,"label":"Casablanca-Settat"},"Marrakech-Safi":{"value":16.9,"label":"Marrakech-Safi"},"Drâa-Tafilalet":{"value":16.2,"label":"Drâa-Tafilalet"},"Souss-Massa":{"value":17.6,"label":"Souss-Massa"},"Guelmim-Oued Noun":{"value":33.7,"label":"Guelmim-Oued Noun"},"Laâyoune-Sakia El Hamra":{"value":28.2,"label":"Laâyoune-Sakia El Hamra"},"Dakhla-Oued Ed-Dahab":{"value":8.6,"label":"Dakhla-Oued Ed-Dahab"}},
+    ranges: ['< 15%','15-17%','17-21%','21-26%','26-30%','> 30%']
+  }
+};
+
+const GEOJSON_FILE = 'data/morocco-regions-12.geojson';
+let moroccoMap, geojsonLayer, currentIndicator = 'chomage';
+
+// Initialiser la carte
+fetch(GEOJSON_FILE)
+  .then(r => r.json())
+  .then(geojson => {
+    moroccoMap = L.map('morocco-map', {
+      center: [29.0, -7.5],
+      zoom: 5,
+      zoomControl: true,
+      scrollWheelZoom: true,
+      attributionControl: false
+    });
+
+    // Fond neutre clair
+    L.tileLayer('https://www.arcgis.com/sharing/rest/content/items/64dc59ada3774a1d88ba6dfd9c4b4b30/info/thumbnail/ago_downloaded.png?f=json&w=400', {
+      attribution: '&copy; CartoDB &copy; OSM',
+      subdomains: 'abcd', maxZoom: 19
+    }).addTo(moroccoMap);
+
+    moroccoMap.attributionControl = false;
+    loadMapIndicator('chomage', geojson);
+  })
+  .catch(err => {
+    document.getElementById('morocco-map').innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f8fafc;color:#64748b;font-size:14px;">⚠️ Chargez l\'application via un serveur XAMPP pour afficher la carte.</div>';
+    console.error('Map error:', err);
+  });
+
+function fmtVal(v, unit) {
+  if (v === null || v === undefined || v === 'N/D') return 'N/D';
+  if (unit === '%') return String(v).replace('.', ',') + '%';
+  // Grand nombre : séparateur d'espace
+  return Number(v).toLocaleString('fr-FR');
+}
+
+function getColor(value, indicator) {
+  const ind = indicatorsData[indicator];
+  const vals = Object.values(ind.data).map(d => d.value);
+  const min = Math.min(...vals), max = Math.max(...vals);
+  const pct = (value - min) / (max - min);
+  const idx = Math.min(Math.floor(pct * (ind.colors.length - 1)), ind.colors.length - 1);
+  return ind.colors[idx];
+}
+
+function loadMapIndicator(indicator, geojson) {
+  if (geojsonLayer) moroccoMap.removeLayer(geojsonLayer);
+  currentIndicator = indicator;
+
+  geojsonLayer = L.geoJSON(geojson, {
+    style: function(feature) {
+      const name = feature.properties.name;
+      const ind = indicatorsData[indicator];
+      const regionData = ind.data[name] || {value: 0};
+      return {
+        fillColor: getColor(regionData.value, indicator),
+        weight: 1.5, opacity: 1,
+        color: 'white',
+        fillOpacity: 0.82
+      };
+    },
+    onEachFeature: function(feature, layer) {
+      const name = feature.properties.name;
+      const ind = indicatorsData[indicator];
+      const regionData = ind.data[name] || {value: 'N/D'};
+      layer.bindTooltip(`<strong>${regionData.label || name}</strong><br>${ind.label} : <strong>${fmtVal(regionData.value, ind.unit)}</strong>`, {sticky: true, className: 'leaflet-tooltip-custom'});
+      layer.on({
+        mouseover: function(e) { e.target.setStyle({weight:3, color:'#1e293b', fillOpacity:0.95}); },
+        mouseout:  function(e) { geojsonLayer.resetStyle(e.target); },
+        click:     function(e) { showRegionDetail(name, indicator, regionData); }
+      });
+    }
+  }).addTo(moroccoMap);
+
+  moroccoMap.fitBounds(geojsonLayer.getBounds(), {padding:[10,10]});
+  updateLegend(indicator);
+}
+
+function updateLegend(indicator) {
+  const ind = indicatorsData[indicator];
+  const legend = document.getElementById('mapLegend');
+  let html = `<div class="legend-title">${ind.label}</div><div class="legend-items">`;
+  ind.ranges.forEach((range, i) => {
+    const colorIdx = Math.floor(i * (ind.colors.length / ind.ranges.length));
+    html += `<div class="legend-item"><div class="legend-color" style="background:${ind.colors[colorIdx]};"></div>${range}</div>`;
+  });
+  html += '</div>';
+  legend.innerHTML = html;
+}
+
+function updateMapIndicator(indicator) {
+  if (!moroccoMap) return;
+  fetch(GEOJSON_FILE)
+    .then(r => r.json())
+    .then(geojson => loadMapIndicator(indicator, geojson));
+}
+
+function showRegionDetail(name, indicator, data) {
+  const ind = indicatorsData[indicator];
+  alert(`📍 Région : ${data.label || name}\n\n${ind.label} : ${fmtVal(data.value, ind.unit)}\n\nSource : HCP — EMO 2026 (T2), Point de Conjoncture N°50 (Juillet 2026), IPC Avril-Mai 2026, Chiffres Clés 2026\n\nConsultez l'Observatoire Social pour les données complètes de cette région.`);
+}
+
+// ===== IA EMBARQUÉE : analyses ancrées sur les données HCP =====
+window.ATLASIA_AI = window.ATLASIA_AI || {};
+Object.assign(window.ATLASIA_AI, {
+  msg_chomage: {
+    title: "Chômage — 9,5 % (T2 2026)",
+    interpretation: "Le taux de chômage recule à 9,5 % au 2ᵉ trimestre 2026, contre 12,8 % au T1. Ce repli marqué reflète la reprise saisonnière de l'emploi agricole (valeur ajoutée agricole +20,5 %) et touristique. Le chômage reste plus élevé en milieu urbain (11,9 %) qu'en rural (5,4 %), et frappe surtout les jeunes de 15-24 ans (27,2 %) et les femmes (14,8 %).",
+    tendance: "La reprise de l'activité économique (PIB +4,8 % au T2) soutient l'emploi, mais le chômage des jeunes reste structurellement élevé.",
+    recommandation: "Cibler l'insertion des jeunes 15-24 ans (27,2 %) et réduire l'écart de chômage femmes/hommes (14,8 % contre 8,1 %).",
+    source: "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"
+  },
+  msg_activite: {
+    title: "Taux d'activité — 42,2 % (T2 2026)",
+    interpretation: "Le taux d'activité s'établit à 42,2 % au T2 2026. L'écart entre hommes (66,5 %) et femmes (18,1 %) reste considérable. Le taux d'emploi atteint 38,2 % et la sous-utilisation composite de la main-d'œuvre 18,9 %.",
+    tendance: "Sans progression de la participation féminine, le potentiel de croissance de la main-d'œuvre reste bridé.",
+    recommandation: "Lever les freins à l'activité des femmes (mobilité, garde d'enfants, adéquation formation-emploi).",
+    source: "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"
+  },
+  msg_pib: {
+    title: "Croissance & inflation (T2 2026)",
+    interpretation: "La croissance du PIB atteint +4,8 % au T2 2026 (estimation), après +4,6 % au T1, portée par l'agriculture (+20,5 %), la consommation des ménages (+4,7 %) et le tertiaire. L'inflation reste maîtrisée à +1,1 % (IPC +1,2 % sur un an en mai), avec un taux directeur de Bank Al-Maghrib à 2,25 %.",
+    tendance: "La prévision de croissance pour le T3 2026 est de +5,4 %, dans un contexte d'inflation contenue.",
+    recommandation: "Veiller à ce que la croissance se traduise en emplois de qualité et suivre le déficit commercial (taux de couverture 80,9 %).",
+    source: "HCP — Point de Conjoncture N°50, Juillet 2026"
+  },
+  evolution_nationale: {
+    title: "Évolution nationale (2015 – T2 2026)",
+    interpretation: "Le graphique croise trois indicateurs : chômage (rouge), activité (bleu) et PIB à prix courants (barres vertes). Le chômage monte, l'activité baisse, le PIB nominal croît.",
+    tendance: "Le découplage entre la croissance du PIB et le recul de l'activité tend à se maintenir.",
+    recommandation: "Analyser ces trois séries ensemble plutôt qu'isolément (Charte, Principe 6 : croisement des indicateurs).",
+    source: "HCP — Annuaires Statistiques du Maroc 2017-2024"
+  },
+  evolution_tendance: {
+    title: "Interprétation de la tendance",
+    interpretation: "De 2020 à 2023, le chômage s'est maintenu à un palier élevé (11,9 % → 13,0 %), avant un net recul à 9,5 % au T2 2026 (+20,5 % en valeur ajoutée agricole). L'activité atteint 42,2 % au T2 2026.",
+    tendance: "Sans inflexion des politiques d'emploi, le marché du travail resterait sous tension à l'horizon des prochaines années.",
+    recommandation: "Mettre en place un suivi d'alerte sur l'écart entre croissance économique et création d'emplois.",
+    source: "HCP — Annuaires Statistiques du Maroc 2017-2024"
+  }
+});
+
+// ===== GRAPHIQUE DES TENDANCES (séries réelles HCP) =====
+const nationalSeries = {"description":"Évolution des principaux indicateurs nationaux — HCP, 2015-T2 2026","annees":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,"T2 2026"],"taux_chomage":{"libelle":"Taux de chômage national (15 ans et plus, %)","unite":"%","valeurs":[9.7,9.4,10.2,9.5,9.2,11.9,12.3,11.8,13,13.3,13,9.5],"source":"HCP — Annuaires Statistiques, table 14-4 (emploi, ensemble)"},"taux_activite":{"libelle":"Taux d'activité national (15 ans et plus, %)","unite":"%","valeurs":[47.4,46.4,46.7,46,45.8,44.8,45.3,44.3,43.6,43.5,43.5,42.2],"source":"HCP — Annuaires Statistiques, table 14-4 (emploi, ensemble)"},"pib_prix_courants_mdh":{"libelle":"Produit intérieur brut aux prix courants (Millions DH)","unite":"MDH","valeurs":[988021,1016119,1063297,1106822,1152806,1089521,1284154,1330158,1463358,1614569,1720201,null],"source":"HCP — Annuaires Statistiques, synthèse des principaux indicateurs. Valeurs prix courants (susceptibles de révisions entre éditions)."}};
+
+let trendsChart;
+
+function initTrendsChart(period = 'all') {
+  const ctx = document.getElementById('trendsChart').getContext('2d');
+  if (!nationalSeries || !nationalSeries.annees) return;
+
+  // Découper la série selon la période choisie
+  const allYears = nationalSeries.annees;
+  let n = allYears.length;
+  if (period === '3ans') n = Math.min(4, allYears.length);
+  else if (period === '5ans') n = Math.min(6, allYears.length);
+  const start = allYears.length - n;
+
+  const labels   = allYears.slice(start);
+  const chomage  = nationalSeries.taux_chomage.valeurs.slice(start);
+  const activite = nationalSeries.taux_activite.valeurs.slice(start);
+  // PIB en milliards de DH (source en MDH) pour lecture sur un axe secondaire
+  const pibSrc   = (nationalSeries.pib_prix_courants_mdh && nationalSeries.pib_prix_courants_mdh.valeurs) || [];
+  const pibMrd   = pibSrc.slice(start).map(v => v ? +(v/1000).toFixed(1) : null);
+
+  if (trendsChart) trendsChart.destroy();
+  trendsChart = new Chart(ctx, {
+    data: {
+      labels: labels,
+      datasets: [
+        {type:'line', label:"Taux de chômage",  yAxisID:'yPct', data:chomage,  borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,.08)', fill:true, borderWidth:2.5, pointRadius:4, pointHoverRadius:7, tension:.35, order:1},
+        {type:'line', label:"Taux d'activité",  yAxisID:'yPct', data:activite, borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,.06)', fill:true, borderWidth:2.5, pointRadius:4, pointHoverRadius:7, tension:.35, order:1},
+        {type:'bar',  label:"PIB (prix courants)", yAxisID:'yPib', data:pibMrd, backgroundColor:'rgba(16,185,129,.30)', borderColor:'#10b981', borderWidth:1.5, borderRadius:4, order:2, barPercentage:0.55, categoryPercentage:0.6}
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode:'index', intersect:false },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.dataset.yAxisID === 'yPib'
+            ? ` ${ctx.dataset.label}: ${ctx.raw} Md DH`
+            : ` ${ctx.dataset.label}: ${ctx.raw}%` } }
+      },
+      scales: {
+        x: { grid: { display:false }, ticks: { font:{size:11.5} } },
+        yPct: {
+          type:'linear', position:'left', min: 0, max: 55,
+          grid: { color:'rgba(0,0,0,.05)' },
+          ticks: { font:{size:11.5}, callback: v => v+'%' },
+          title: { display:true, text:'Taux (%)', font:{size:10}, color:'#94a3b8' }
+        },
+        yPib: {
+          type:'linear', position:'right', min: 0,
+          grid: { drawOnChartArea:false },
+          ticks: { font:{size:11.5}, callback: v => v+' Md' },
+          title: { display:true, text:'PIB (Md DH)', font:{size:10}, color:'#10b981' }
+        }
+      }
+    }
+  });
+}
+
+initTrendsChart('all');
+
+function setPeriod(btn, period) {
+  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  initTrendsChart(period);
+}
+
+// ===== EXECUTIVE BRIEF MODAL =====
+function generateBrief() {
+  document.getElementById('briefModal').classList.add('open');
+}
+function closeBrief() {
+  document.getElementById('briefModal').classList.remove('open');
+}
+document.getElementById('briefModal').addEventListener('click', function(e) {
+  if (e.target === this) closeBrief();
+});
+</script>
+
+    </div><!-- end page-content -->
+  </div><!-- end main-content -->
+</div><!-- end app-layout -->
+
+<!-- ===== MODAL IA EMBARQUÉE (Charte · Principe 7 : IA embarquée) ===== -->
+<div class="ai-modal-overlay" id="aiModalOverlay" onclick="if(event.target===this)closeAiModal()">
+  <div class="ai-modal" role="dialog" aria-modal="true">
+    <div class="ai-modal-head">
+      <div class="ai-modal-title"><span>✨</span> <span id="aiModalTitle">Assistant d'analyse ATLASIA</span></div>
+      <button class="ai-modal-close" onclick="closeAiModal()" aria-label="Fermer">×</button>
+    </div>
+    <div class="ai-modal-body" id="aiModalBody"></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   IA EMBARQUÉE ATLASIA — grounded sur les données disponibles
+   Chaque page enregistre ses analyses dans window.ATLASIA_AI[cle].
+   Une analyse = { title, interpretation, tendance, recommandation, source }
+   Conforme à la Charte : réponses fondées uniquement sur les données
+   de la plateforme, avec mention explicite des sources.
+   ===================================================================== */
+window.ATLASIA_AI = window.ATLASIA_AI || {};
+
+function _aiRender(a){
+  var html = '';
+  if(a.interpretation){ html += '<h4>🔎 Interprétation potentielle</h4><p>'+a.interpretation+'</p>'; }
+  if(a.tendance){ html += '<h4>📈 Tendance prospective</h4><p>'+a.tendance+'</p>'; }
+  if(a.recommandation){ html += '<h4>🎯 Recommandation opérationnelle</h4><p>'+a.recommandation+'</p>'; }
+  if(a.resume){ html += '<h4>📝 Synthèse</h4><p>'+a.resume+'</p>'; }
+  html += '<p class="ai-source">'+(a.source ? ('Source : '+a.source+'. ') : '')+
+          'Lecture analytique fondée sur les données disponibles dans la plateforme — non une vérité absolue.</p>';
+  return html;
+}
+
+var _aiCurrent = null; // { key, title, a }
+
+function _aiFooterHTML(){
+  return '<div class="ai-ask">'+
+    '<textarea id="aiQuestion" class="ai-ask-input" rows="2" '+
+      'placeholder="Posez une question sur ces données (optionnel)…"></textarea>'+
+    '<button class="ai-btn" onclick="atlasiaAsk()"><span class="ai-spark">✨</span> Demander à l\'IA</button>'+
+  '</div>';
+}
+
+// Appelle le proxy IA générative (api/ai.php). Repli local géré côté serveur.
+function _aiCall(payload, body){
+  fetch('api/ai.php', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).then(function(r){ return r.json(); })
+    .then(function(res){
+      var badge = res.mode === 'ai'
+        ? '<span class="ai-mode ai-mode-live">✨ IA générative</span>'
+        : '<span class="ai-mode ai-mode-local">🔒 Analyse locale</span>';
+      body.innerHTML = badge + (res.text || '') + _aiFooterHTML();
+    })
+    .catch(function(){
+      // réseau totalement indisponible => rendu local pur
+      body.innerHTML = (_aiCurrent && _aiCurrent.a ? _aiRender(_aiCurrent.a)
+        : '<p>Service IA indisponible.</p>') + _aiFooterHTML();
+    });
+}
+
+function atlasiaAI(key, title){
+  var overlay = document.getElementById('aiModalOverlay');
+  var body = document.getElementById('aiModalBody');
+  var titleEl = document.getElementById('aiModalTitle');
+  var a = window.ATLASIA_AI[key] || null;
+  _aiCurrent = { key:key, title:(a && a.title) ? a.title : (title||''), a:a };
+  titleEl.textContent = _aiCurrent.title || "Assistant d'analyse ATLASIA";
+  overlay.classList.add('open');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> Analyse des données disponibles…</div>';
+  _aiCall({ key:key, title:_aiCurrent.title, context:(a||{}) }, body);
+}
+
+// Question libre de l'utilisateur sur le même élément (grounding conservé).
+function atlasiaAsk(){
+  var q = (document.getElementById('aiQuestion')||{}).value || '';
+  if(!q.trim()){ return; }
+  var body = document.getElementById('aiModalBody');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> L\'IA analyse votre question…</div>';
+  var a = _aiCurrent ? _aiCurrent.a : null;
+  _aiCall({ key:(_aiCurrent&&_aiCurrent.key)||'', title:(_aiCurrent&&_aiCurrent.title)||'',
+            context:(a||{}), question:q }, body);
+}
+function closeAiModal(){ document.getElementById('aiModalOverlay').classList.remove('open'); }
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAiModal(); });
+</script>
+
+<!-- Scripts globaux -->
+<script>
+// Init Lucide icons
+if (typeof lucide !== 'undefined') lucide.createIcons();
+
+// Mobile menu toggle
+function initMobileMenu() {
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900) {
+    if (toggle) toggle.style.display = 'flex';
+  } else {
+    if (toggle) toggle.style.display = 'none';
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) sidebar.classList.remove('open');
+  }
+}
+window.addEventListener('resize', initMobileMenu);
+initMobileMenu();
+
+// Close sidebar on outside click (mobile)
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900 && sidebar && !sidebar.contains(e.target) && e.target !== toggle) {
+    sidebar.classList.remove('open');
+  }
+});
+
+// Search global
+document.getElementById('globalSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  if (q.length >= 3) {
+    console.log('Recherche:', q);
+  }
+});
+
+// Sidebar search
+document.getElementById('sidebarSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(q) ? '' : 'none';
+  });
+});
+
+// Animate cards on load
+document.querySelectorAll('.stat-card, .card, .project-card, .file-card').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(12px)';
+  setTimeout(() => {
+    el.style.transition = 'opacity .3s ease, transform .3s ease';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, i * 60);
+});
+</script>
+
+
+</body>
+</html>

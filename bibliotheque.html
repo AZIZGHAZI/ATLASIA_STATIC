@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bibliothèque Scientifique — ATLASIA</title>
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Leaflet.js pour la carte -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  
+  <!-- Chart.js pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  
+  <style>
+    /* Overrides spécifiques à la page */
+      </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-icon">A</div>
+      <div class="logo-text">
+        <span class="logo-name">ATLASIA</span>
+        <span class="logo-tagline">Mapping Society · Powering Insight</span>
+      </div>
+    </div>
+
+    <!-- Recherche dans la sidebar -->
+    <div class="sidebar-search">
+      <input type="text" placeholder="Rechercher dans la plateforme..." id="sidebarSearch">
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">PLATEFORME</div>
+      
+            <a href="dashboard.html" class="nav-item ">
+        <span class="nav-icon">⚡</span>
+        <span>Intelligence Stratégique</span>
+              </a>
+            <a href="espaces-travail.html" class="nav-item ">
+        <span class="nav-icon">📁</span>
+        <span>Espaces de Travail</span>
+                <span class="nav-badge">3</span>
+              </a>
+            <a href="production.html" class="nav-item ">
+        <span class="nav-icon">📊</span>
+        <span>Production & Collecte</span>
+              </a>
+            <a href="referentiel.html" class="nav-item ">
+        <span class="nav-icon">🗄️</span>
+        <span>Référentiel de Données</span>
+              </a>
+            <a href="ai-studio.html" class="nav-item ">
+        <span class="nav-icon">🤖</span>
+        <span>AI Research Studio</span>
+                <span class="nav-badge">IA</span>
+              </a>
+            <a href="observatoire.html" class="nav-item ">
+        <span class="nav-icon">🔭</span>
+        <span>Observatoire Social</span>
+              </a>
+            <a href="observatoire-psychosocial.html" class="nav-item ">
+        <span class="nav-icon">🧠</span>
+        <span>Dynamiques Psychosociales</span>
+                <span class="nav-badge">V2</span>
+              </a>
+            <a href="mots-sociaux.html" class="nav-item ">
+        <span class="nav-icon">☁️</span>
+        <span>Mots sociaux du web</span>
+                <span class="nav-badge">✨</span>
+              </a>
+            <a href="bibliotheque.html" class="nav-item active">
+        <span class="nav-icon">📚</span>
+        <span>Bibliothèque Scientifique</span>
+                <span class="nav-badge">4</span>
+              </a>
+            <a href="reseau.html" class="nav-item ">
+        <span class="nav-icon">🤝</span>
+        <span>Réseau des Chercheurs</span>
+              </a>
+      
+      <div class="nav-section-label" style="margin-top:8px;">COMPTE</div>
+      <a href="profil.html" class="nav-item ">
+        <span class="nav-icon">👤</span>
+        <span>Mon Profil</span>
+      </a>
+      <a href="actualites.html" class="nav-item ">
+        <span class="nav-icon">📰</span>
+        <span>Actualités</span>
+      </a>
+      <a href="parametres.html" class="nav-item ">
+        <span class="nav-icon">⚙️</span>
+        <span>Paramètres</span>
+      </a>
+      <a href="admin.html" class="nav-item ">
+        <span class="nav-icon">🔒</span>
+        <span>Administration</span>
+      </a>
+    </nav>
+
+    <!-- Section aide -->
+    <div class="sidebar-help">
+      <div class="help-title">🤔 Besoin d'aide ?</div>
+      <div class="help-desc">Accédez à la documentation et au support technique.</div>
+      <a href="#" class="help-link">Consultez notre centre d'aide →</a>
+    </div>
+
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      
+      <!-- Hamburger (mobile) -->
+      <button class="header-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" style="display:none;" id="menuToggle">
+        ☰
+      </button>
+
+      <!-- Recherche globale -->
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Rechercher dans la plateforme ATLASIA..." id="globalSearch">
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <div class="header-btn" data-tooltip="Notifications" onclick="alert('Aucune nouvelle notification')">
+          🔔
+          <span class="notification-badge"></span>
+        </div>
+        <div class="header-btn" data-tooltip="Messages" onclick="alert('Messagerie')">💬</div>
+        <div class="header-btn" data-tooltip="Aide" onclick="alert('Centre d\'aide')">❓</div>
+        
+        <!-- User profile -->
+        <div class="header-user">
+          <div class="user-avatar">GA</div>
+          <div class="user-info">
+            <span class="user-name">Ghazi Abdessalam</span>
+            <span class="user-role">Chercheur Principal</span>
+          </div>
+          <span style="color:#94a3b8; margin-left:4px;">▾</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="page-content" id="pageContent">
+      <!-- Page header -->
+            <div class="page-header">
+        <div>
+          <h1 class="page-title">Bibliothèque Scientifique</h1>
+                    <p class="page-subtitle">Accédez aux études, rapports, journaux et ouvrages scientifiques</p>
+                  </div>
+                <div class="page-actions">
+  <button class="btn btn-outline btn-sm" onclick="openUploadModal()">📤 Déposer un document</button>
+  <button class="btn btn-primary" onclick="openUploadModal()">+ Ajouter une ressource</button>
+</div>
+              </div>
+      
+<!-- Stats rapides -->
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;">
+  <div class="stat-card" style="padding:16px;">
+    <div class="stat-icon blue">📚</div>
+    <div class="stat-body">
+      <div class="stat-label">Ouvrages scientifiques</div>
+      <div class="stat-value" style="font-size:22px;">1</div>
+    </div>
+  </div>
+  <div class="stat-card" style="padding:16px;">
+    <div class="stat-icon orange">📰</div>
+    <div class="stat-body">
+      <div class="stat-label">Articles de presse</div>
+      <div class="stat-value" style="font-size:22px;">3</div>
+    </div>
+  </div>
+  <div class="stat-card" style="padding:16px;">
+    <div class="stat-icon green">📄</div>
+    <div class="stat-body">
+      <div class="stat-label">Total documents</div>
+      <div class="stat-value" style="font-size:22px;">4</div>
+    </div>
+  </div>
+  <div class="stat-card" style="padding:16px;">
+    <div class="stat-icon purple">🌐</div>
+    <div class="stat-body">
+      <div class="stat-label">Langues</div>
+      <div class="stat-value" style="font-size:22px;">2</div>
+    </div>
+  </div>
+</div>
+
+<!-- Filtres + Recherche -->
+<div class="card" style="margin-bottom:18px;">
+  <div class="card-body" style="padding:16px;">
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+      <div style="flex:1;min-width:240px;position:relative;">
+        <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#94a3b8;">🔍</span>
+        <input type="text" class="form-input" id="libSearch" placeholder="Rechercher un document, auteur, thème..." style="padding-left:34px;" oninput="filterDocs()">
+      </div>
+      <select class="form-select" style="width:160px;" id="typeFilter" onchange="filterDocs()">
+                <option>Tous</option>
+                <option>Ouvrage scientifique</option>
+                <option>Presse</option>
+                <option>Rapport</option>
+                <option>Étude</option>
+                <option>Thèse</option>
+              </select>
+      <select class="form-select" style="width:140px;" id="langFilter" onchange="filterDocs()">
+                <option>Toutes</option>
+                <option>Arabe</option>
+                <option>Français</option>
+                <option>Anglais</option>
+              </select>
+      <button class="btn btn-outline btn-sm" onclick="resetFilters()">✕ Réinitialiser</button>
+    </div>
+  </div>
+</div>
+
+<!-- Liste des documents -->
+<div id="docsGrid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
+    <div class="file-card" data-type="Presse" data-lang="Arabe" data-title="جريدة المساء المغربية — 01 يوليوز 2026 journal al massa marocain — 1er juillet 2026 al massa">
+    <div class="file-icon pdf" style="background:#fee2e2;font-size:24px;width:52px;height:52px;">
+      📰    </div>
+    <div style="flex:1;min-width:0;">
+      <div style="font-size:12px;color:#64748b;font-weight:500;margin-bottom:3px;">
+        <span class="badge badge-warning">Presse</span>
+        <span style="margin-left:6px;">🌐 Arabe</span>
+        <span style="margin-left:6px;">📄 24 pages</span>
+      </div>
+      <div class="file-name">Journal Al Massa Marocain — 1er Juillet 2026</div>
+            <div style="font-size:12px;color:#64748b;margin-bottom:4px;direction:rtl;text-align:right;font-style:italic;">جريدة المساء المغربية — 01 يوليوز 2026</div>
+            <div class="file-meta">✍️ Al Massa &nbsp;|&nbsp; 📅 01/07/2026</div>
+      <div style="font-size:12px;color:#475569;margin-top:5px;line-height:1.5;">Édition du quotidien Al Massa — couverture des actualités sociales, politiques et économiques du Maroc.</div>
+      <div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;">
+                <span class="tag tag-blue">Actualités</span>
+                <span class="tag tag-blue">Société</span>
+                <span class="tag tag-blue">Presse</span>
+              </div>
+      <div class="file-actions">
+        <button class="btn btn-primary btn-sm" onclick="openPDF('uploads/almassa-01-07-2026.pdf')">👁️ Consulter</button>
+        <button class="btn btn-outline btn-sm" onclick="downloadDoc(1)">⬇️ Télécharger</button>
+        <button class="btn btn-outline btn-sm" onclick="analyzeWithAI(1,'Journal Al Massa Marocain — 1er Juillet 2026')">🤖 Analyser IA</button>
+      </div>
+    </div>
+  </div>
+    <div class="file-card" data-type="Presse" data-lang="Arabe" data-title="جريدة المساء المغربية — 01/02/03 ماي 2026 journal al massa marocain — 1-2-3 mai 2026 al massa">
+    <div class="file-icon pdf" style="background:#fee2e2;font-size:24px;width:52px;height:52px;">
+      📰    </div>
+    <div style="flex:1;min-width:0;">
+      <div style="font-size:12px;color:#64748b;font-weight:500;margin-bottom:3px;">
+        <span class="badge badge-warning">Presse</span>
+        <span style="margin-left:6px;">🌐 Arabe</span>
+        <span style="margin-left:6px;">📄 48 pages</span>
+      </div>
+      <div class="file-name">Journal Al Massa Marocain — 1-2-3 Mai 2026</div>
+            <div style="font-size:12px;color:#64748b;margin-bottom:4px;direction:rtl;text-align:right;font-style:italic;">جريدة المساء المغربية — 01/02/03 ماي 2026</div>
+            <div class="file-meta">✍️ Al Massa &nbsp;|&nbsp; 📅 01-03/05/2026</div>
+      <div style="font-size:12px;color:#475569;margin-top:5px;line-height:1.5;">Édition spéciale 3 jours du quotidien Al Massa — dossiers thématiques sur l'économie et la société marocaine.</div>
+      <div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;">
+                <span class="tag tag-blue">Actualités</span>
+                <span class="tag tag-blue">Économie</span>
+                <span class="tag tag-blue">Social</span>
+              </div>
+      <div class="file-actions">
+        <button class="btn btn-primary btn-sm" onclick="openPDF('uploads/almassa-01-03-05-2026.pdf')">👁️ Consulter</button>
+        <button class="btn btn-outline btn-sm" onclick="downloadDoc(2)">⬇️ Télécharger</button>
+        <button class="btn btn-outline btn-sm" onclick="analyzeWithAI(2,'Journal Al Massa Marocain — 1-2-3 Mai 2026')">🤖 Analyser IA</button>
+      </div>
+    </div>
+  </div>
+    <div class="file-card" data-type="Presse" data-lang="Arabe" data-title="جريدة المساء المغربية — 01 دجنبر 2025 journal al massa marocain — 1er décembre 2025 al massa">
+    <div class="file-icon pdf" style="background:#fee2e2;font-size:24px;width:52px;height:52px;">
+      📰    </div>
+    <div style="flex:1;min-width:0;">
+      <div style="font-size:12px;color:#64748b;font-weight:500;margin-bottom:3px;">
+        <span class="badge badge-warning">Presse</span>
+        <span style="margin-left:6px;">🌐 Arabe</span>
+        <span style="margin-left:6px;">📄 24 pages</span>
+      </div>
+      <div class="file-name">Journal Al Massa Marocain — 1er Décembre 2025</div>
+            <div style="font-size:12px;color:#64748b;margin-bottom:4px;direction:rtl;text-align:right;font-style:italic;">جريدة المساء المغربية — 01 دجنبر 2025</div>
+            <div class="file-meta">✍️ Al Massa &nbsp;|&nbsp; 📅 01/12/2025</div>
+      <div style="font-size:12px;color:#475569;margin-top:5px;line-height:1.5;">Édition du 1er décembre 2025 du quotidien Al Massa — actualités et analyses sociales.</div>
+      <div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;">
+                <span class="tag tag-blue">Actualités</span>
+                <span class="tag tag-blue">Politique</span>
+                <span class="tag tag-blue">Social</span>
+              </div>
+      <div class="file-actions">
+        <button class="btn btn-primary btn-sm" onclick="openPDF('uploads/almassa-01-12-2025.pdf')">👁️ Consulter</button>
+        <button class="btn btn-outline btn-sm" onclick="downloadDoc(3)">⬇️ Télécharger</button>
+        <button class="btn btn-outline btn-sm" onclick="analyzeWithAI(3,'Journal Al Massa Marocain — 1er Décembre 2025')">🤖 Analyser IA</button>
+      </div>
+    </div>
+  </div>
+    <div class="file-card" data-type="Ouvrage scientifique" data-lang="Anglais" data-title="social relationships: cognitive, affective and motivational perspectives relations sociales : perspectives cognitives, affectives et motivationnelles joseph p. forgas, julie fitness (eds.)">
+    <div class="file-icon pdf" style="background:#d1fae5;font-size:24px;width:52px;height:52px;">
+      📚    </div>
+    <div style="flex:1;min-width:0;">
+      <div style="font-size:12px;color:#64748b;font-weight:500;margin-bottom:3px;">
+        <span class="badge badge-info">Ouvrage scientifique</span>
+        <span style="margin-left:6px;">🌐 Anglais</span>
+        <span style="margin-left:6px;">📄 390 pages</span>
+      </div>
+      <div class="file-name">Relations Sociales : Perspectives Cognitives, Affectives et Motivationnelles</div>
+            <div style="font-size:12px;color:#64748b;margin-bottom:4px;direction:rtl;text-align:right;font-style:italic;">Social Relationships: Cognitive, Affective and Motivational Perspectives</div>
+            <div class="file-meta">✍️ Joseph P. Forgas, Julie Fitness (Eds.) &nbsp;|&nbsp; 📅 2008</div>
+      <div style="font-size:12px;color:#475569;margin-top:5px;line-height:1.5;">Cet ouvrage académique explore les dimensions cognitives, affectives et motivationnelles des relations sociales humaines. Édité par Forgas et Fitness, il rassemble des contributions de chercheurs internationaux en psychologie sociale.</div>
+      <div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;">
+                <span class="tag tag-blue">Psychologie Sociale</span>
+                <span class="tag tag-blue">Relations Humaines</span>
+                <span class="tag tag-blue">Cognition</span>
+                <span class="tag tag-blue">Motivation</span>
+              </div>
+      <div class="file-actions">
+        <button class="btn btn-primary btn-sm" onclick="openPDF('uploads/social-relationships.pdf')">👁️ Consulter</button>
+        <button class="btn btn-outline btn-sm" onclick="downloadDoc(4)">⬇️ Télécharger</button>
+        <button class="btn btn-outline btn-sm" onclick="analyzeWithAI(4,'Relations Sociales : Perspectives Cognitives, Affectives et Motivationnelles')">🤖 Analyser IA</button>
+      </div>
+    </div>
+  </div>
+  </div>
+
+<div id="noResults" style="display:none;" class="empty-state">
+  <div class="empty-icon">📭</div>
+  <div class="empty-title">Aucun document trouvé</div>
+  <div class="empty-desc">Modifiez vos critères de recherche ou ajoutez de nouveaux documents.</div>
+</div>
+
+<!-- Modal Upload -->
+<div class="modal-overlay" id="uploadModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📤 Déposer un document</div>
+      <div class="modal-close" onclick="closeUpload()">✕</div>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Titre du document</label>
+        <input class="form-input" placeholder="Ex : Enquête sur les conditions de vie 2025">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Type</label>
+          <select class="form-select">
+            <option>Ouvrage scientifique</option><option>Presse</option><option>Rapport</option><option>Étude</option><option>Thèse</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Langue</label>
+          <select class="form-select">
+            <option>Arabe</option><option>Français</option><option>Anglais</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Auteur(s)</label>
+        <input class="form-input" placeholder="Nom(s) de l'auteur ou de l'institution">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-textarea" style="min-height:80px;" placeholder="Résumé du document..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Fichier PDF</label>
+        <div style="border:2px dashed #cbd5e1;border-radius:10px;padding:28px;text-align:center;cursor:pointer;background:#f8fafc;" onclick="document.getElementById('fileInput').click()">
+          <div style="font-size:36px;margin-bottom:8px;">📁</div>
+          <div style="font-size:14px;font-weight:600;color:#475569;">Glissez un fichier PDF ici</div>
+          <div style="font-size:12px;color:#94a3b8;margin-top:4px;">ou cliquez pour sélectionner</div>
+          <input type="file" id="fileInput" accept=".pdf" style="display:none;" onchange="this.parentElement.querySelector('div:nth-child(2)').textContent=this.files[0]?.name||'Glissez un fichier PDF ici'">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeUpload()">Annuler</button>
+      <button class="btn btn-primary" onclick="alert('Document déposé avec succès ! Il sera validé par un administrateur.');closeUpload()">✅ Soumettre</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Visionneuse PDF -->
+<div class="modal-overlay" id="pdfModal" style="align-items:stretch;padding:20px;">
+  <div class="modal" style="max-width:900px;width:100%;height:100%;display:flex;flex-direction:column;">
+    <div class="modal-header">
+      <div class="modal-title" id="pdfModalTitle">Visionneuse de document</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn btn-outline btn-sm" onclick="closePDFViewer()">✕ Fermer</button>
+      </div>
+    </div>
+    <iframe id="pdfFrame" style="flex:1;border:none;width:100%;min-height:500px;border-radius:0 0 14px 14px;" src=""></iframe>
+  </div>
+</div>
+
+<script>
+function openUploadModal() {
+  document.getElementById('uploadModal').classList.add('open');
+}
+function closeUpload() {
+  document.getElementById('uploadModal').classList.remove('open');
+}
+
+function openPDF(file) {
+  const modal = document.getElementById('pdfModal');
+  document.getElementById('pdfFrame').src = file;
+  modal.classList.add('open');
+}
+function closePDFViewer() {
+  document.getElementById('pdfModal').classList.remove('open');
+  document.getElementById('pdfFrame').src = '';
+}
+
+function downloadDoc(id) {
+  alert('Téléchargement du document #' + id + ' en cours...');
+}
+
+function analyzeWithAI(id, title) {
+  alert('🤖 Analyse IA en cours pour :\n"' + title + '"\n\nL\'IA va extraire :\n• Résumé automatique\n• Mots-clés principaux\n• Indicateurs sociaux identifiés\n• Recommandations\n\nRésultats disponibles dans AI Research Studio.');
+}
+
+function filterDocs() {
+  const q    = document.getElementById('libSearch').value.toLowerCase();
+  const type = document.getElementById('typeFilter').value;
+  const lang = document.getElementById('langFilter').value;
+  let visible = 0;
+  document.querySelectorAll('.file-card').forEach(card => {
+    const matchQ    = card.dataset.title.includes(q);
+    const matchType = type === 'Tous' || card.dataset.type === type;
+    const matchLang = lang === 'Toutes' || card.dataset.lang === lang;
+    const show = matchQ && matchType && matchLang;
+    card.style.display = show ? 'flex' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+}
+
+function resetFilters() {
+  document.getElementById('libSearch').value = '';
+  document.getElementById('typeFilter').value = 'Tous';
+  document.getElementById('langFilter').value = 'Toutes';
+  filterDocs();
+}
+
+// Close modals on outside click
+['uploadModal','pdfModal'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.classList.remove('open');
+      if (id === 'pdfModal') document.getElementById('pdfFrame').src = '';
+    }
+  });
+});
+</script>
+
+    </div><!-- end page-content -->
+  </div><!-- end main-content -->
+</div><!-- end app-layout -->
+
+<!-- ===== MODAL IA EMBARQUÉE (Charte · Principe 7 : IA embarquée) ===== -->
+<div class="ai-modal-overlay" id="aiModalOverlay" onclick="if(event.target===this)closeAiModal()">
+  <div class="ai-modal" role="dialog" aria-modal="true">
+    <div class="ai-modal-head">
+      <div class="ai-modal-title"><span>✨</span> <span id="aiModalTitle">Assistant d'analyse ATLASIA</span></div>
+      <button class="ai-modal-close" onclick="closeAiModal()" aria-label="Fermer">×</button>
+    </div>
+    <div class="ai-modal-body" id="aiModalBody"></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   IA EMBARQUÉE ATLASIA — grounded sur les données disponibles
+   Chaque page enregistre ses analyses dans window.ATLASIA_AI[cle].
+   Une analyse = { title, interpretation, tendance, recommandation, source }
+   Conforme à la Charte : réponses fondées uniquement sur les données
+   de la plateforme, avec mention explicite des sources.
+   ===================================================================== */
+window.ATLASIA_AI = window.ATLASIA_AI || {};
+
+function _aiRender(a){
+  var html = '';
+  if(a.interpretation){ html += '<h4>🔎 Interprétation potentielle</h4><p>'+a.interpretation+'</p>'; }
+  if(a.tendance){ html += '<h4>📈 Tendance prospective</h4><p>'+a.tendance+'</p>'; }
+  if(a.recommandation){ html += '<h4>🎯 Recommandation opérationnelle</h4><p>'+a.recommandation+'</p>'; }
+  if(a.resume){ html += '<h4>📝 Synthèse</h4><p>'+a.resume+'</p>'; }
+  html += '<p class="ai-source">'+(a.source ? ('Source : '+a.source+'. ') : '')+
+          'Lecture analytique fondée sur les données disponibles dans la plateforme — non une vérité absolue.</p>';
+  return html;
+}
+
+var _aiCurrent = null; // { key, title, a }
+
+function _aiFooterHTML(){
+  return '<div class="ai-ask">'+
+    '<textarea id="aiQuestion" class="ai-ask-input" rows="2" '+
+      'placeholder="Posez une question sur ces données (optionnel)…"></textarea>'+
+    '<button class="ai-btn" onclick="atlasiaAsk()"><span class="ai-spark">✨</span> Demander à l\'IA</button>'+
+  '</div>';
+}
+
+// Appelle le proxy IA générative (api/ai.php). Repli local géré côté serveur.
+function _aiCall(payload, body){
+  fetch('api/ai.php', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).then(function(r){ return r.json(); })
+    .then(function(res){
+      var badge = res.mode === 'ai'
+        ? '<span class="ai-mode ai-mode-live">✨ IA générative</span>'
+        : '<span class="ai-mode ai-mode-local">🔒 Analyse locale</span>';
+      body.innerHTML = badge + (res.text || '') + _aiFooterHTML();
+    })
+    .catch(function(){
+      // réseau totalement indisponible => rendu local pur
+      body.innerHTML = (_aiCurrent && _aiCurrent.a ? _aiRender(_aiCurrent.a)
+        : '<p>Service IA indisponible.</p>') + _aiFooterHTML();
+    });
+}
+
+function atlasiaAI(key, title){
+  var overlay = document.getElementById('aiModalOverlay');
+  var body = document.getElementById('aiModalBody');
+  var titleEl = document.getElementById('aiModalTitle');
+  var a = window.ATLASIA_AI[key] || null;
+  _aiCurrent = { key:key, title:(a && a.title) ? a.title : (title||''), a:a };
+  titleEl.textContent = _aiCurrent.title || "Assistant d'analyse ATLASIA";
+  overlay.classList.add('open');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> Analyse des données disponibles…</div>';
+  _aiCall({ key:key, title:_aiCurrent.title, context:(a||{}) }, body);
+}
+
+// Question libre de l'utilisateur sur le même élément (grounding conservé).
+function atlasiaAsk(){
+  var q = (document.getElementById('aiQuestion')||{}).value || '';
+  if(!q.trim()){ return; }
+  var body = document.getElementById('aiModalBody');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> L\'IA analyse votre question…</div>';
+  var a = _aiCurrent ? _aiCurrent.a : null;
+  _aiCall({ key:(_aiCurrent&&_aiCurrent.key)||'', title:(_aiCurrent&&_aiCurrent.title)||'',
+            context:(a||{}), question:q }, body);
+}
+function closeAiModal(){ document.getElementById('aiModalOverlay').classList.remove('open'); }
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAiModal(); });
+</script>
+
+<!-- Scripts globaux -->
+<script>
+// Init Lucide icons
+if (typeof lucide !== 'undefined') lucide.createIcons();
+
+// Mobile menu toggle
+function initMobileMenu() {
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900) {
+    if (toggle) toggle.style.display = 'flex';
+  } else {
+    if (toggle) toggle.style.display = 'none';
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) sidebar.classList.remove('open');
+  }
+}
+window.addEventListener('resize', initMobileMenu);
+initMobileMenu();
+
+// Close sidebar on outside click (mobile)
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900 && sidebar && !sidebar.contains(e.target) && e.target !== toggle) {
+    sidebar.classList.remove('open');
+  }
+});
+
+// Search global
+document.getElementById('globalSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  if (q.length >= 3) {
+    console.log('Recherche:', q);
+  }
+});
+
+// Sidebar search
+document.getElementById('sidebarSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(q) ? '' : 'none';
+  });
+});
+
+// Animate cards on load
+document.querySelectorAll('.stat-card, .card, .project-card, .file-card').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(12px)';
+  setTimeout(() => {
+    el.style.transition = 'opacity .3s ease, transform .3s ease';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, i * 60);
+});
+</script>
+
+
+</body>
+</html>

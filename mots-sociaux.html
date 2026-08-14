@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mots sociaux du web — ATLASIA</title>
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Leaflet.js pour la carte -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  
+  <!-- Chart.js pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  
+  <style>
+    /* Overrides spécifiques à la page */
+      </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-icon">A</div>
+      <div class="logo-text">
+        <span class="logo-name">ATLASIA</span>
+        <span class="logo-tagline">Mapping Society · Powering Insight</span>
+      </div>
+    </div>
+
+    <!-- Recherche dans la sidebar -->
+    <div class="sidebar-search">
+      <input type="text" placeholder="Rechercher dans la plateforme..." id="sidebarSearch">
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">PLATEFORME</div>
+      
+            <a href="dashboard.html" class="nav-item ">
+        <span class="nav-icon">⚡</span>
+        <span>Intelligence Stratégique</span>
+              </a>
+            <a href="espaces-travail.html" class="nav-item ">
+        <span class="nav-icon">📁</span>
+        <span>Espaces de Travail</span>
+                <span class="nav-badge">3</span>
+              </a>
+            <a href="production.html" class="nav-item ">
+        <span class="nav-icon">📊</span>
+        <span>Production & Collecte</span>
+              </a>
+            <a href="referentiel.html" class="nav-item ">
+        <span class="nav-icon">🗄️</span>
+        <span>Référentiel de Données</span>
+              </a>
+            <a href="ai-studio.html" class="nav-item ">
+        <span class="nav-icon">🤖</span>
+        <span>AI Research Studio</span>
+                <span class="nav-badge">IA</span>
+              </a>
+            <a href="observatoire.html" class="nav-item ">
+        <span class="nav-icon">🔭</span>
+        <span>Observatoire Social</span>
+              </a>
+            <a href="observatoire-psychosocial.html" class="nav-item ">
+        <span class="nav-icon">🧠</span>
+        <span>Dynamiques Psychosociales</span>
+                <span class="nav-badge">V2</span>
+              </a>
+            <a href="mots-sociaux.html" class="nav-item active">
+        <span class="nav-icon">☁️</span>
+        <span>Mots sociaux du web</span>
+                <span class="nav-badge">✨</span>
+              </a>
+            <a href="bibliotheque.html" class="nav-item ">
+        <span class="nav-icon">📚</span>
+        <span>Bibliothèque Scientifique</span>
+                <span class="nav-badge">4</span>
+              </a>
+            <a href="reseau.html" class="nav-item ">
+        <span class="nav-icon">🤝</span>
+        <span>Réseau des Chercheurs</span>
+              </a>
+      
+      <div class="nav-section-label" style="margin-top:8px;">COMPTE</div>
+      <a href="profil.html" class="nav-item ">
+        <span class="nav-icon">👤</span>
+        <span>Mon Profil</span>
+      </a>
+      <a href="actualites.html" class="nav-item ">
+        <span class="nav-icon">📰</span>
+        <span>Actualités</span>
+      </a>
+      <a href="parametres.html" class="nav-item ">
+        <span class="nav-icon">⚙️</span>
+        <span>Paramètres</span>
+      </a>
+      <a href="admin.html" class="nav-item ">
+        <span class="nav-icon">🔒</span>
+        <span>Administration</span>
+      </a>
+    </nav>
+
+    <!-- Section aide -->
+    <div class="sidebar-help">
+      <div class="help-title">🤔 Besoin d'aide ?</div>
+      <div class="help-desc">Accédez à la documentation et au support technique.</div>
+      <a href="#" class="help-link">Consultez notre centre d'aide →</a>
+    </div>
+
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      
+      <!-- Hamburger (mobile) -->
+      <button class="header-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" style="display:none;" id="menuToggle">
+        ☰
+      </button>
+
+      <!-- Recherche globale -->
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Rechercher dans la plateforme ATLASIA..." id="globalSearch">
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <div class="header-btn" data-tooltip="Notifications" onclick="alert('Aucune nouvelle notification')">
+          🔔
+          <span class="notification-badge"></span>
+        </div>
+        <div class="header-btn" data-tooltip="Messages" onclick="alert('Messagerie')">💬</div>
+        <div class="header-btn" data-tooltip="Aide" onclick="alert('Centre d\'aide')">❓</div>
+        
+        <!-- User profile -->
+        <div class="header-user">
+          <div class="user-avatar">GA</div>
+          <div class="user-info">
+            <span class="user-name">Ghazi Abdessalam</span>
+            <span class="user-role">Chercheur Principal</span>
+          </div>
+          <span style="color:#94a3b8; margin-left:4px;">▾</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="page-content" id="pageContent">
+      <!-- Page header -->
+            <div class="page-header">
+        <div>
+          <h1 class="page-title">Mots sociaux du web</h1>
+                    <p class="page-subtitle">Les termes sociaux les plus utilisés dans la presse marocaine — taille proportionnelle à la fréquence réelle</p>
+                  </div>
+              </div>
+      
+<!-- ===== SYNTHÈSE EXÉCUTIVE ===== -->
+<div class="exec-summary">
+  <div class="exec-summary-title">🎯 Synthèse exécutive — 3 messages clés</div>
+  <div class="exec-messages">
+    <div class="exec-msg msg-info">
+      <div class="exec-msg-icon">🔤</div>
+      <div class="exec-msg-text">Le mot social le plus présent dans la presse est « <strong>Migration</strong> » (136 occurrences).</div>
+      <div class="ai-actions"><button class="ai-btn" onclick="atlasiaAI('ms_top')"><span class="ai-spark">✨</span> En savoir plus</button></div>
+    </div>
+    <div class="exec-msg msg-success">
+      <div class="exec-msg-icon">📰</div>
+      <div class="exec-msg-text">400 articles analysés, 539 occurrences de 24 mots sociaux détectées.</div>
+      <div class="ai-actions"><button class="ai-btn" onclick="atlasiaAI('ms_corpus')"><span class="ai-spark">✨</span> En savoir plus</button></div>
+    </div>
+    <div class="exec-msg msg-warning">
+      <div class="exec-msg-icon">📈</div>
+      <div class="exec-msg-text">Les termes économiques et sociaux (emploi, prix, santé, éducation) structurent le climat social observé.</div>
+      <div class="ai-actions"><button class="ai-btn" onclick="atlasiaAI('ms_lecture')"><span class="ai-spark">✨</span> En savoir plus</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== NUAGE DE MOTS (centre) ===== -->
+<div class="card" style="margin-bottom:16px;">
+  <div class="card-header">
+    <div class="card-title">☁️ Nuage des mots sociaux — taille ∝ fréquence réelle</div>
+    <span class="badge badge-info">400 articles · MàJ 04/08/2026 11:04</span>
+  </div>
+  <div class="card-body">
+    <p style="font-size:13px; color:#64748b; margin:0 0 14px;">
+      Chaque mot est dimensionné <strong>proportionnellement au nombre de fois où il apparaît</strong> dans le corpus de presse marocaine.
+      Plus un mot est grand et foncé, plus il est présent dans l'actualité. <strong>Cliquez sur un mot</strong> pour son détail.
+    </p>
+    <div class="wordcloud wordcloud-xl" id="wordcloud"></div>
+    <div class="ai-actions">
+      <button class="ai-btn" onclick="atlasiaAI('ms_nuage')"><span class="ai-spark">✨</span> Générer un résumé du nuage</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CLASSEMENT (barres) ===== -->
+<div class="card" style="margin-bottom:16px;">
+  <div class="card-header">
+    <div class="card-title">🏆 Classement des mots sociaux</div>
+  </div>
+  <div class="card-body">
+    <div class="topic-list">
+            <div class="topic-item">
+        <div class="topic-rank">1</div>
+        <div class="topic-main">
+          <div class="topic-name">Migration</div>
+          <div class="topic-meta">136 occurrences · 61 articles · surtout à Rabat-Salé-Kénitra, Tanger-Tétouan-Al Hoceïma</div>
+          <div class="topic-bar"><span style="width:100%"></span></div>
+        </div>
+        <div class="topic-trend flat">136</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">2</div>
+        <div class="topic-main">
+          <div class="topic-name">Femmes</div>
+          <div class="topic-meta">55 occurrences · 21 articles · surtout à Rabat-Salé-Kénitra, Guelmim-Oued Noun</div>
+          <div class="topic-bar"><span style="width:40%"></span></div>
+        </div>
+        <div class="topic-trend flat">55</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">3</div>
+        <div class="topic-main">
+          <div class="topic-name">Prix</div>
+          <div class="topic-meta">45 occurrences · 11 articles · surtout à Fès-Meknès, Tanger-Tétouan-Al Hoceïma</div>
+          <div class="topic-bar"><span style="width:33%"></span></div>
+        </div>
+        <div class="topic-trend flat">45</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">4</div>
+        <div class="topic-main">
+          <div class="topic-name">Investissement</div>
+          <div class="topic-meta">37 occurrences · 24 articles · surtout à Casablanca-Settat, Tanger-Tétouan-Al Hoceïma</div>
+          <div class="topic-bar"><span style="width:27%"></span></div>
+        </div>
+        <div class="topic-trend flat">37</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">5</div>
+        <div class="topic-main">
+          <div class="topic-name">Justice</div>
+          <div class="topic-meta">32 occurrences · 16 articles · surtout à Casablanca-Settat, L&#039;Oriental</div>
+          <div class="topic-bar"><span style="width:24%"></span></div>
+        </div>
+        <div class="topic-trend flat">32</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">6</div>
+        <div class="topic-main">
+          <div class="topic-name">Éducation</div>
+          <div class="topic-meta">30 occurrences · 22 articles · surtout à Tanger-Tétouan-Al Hoceïma, Guelmim-Oued Noun</div>
+          <div class="topic-bar"><span style="width:22%"></span></div>
+        </div>
+        <div class="topic-trend flat">30</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">7</div>
+        <div class="topic-main">
+          <div class="topic-name">Santé</div>
+          <div class="topic-meta">30 occurrences · 16 articles · surtout à Rabat-Salé-Kénitra, Tanger-Tétouan-Al Hoceïma</div>
+          <div class="topic-bar"><span style="width:22%"></span></div>
+        </div>
+        <div class="topic-trend flat">30</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">8</div>
+        <div class="topic-main">
+          <div class="topic-name">Jeunesse</div>
+          <div class="topic-meta">29 occurrences · 17 articles · surtout à Tanger-Tétouan-Al Hoceïma, Guelmim-Oued Noun</div>
+          <div class="topic-bar"><span style="width:21%"></span></div>
+        </div>
+        <div class="topic-trend flat">29</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">9</div>
+        <div class="topic-main">
+          <div class="topic-name">Emploi</div>
+          <div class="topic-meta">27 occurrences · 12 articles · surtout à Guelmim-Oued Noun, Dakhla-Oued Ed-Dahab</div>
+          <div class="topic-bar"><span style="width:20%"></span></div>
+        </div>
+        <div class="topic-trend flat">27</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">10</div>
+        <div class="topic-main">
+          <div class="topic-name">Sécurité</div>
+          <div class="topic-meta">26 occurrences · 13 articles · surtout à Laâyoune-Sakia El Hamra, Rabat-Salé-Kénitra</div>
+          <div class="topic-bar"><span style="width:19%"></span></div>
+        </div>
+        <div class="topic-trend flat">26</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">11</div>
+        <div class="topic-main">
+          <div class="topic-name">Chômage</div>
+          <div class="topic-meta">22 occurrences · 10 articles · surtout à Guelmim-Oued Noun, Rabat-Salé-Kénitra</div>
+          <div class="topic-bar"><span style="width:16%"></span></div>
+        </div>
+        <div class="topic-trend flat">22</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">12</div>
+        <div class="topic-main">
+          <div class="topic-name">Eau</div>
+          <div class="topic-meta">12 occurrences · 2 articles · surtout à L&#039;Oriental</div>
+          <div class="topic-bar"><span style="width:9%"></span></div>
+        </div>
+        <div class="topic-trend flat">12</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">13</div>
+        <div class="topic-main">
+          <div class="topic-name">Cherté de la vie</div>
+          <div class="topic-meta">9 occurrences · 3 articles · surtout à Fès-Meknès</div>
+          <div class="topic-bar"><span style="width:7%"></span></div>
+        </div>
+        <div class="topic-trend flat">9</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">14</div>
+        <div class="topic-main">
+          <div class="topic-name">Numérique</div>
+          <div class="topic-meta">9 occurrences · 4 articles · surtout à Tanger-Tétouan-Al Hoceïma</div>
+          <div class="topic-bar"><span style="width:7%"></span></div>
+        </div>
+        <div class="topic-trend flat">9</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">15</div>
+        <div class="topic-main">
+          <div class="topic-name">Grève</div>
+          <div class="topic-meta">8 occurrences · 4 articles · surtout à Fès-Meknès, Casablanca-Settat</div>
+          <div class="topic-bar"><span style="width:6%"></span></div>
+        </div>
+        <div class="topic-trend flat">8</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">16</div>
+        <div class="topic-main">
+          <div class="topic-name">Environnement</div>
+          <div class="topic-meta">8 occurrences · 7 articles</div>
+          <div class="topic-bar"><span style="width:6%"></span></div>
+        </div>
+        <div class="topic-trend flat">8</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">17</div>
+        <div class="topic-main">
+          <div class="topic-name">Retraite</div>
+          <div class="topic-meta">8 occurrences · 5 articles · surtout à Tanger-Tétouan-Al Hoceïma</div>
+          <div class="topic-bar"><span style="width:6%"></span></div>
+        </div>
+        <div class="topic-trend flat">8</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">18</div>
+        <div class="topic-main">
+          <div class="topic-name">Manifestation</div>
+          <div class="topic-meta">4 occurrences · 4 articles · surtout à Fès-Meknès</div>
+          <div class="topic-bar"><span style="width:3%"></span></div>
+        </div>
+        <div class="topic-trend flat">4</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">19</div>
+        <div class="topic-main">
+          <div class="topic-name">Transport</div>
+          <div class="topic-meta">3 occurrences · 1 articles</div>
+          <div class="topic-bar"><span style="width:2%"></span></div>
+        </div>
+        <div class="topic-trend flat">3</div>
+      </div>
+            <div class="topic-item">
+        <div class="topic-rank">20</div>
+        <div class="topic-main">
+          <div class="topic-name">Inégalités</div>
+          <div class="topic-meta">3 occurrences · 2 articles</div>
+          <div class="topic-bar"><span style="width:2%"></span></div>
+        </div>
+        <div class="topic-trend flat">3</div>
+      </div>
+          </div>
+  </div>
+</div>
+
+<!-- ===== SOURCES ===== -->
+<div class="card" style="margin-bottom:16px;">
+  <div class="card-header"><div class="card-title">🗄️ Sources des données</div></div>
+  <div class="card-body">
+    <div style="display:flex; flex-wrap:wrap; gap:10px;">
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Hespress FR</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Hespress — Économie</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Hespress — Société</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Hespress — Politique</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Hespress — Régions</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Hespress — Sport</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Hespress — Monde</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Medias24</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 TelQuel</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Yabiladi</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Le Site Info</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 La Vie Éco</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Challenge</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Aujourd&#039;hui le Maroc</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Barlamane</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Le Desk</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Bladi</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Maroc Local</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Le Reporter</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 EcoActu</span>
+          </div>
+    <p style="margin-top:12px; font-size:13px; color:#64748b;">
+      Fréquences calculées sur les titres et chapôs des articles RSS de la presse marocaine publique.
+      Dernière mise à jour : <strong>04/08/2026 11:04</strong>.
+      Actualisable depuis <a href="admin.html">l'administration</a> (bouton « Rafraîchir »).
+    </p>
+  </div>
+</div>
+
+<!-- ===== FENÊTRE MOT ===== -->
+<div class="psy-drawer" id="wordDrawer">
+  <div class="drawer-head">
+    <div class="drawer-title" id="wordTitle">Mot</div>
+    <button class="drawer-close" onclick="closeWordDrawer()" aria-label="Fermer">×</button>
+  </div>
+  <div class="drawer-body" id="wordBody"></div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  window.ATLASIA_AI = window.ATLASIA_AI || {};
+  const top = MS_WORDS[0] || {mot:'—', freq:0};
+  Object.assign(window.ATLASIA_AI, {
+    ms_top: {
+      title: "Mot dominant — " + top.mot,
+      interpretation: "« " + top.mot + " » est le terme social le plus fréquent du corpus (" + top.freq + " occurrences), présent surtout à " + ((top.regions||[]).join(", ")||"l'échelle nationale") + ".",
+      tendance: "Un terme dominant durablement peut signaler une préoccupation sociale structurante.",
+      recommandation: "Suivre l'évolution de ce mot dans le temps et le croiser avec les indicateurs économiques.",
+      source: "Corpus presse ATLASIA (" + MS_MAJ + ")"
+    },
+    ms_corpus: {
+      title: "Corpus analysé",
+      interpretation: "Le nuage repose sur un corpus réel d'articles de presse marocaine, dont on extrait les mots sociaux et leur fréquence.",
+      tendance: "Plus le corpus s'enrichit (rafraîchissements réguliers), plus le nuage reflète fidèlement le climat médiatique.",
+      recommandation: "Rafraîchir régulièrement le corpus depuis l'administration pour suivre les basculements.",
+      source: "Corpus presse ATLASIA (" + MS_MAJ + ")"
+    },
+    ms_lecture: {
+      title: "Lecture du climat social",
+      interpretation: "La prégnance des termes économiques et sociaux traduit un climat sensible aux conditions matérielles (emploi, prix, services publics).",
+      tendance: "Ces marqueurs sont classiques d'un débat public centré sur le pouvoir d'achat et l'accès aux services.",
+      recommandation: "Prioriser les politiques sur l'emploi, le coût de la vie, la santé et l'éducation.",
+      source: "Corpus presse ATLASIA (" + MS_MAJ + ")"
+    },
+    ms_nuage: {
+      title: "Résumé du nuage de mots",
+      interpretation: "Les mots les plus grands du nuage sont ceux qui reviennent le plus dans l'actualité analysée : " + MS_WORDS.slice(0,6).map(w=>w.mot).join(", ") + ".",
+      tendance: "Cette hiérarchie visuelle offre une lecture immédiate des priorités médiatiques.",
+      recommandation: "Utiliser le nuage comme point d'entrée, puis explorer chaque mot pour le contexte.",
+      source: "Corpus presse ATLASIA (" + MS_MAJ + ")"
+    }
+  });
+
+  // ===== NUAGE DE MOTS — taille STRICTEMENT proportionnelle à la fréquence =====
+  const wc = document.getElementById("wordcloud");
+  if(wc && MS_WORDS.length){
+    const freqs = MS_WORDS.map(w => w.freq);
+    const min = Math.min(...freqs), max = Math.max(...freqs);
+    // échelle racine carrée pour une meilleure répartition visuelle (18 -> 76 px)
+    const MINF = 18, MAXF = 76;
+    const scale = f => {
+      const t = (Math.sqrt(f) - Math.sqrt(min)) / (Math.sqrt(max) - Math.sqrt(min) || 1);
+      return Math.round(MINF + t * (MAXF - MINF));
+    };
+    // mélange l'ordre pour un rendu "nuage" (pas un simple tri)
+    const shuffled = MS_WORDS.slice().sort(() => Math.random() - 0.5);
+    shuffled.forEach(w => {
+      const size = scale(w.freq);
+      const t = (w.freq - min) / (max - min || 1);
+      const light = 60 - Math.round(t * 35); // 60% (clair) -> 25% (foncé)
+      const el = document.createElement("span");
+      el.className = "word";
+      el.textContent = w.mot;
+      el.style.fontSize = size + "px";
+      el.style.color = "hsl(221, 65%, " + light + "%)";
+      el.title = w.freq + " occurrences";
+      el.onclick = () => openWordDrawer(w);
+      wc.appendChild(el);
+    });
+  }
+
+  window.openWordDrawer = function(w){
+    document.getElementById("wordTitle").textContent = "« " + w.mot + " »";
+    document.getElementById("wordBody").innerHTML =
+      "<div style=\'display:flex;flex-direction:column;gap:12px;font-size:14px;\'>" +
+        "<div><span style=\'color:#64748b\'>Fréquence d\'apparition</span><br><strong style=\'font-size:22px;color:#1e3a8a\'>" + w.freq + "</strong> occurrences</div>" +
+        "<div><span style=\'color:#64748b\'>Nombre d\'articles</span><br><strong>" + (w.etudes||0) + "</strong></div>" +
+        "<div><span style=\'color:#64748b\'>Régions où il est le plus présent</span><br><strong>" + ((w.regions||[]).join(", ")||"—") + "</strong></div>" +
+        "<div><span style=\'color:#64748b\'>Mots associés (co-occurrence)</span><br>" + ((w.associes||[]).map(m=>"<span class=\'badge badge-info\' style=\'margin:2px\'>"+m+"</span>").join(" ")||"—") + "</div>" +
+        "<div class=\'ai-actions\'><button class=\'ai-btn\' onclick=\"atlasiaAI(\'ms_mot\')\"><span class=\'ai-spark\'>✨</span> Analyser ce mot avec l\'IA</button></div>" +
+      "</div>";
+    window.ATLASIA_AI["ms_mot"] = {
+      title: "Analyse du mot « " + w.mot + " »",
+      interpretation: "Le terme « " + w.mot + " » apparaît " + w.freq + " fois dans " + (w.etudes||0) + " articles, associé à : " + ((w.associes||[]).join(", ")||"aucun terme") + ".",
+      tendance: "Sa co-occurrence avec ces termes dessine un champ thématique cohérent à surveiller.",
+      recommandation: "Explorer les articles où ce terme apparaît pour contextualiser et suivre son évolution.",
+      source: "Corpus presse ATLASIA (" + MS_MAJ + ")"
+    };
+    document.getElementById("wordDrawer").classList.add("open");
+  };
+  window.closeWordDrawer = function(){ document.getElementById("wordDrawer").classList.remove("open"); };
+});
+</script>
+
+    </div><!-- end page-content -->
+  </div><!-- end main-content -->
+</div><!-- end app-layout -->
+
+<!-- ===== MODAL IA EMBARQUÉE (Charte · Principe 7 : IA embarquée) ===== -->
+<div class="ai-modal-overlay" id="aiModalOverlay" onclick="if(event.target===this)closeAiModal()">
+  <div class="ai-modal" role="dialog" aria-modal="true">
+    <div class="ai-modal-head">
+      <div class="ai-modal-title"><span>✨</span> <span id="aiModalTitle">Assistant d'analyse ATLASIA</span></div>
+      <button class="ai-modal-close" onclick="closeAiModal()" aria-label="Fermer">×</button>
+    </div>
+    <div class="ai-modal-body" id="aiModalBody"></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   IA EMBARQUÉE ATLASIA — grounded sur les données disponibles
+   Chaque page enregistre ses analyses dans window.ATLASIA_AI[cle].
+   Une analyse = { title, interpretation, tendance, recommandation, source }
+   Conforme à la Charte : réponses fondées uniquement sur les données
+   de la plateforme, avec mention explicite des sources.
+   ===================================================================== */
+window.ATLASIA_AI = window.ATLASIA_AI || {};
+
+function _aiRender(a){
+  var html = '';
+  if(a.interpretation){ html += '<h4>🔎 Interprétation potentielle</h4><p>'+a.interpretation+'</p>'; }
+  if(a.tendance){ html += '<h4>📈 Tendance prospective</h4><p>'+a.tendance+'</p>'; }
+  if(a.recommandation){ html += '<h4>🎯 Recommandation opérationnelle</h4><p>'+a.recommandation+'</p>'; }
+  if(a.resume){ html += '<h4>📝 Synthèse</h4><p>'+a.resume+'</p>'; }
+  html += '<p class="ai-source">'+(a.source ? ('Source : '+a.source+'. ') : '')+
+          'Lecture analytique fondée sur les données disponibles dans la plateforme — non une vérité absolue.</p>';
+  return html;
+}
+
+var _aiCurrent = null; // { key, title, a }
+
+function _aiFooterHTML(){
+  return '<div class="ai-ask">'+
+    '<textarea id="aiQuestion" class="ai-ask-input" rows="2" '+
+      'placeholder="Posez une question sur ces données (optionnel)…"></textarea>'+
+    '<button class="ai-btn" onclick="atlasiaAsk()"><span class="ai-spark">✨</span> Demander à l\'IA</button>'+
+  '</div>';
+}
+
+// Appelle le proxy IA générative (api/ai.php). Repli local géré côté serveur.
+function _aiCall(payload, body){
+  fetch('api/ai.php', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).then(function(r){ return r.json(); })
+    .then(function(res){
+      var badge = res.mode === 'ai'
+        ? '<span class="ai-mode ai-mode-live">✨ IA générative</span>'
+        : '<span class="ai-mode ai-mode-local">🔒 Analyse locale</span>';
+      body.innerHTML = badge + (res.text || '') + _aiFooterHTML();
+    })
+    .catch(function(){
+      // réseau totalement indisponible => rendu local pur
+      body.innerHTML = (_aiCurrent && _aiCurrent.a ? _aiRender(_aiCurrent.a)
+        : '<p>Service IA indisponible.</p>') + _aiFooterHTML();
+    });
+}
+
+function atlasiaAI(key, title){
+  var overlay = document.getElementById('aiModalOverlay');
+  var body = document.getElementById('aiModalBody');
+  var titleEl = document.getElementById('aiModalTitle');
+  var a = window.ATLASIA_AI[key] || null;
+  _aiCurrent = { key:key, title:(a && a.title) ? a.title : (title||''), a:a };
+  titleEl.textContent = _aiCurrent.title || "Assistant d'analyse ATLASIA";
+  overlay.classList.add('open');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> Analyse des données disponibles…</div>';
+  _aiCall({ key:key, title:_aiCurrent.title, context:(a||{}) }, body);
+}
+
+// Question libre de l'utilisateur sur le même élément (grounding conservé).
+function atlasiaAsk(){
+  var q = (document.getElementById('aiQuestion')||{}).value || '';
+  if(!q.trim()){ return; }
+  var body = document.getElementById('aiModalBody');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> L\'IA analyse votre question…</div>';
+  var a = _aiCurrent ? _aiCurrent.a : null;
+  _aiCall({ key:(_aiCurrent&&_aiCurrent.key)||'', title:(_aiCurrent&&_aiCurrent.title)||'',
+            context:(a||{}), question:q }, body);
+}
+function closeAiModal(){ document.getElementById('aiModalOverlay').classList.remove('open'); }
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAiModal(); });
+</script>
+
+<!-- Scripts globaux -->
+<script>
+// Init Lucide icons
+if (typeof lucide !== 'undefined') lucide.createIcons();
+
+// Mobile menu toggle
+function initMobileMenu() {
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900) {
+    if (toggle) toggle.style.display = 'flex';
+  } else {
+    if (toggle) toggle.style.display = 'none';
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) sidebar.classList.remove('open');
+  }
+}
+window.addEventListener('resize', initMobileMenu);
+initMobileMenu();
+
+// Close sidebar on outside click (mobile)
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900 && sidebar && !sidebar.contains(e.target) && e.target !== toggle) {
+    sidebar.classList.remove('open');
+  }
+});
+
+// Search global
+document.getElementById('globalSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  if (q.length >= 3) {
+    console.log('Recherche:', q);
+  }
+});
+
+// Sidebar search
+document.getElementById('sidebarSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(q) ? '' : 'none';
+  });
+});
+
+// Animate cards on load
+document.querySelectorAll('.stat-card, .card, .project-card, .file-card').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(12px)';
+  setTimeout(() => {
+    el.style.transition = 'opacity .3s ease, transform .3s ease';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, i * 60);
+});
+</script>
+
+<script>
+const MS_WORDS = [{"mot":"Migration","freq":136,"etudes":61,"regions":["Rabat-Salé-Kénitra","Tanger-Tétouan-Al Hoceïma"],"associes":["Justice","Sécurité","Jeunesse","Éducation"]},{"mot":"Femmes","freq":55,"etudes":21,"regions":["Rabat-Salé-Kénitra","Guelmim-Oued Noun"],"associes":["Emploi","Chômage","Jeunesse","Inégalités"]},{"mot":"Prix","freq":45,"etudes":11,"regions":["Fès-Meknès","Tanger-Tétouan-Al Hoceïma"],"associes":["Cherté de la vie","Grève","Transport","Retraite"]},{"mot":"Investissement","freq":37,"etudes":24,"regions":["Casablanca-Settat","Tanger-Tétouan-Al Hoceïma"],"associes":["Éducation","Justice","Sécurité","Retraite"]},{"mot":"Justice","freq":32,"etudes":16,"regions":["Casablanca-Settat","L'Oriental"],"associes":["Migration","Investissement","Manifestation","Sécurité"]},{"mot":"Éducation","freq":30,"etudes":22,"regions":["Tanger-Tétouan-Al Hoceïma","Guelmim-Oued Noun"],"associes":["Santé","Jeunesse","Emploi","Environnement"]},{"mot":"Santé","freq":30,"etudes":16,"regions":["Rabat-Salé-Kénitra","Tanger-Tétouan-Al Hoceïma"],"associes":["Éducation","Emploi","Numérique","Sécurité"]},{"mot":"Jeunesse","freq":29,"etudes":17,"regions":["Tanger-Tétouan-Al Hoceïma","Guelmim-Oued Noun"],"associes":["Emploi","Éducation","Migration","Chômage"]},{"mot":"Emploi","freq":27,"etudes":12,"regions":["Guelmim-Oued Noun","Dakhla-Oued Ed-Dahab"],"associes":["Chômage","Jeunesse","Éducation","Femmes"]},{"mot":"Sécurité","freq":26,"etudes":13,"regions":["Laâyoune-Sakia El Hamra","Rabat-Salé-Kénitra"],"associes":["Migration","Investissement","Santé","Justice"]},{"mot":"Chômage","freq":22,"etudes":10,"regions":["Guelmim-Oued Noun","Rabat-Salé-Kénitra"],"associes":["Emploi","Jeunesse","Femmes","Éducation"]},{"mot":"Eau","freq":12,"etudes":2,"regions":["L'Oriental"],"associes":[]},{"mot":"Cherté de la vie","freq":9,"etudes":3,"regions":["Fès-Meknès"],"associes":["Prix","Grève","Transport"]},{"mot":"Numérique","freq":9,"etudes":4,"regions":["Tanger-Tétouan-Al Hoceïma"],"associes":["Emploi","Santé","Éducation"]},{"mot":"Grève","freq":8,"etudes":4,"regions":["Fès-Meknès","Casablanca-Settat"],"associes":["Cherté de la vie","Prix","Transport","Jeunesse"]},{"mot":"Environnement","freq":8,"etudes":7,"regions":[],"associes":["Jeunesse","Éducation","Emploi","Chômage"]},{"mot":"Retraite","freq":8,"etudes":5,"regions":["Tanger-Tétouan-Al Hoceïma"],"associes":["Prix","Investissement","Sécurité","Migration"]},{"mot":"Manifestation","freq":4,"etudes":4,"regions":["Fès-Meknès"],"associes":["Justice","Investissement","Prix"]},{"mot":"Transport","freq":3,"etudes":1,"regions":[],"associes":["Cherté de la vie","Prix","Grève"]},{"mot":"Inégalités","freq":3,"etudes":2,"regions":[],"associes":["Emploi","Chômage","Jeunesse","Femmes"]},{"mot":"Protection sociale","freq":2,"etudes":2,"regions":["Rabat-Salé-Kénitra"],"associes":["Santé"]},{"mot":"Tourisme","freq":2,"etudes":2,"regions":["Casablanca-Settat"],"associes":["Investissement"]},{"mot":"Agriculture","freq":1,"etudes":1,"regions":["Tanger-Tétouan-Al Hoceïma"],"associes":[]},{"mot":"Logement","freq":1,"etudes":1,"regions":[],"associes":[]}];
+const MS_MAJ   = "04\/08\/2026 11:04";
+</script>
+
+</body>
+</html>

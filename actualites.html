@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATLASIA — ATLASIA</title>
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Leaflet.js pour la carte -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  
+  <!-- Chart.js pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  
+  <style>
+    /* Overrides spécifiques à la page */
+      </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-icon">A</div>
+      <div class="logo-text">
+        <span class="logo-name">ATLASIA</span>
+        <span class="logo-tagline">Mapping Society · Powering Insight</span>
+      </div>
+    </div>
+
+    <!-- Recherche dans la sidebar -->
+    <div class="sidebar-search">
+      <input type="text" placeholder="Rechercher dans la plateforme..." id="sidebarSearch">
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">PLATEFORME</div>
+      
+            <a href="dashboard.html" class="nav-item ">
+        <span class="nav-icon">⚡</span>
+        <span>Intelligence Stratégique</span>
+              </a>
+            <a href="espaces-travail.html" class="nav-item ">
+        <span class="nav-icon">📁</span>
+        <span>Espaces de Travail</span>
+                <span class="nav-badge">3</span>
+              </a>
+            <a href="production.html" class="nav-item ">
+        <span class="nav-icon">📊</span>
+        <span>Production & Collecte</span>
+              </a>
+            <a href="referentiel.html" class="nav-item ">
+        <span class="nav-icon">🗄️</span>
+        <span>Référentiel de Données</span>
+              </a>
+            <a href="ai-studio.html" class="nav-item ">
+        <span class="nav-icon">🤖</span>
+        <span>AI Research Studio</span>
+                <span class="nav-badge">IA</span>
+              </a>
+            <a href="observatoire.html" class="nav-item ">
+        <span class="nav-icon">🔭</span>
+        <span>Observatoire Social</span>
+              </a>
+            <a href="observatoire-psychosocial.html" class="nav-item ">
+        <span class="nav-icon">🧠</span>
+        <span>Dynamiques Psychosociales</span>
+                <span class="nav-badge">V2</span>
+              </a>
+            <a href="mots-sociaux.html" class="nav-item ">
+        <span class="nav-icon">☁️</span>
+        <span>Mots sociaux du web</span>
+                <span class="nav-badge">✨</span>
+              </a>
+            <a href="bibliotheque.html" class="nav-item ">
+        <span class="nav-icon">📚</span>
+        <span>Bibliothèque Scientifique</span>
+                <span class="nav-badge">4</span>
+              </a>
+            <a href="reseau.html" class="nav-item ">
+        <span class="nav-icon">🤝</span>
+        <span>Réseau des Chercheurs</span>
+              </a>
+      
+      <div class="nav-section-label" style="margin-top:8px;">COMPTE</div>
+      <a href="profil.html" class="nav-item ">
+        <span class="nav-icon">👤</span>
+        <span>Mon Profil</span>
+      </a>
+      <a href="actualites.html" class="nav-item active">
+        <span class="nav-icon">📰</span>
+        <span>Actualités</span>
+      </a>
+      <a href="parametres.html" class="nav-item ">
+        <span class="nav-icon">⚙️</span>
+        <span>Paramètres</span>
+      </a>
+      <a href="admin.html" class="nav-item ">
+        <span class="nav-icon">🔒</span>
+        <span>Administration</span>
+      </a>
+    </nav>
+
+    <!-- Section aide -->
+    <div class="sidebar-help">
+      <div class="help-title">🤔 Besoin d'aide ?</div>
+      <div class="help-desc">Accédez à la documentation et au support technique.</div>
+      <a href="#" class="help-link">Consultez notre centre d'aide →</a>
+    </div>
+
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      
+      <!-- Hamburger (mobile) -->
+      <button class="header-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" style="display:none;" id="menuToggle">
+        ☰
+      </button>
+
+      <!-- Recherche globale -->
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Rechercher dans la plateforme ATLASIA..." id="globalSearch">
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <div class="header-btn" data-tooltip="Notifications" onclick="alert('Aucune nouvelle notification')">
+          🔔
+          <span class="notification-badge"></span>
+        </div>
+        <div class="header-btn" data-tooltip="Messages" onclick="alert('Messagerie')">💬</div>
+        <div class="header-btn" data-tooltip="Aide" onclick="alert('Centre d\'aide')">❓</div>
+        
+        <!-- User profile -->
+        <div class="header-user">
+          <div class="user-avatar">GA</div>
+          <div class="user-info">
+            <span class="user-name">Ghazi Abdessalam</span>
+            <span class="user-role">Chercheur Principal</span>
+          </div>
+          <span style="color:#94a3b8; margin-left:4px;">▾</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="page-content" id="pageContent">
+      <!-- Page header -->
+            <div class="page-header">
+        <div>
+          <h1 class="page-title">ATLASIA</h1>
+                  </div>
+              </div>
+      <div class="main-content">
+  <div class="page-header">
+    <h1>📰 Actualités & Veille</h1>
+    <p class="subtitle">Revue de presse et veille médiatique sur les dynamiques sociales au Maroc</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="kpi-grid" style="margin-bottom:24px;">
+    <div class="kpi-card">
+      <div class="kpi-value">400</div>
+      <div class="kpi-label">Articles analysés</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">0</div>
+      <div class="kpi-label">Sources médias</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">14/08/2026</div>
+      <div class="kpi-label">Dernière mise à jour</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">12</div>
+      <div class="kpi-label">Régions couvertes</div>
+    </div>
+  </div>
+
+  <!-- Articles récents -->
+  <div class="card">
+    <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+      <h3>📄 Articles récents analysés</h3>
+      <span style="font-size:12px;color:#64748b;">Mis à jour le 14/08/2026</span>
+    </div>
+    <div class="card-body">
+              <div style="display:grid;gap:16px;">
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">Bubista quitte le Cap-Vert pour prendre les rênes de la RS Berkane</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">La Renaissance sportive de Berkane a officialisé, mardi, la nomination de Bubista au poste d’entraîneur principal. Le technicien capverdien quitte ainsi la sélection du Cap-Vert ap...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress FR</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/484053-bubista-quitte-le-cap-vert-pour-prendre-les-renes-de-la-rs-berkane.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">Les syndicats du transport réclament une aide en quatre tranches après une nouvelle hausse des prix des carburants</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">La Coordination des syndicats nationaux du secteur du transport routier de marchandises (quatre syndicats) a affirmé suivre « les hausses successives que connaissent les prix des c...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress FR</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/484055-les-syndicats-du-transport-reclament-une-aide-en-quatre-tranches-apres-une-nouvelle-hausse-des-prix-des-carburants.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">La Maison Blanche réfute tout échange entre Trump et Gianni Infantino</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">La Maison Blanche a démenti les informations faisant état de contacts entre le président de la FIFA, Gianni Infantino, et l’administration américaine de Donald Trump, réfutant nota...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress FR</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/484042-la-maison-blanche-refute-tout-echange-entre-trump-et-gianni-infantino.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">L&#039;Algérie se sépare de Vladimir Petkovic malgré sa récente prolongation</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">La Fédération algérienne de football (FAF) a annoncé la fin de sa collaboration avec Vladimir Petkovic, moins de deux mois après avoir prolongé le contrat du sélectionneur bosnien ...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress FR</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/484044-lalgerie-se-separe-de-vladimir-petkovic-malgre-sa-recente-prolongation.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">La Bourse de Casablanca ouvre dans le vert</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">La Bourse de Casablanca a entamé ses échanges dans le vert mardi, son indice phare, le MASI, progressant de 0,12% à 17.896,94 points (pts). Le MASI 20, qui regroupe les 20 valeurs ...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress FR</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/484046-la-bourse-de-casablanca-ouvre-dans-le-vert-84.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">Double séisme au Venezuela : le bilan officiel dépasse les 6.000 morts</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">Le bilan du double séisme, qui a secoué le nord du Venezuela le 24 juin dernier, s’élève désormais à 6.125 morts, selon un nouveau décompte communiqué lundi par les autorités du pa...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress FR</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/484040-double-seisme-au-venezuela-le-bilan-officiel-depasse-les-6-000-morts.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">États-Unis : un nouveau projet de loi au Congrès vise le classement du polisario comme organisation terroriste</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">Deux élus américains, le républicain Ronny Jackson et le démocrate Josh Gottheimer, ont présenté un projet de loi invitant le secrétaire d’État à examiner la désignation du Front p...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress FR</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/483900-etats-unis-un-nouveau-projet-de-loi-au-congres-vise-le-classement-du-polisario-comme-organisation-terroriste.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">CAN féminine 2026 : Jorge Vilda satisfait de la qualification, malgré le nul face au Sénégal</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">Le sélectionneur de l’équipe nationale féminine du Maroc, Jorge Vilda, s’est félicité de la qualification des Lionnes de l’Atlas pour les quarts de finale de la Coupe d’Afrique des...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress FR</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/484036-can-feminine-2026-jorge-vilda-satisfait-de-la-qualification-malgre-le-nul-face-au-senegal.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">Revue de presse de ce mardi 4 août 2026</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">Voici les principaux titres développés par la presse nationale de ce mardi 4 août 2026 L’Economiste Pourquoi le dirham subit une double pression Pendant plusieurs mois, le marché d...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress FR</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/484038-revue-de-presse-de-ce-mardi-4-aout-2026.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">Le sourire de Farah</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">La photographie a fait le tour des réseaux sociaux en quelques heures. On y voit une jeune fille de Larache, debout à son arrivée à Sebta. Une silhouette d’athlète, une simple tenu...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress FR</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/483952-le-sourire-de-farah.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">Innovation : les universités face au défi des start-ups</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">Longtemps cantonnée aux laboratoires et aux publications scientifiques, la recherche universitaire est aujourd’hui appelée à jouer un rôle plus concret dans le développement économ...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress — Économie</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/483955-innovation-les-universites-face-au-defi-des-start-ups.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">Marché des capitaux: plus de 55,04 MMDH de levées à fin juin 2026</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">Les levées de capitaux ont atteint plus de 55,04 milliards de dirhams (MMDH) à fin juin 2026, contre 53,72 MMDH à la même période de l’année précédente, selon l’Autorité marocaine ...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress — Économie</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/483915-marche-des-capitaux-plus-de-5504-mmdh-de-levees-a-fin-juin-2026.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">Emploi : l&#039;ANAPEC prépare une agence digitale immersive dédiée aux métiers des soins</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">L’ANAPEC s’apprête à lancer un projet pilote d’« Agence Digitale Immersive » consacré aux métiers des soins. Un appel d’offres a été lancé récemment afin de sélectionner le prestat...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress — Économie</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/483073-emploi-lanapec-prepare-une-agence-digitale-immersive-dediee-aux-metiers-des-soins.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">Nissan Égypte lance la commercialisation du Magnite assemblé localement</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">Le tout premier Nissan Magnite assemblé en Égypte est officiellement commercialisé dans l’ensemble du pays aujourd’hui, un mois après le lancement officiel de sa production dans l’...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress — Économie</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/483924-nissan-egypte-lance-la-commercialisation-du-magnite-assemble-localement.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">La Bourse de Casablanca finit en hausse</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">La Bourse de Casablanca a fini en hausse lundi, son indice principal, le MASI, progressant de 0,18% à 17.876,25 points (pts). Le MASI 20, qui regroupe les 20 valeurs les plus liqui...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress — Économie</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/483917-la-bourse-de-casablanca-finit-en-hausse-14.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">Le pétrole chute après l&#039;annonce par Trump d&#039;une reprise des négociations avec l&#039;Iran</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">Les cours du pétrole sont en forte baisse lundi, le président américain Donald Trump ayant annoncé une suspension des bombardements américains sur l’Iran et une reprise des négocia...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress — Économie</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/483895-le-petrole-chute-apres-lannonce-par-trump-dune-reprise-des-negociations-avec-liran.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">Banques : le déficit de liquidité s&#039;allège à 138 MMDH du 23 au 30 juillet</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">Le déficit de liquidité bancaire moyen s’est allégé de 3,66% à 138 milliards de dirhams (MMDH) durant la période du 23 au 30 juillet, selon BMCE Capital Global Research (BKGR). Cet...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress — Économie</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/483893-banques-le-deficit-de-liquidite-sallege-a-138-mmdh-du-23-au-30-juillet.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">Prix à la pompe : une nouvelle hausse frappe le gasoil et l’essence</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">Les prix des carburants repartent à la hausse au Maroc. À compter de ce dimanche 2 août 2026, à 23h50, les distributeurs appliqueront une augmentation d’un dirham par litre sur le ...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress — Économie</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/483885-prix-a-la-pompe-une-nouvelle-hausse-frappe-le-gasoil-et-lessence.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">La Bourse de Casablanca démarre dans le vert</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">La Bourse de Casablanca a démarré sur une note positive lundi, son indice phare, le MASI, progressant de 0,25% à 17.888,53 points (pts). Le MASI 20, qui regroupe les 20 valeurs les...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress — Économie</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/483890-la-bourse-de-casablanca-demarre-dans-le-vert-57.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                    <div style="padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fafbfc;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:600;color:#1e293b;margin-bottom:6px;font-size:14px;">HCP : hausse de 2,7% des postes d&#039;emploi contre revenu au T2-2026</div>
+                                  <div style="font-size:13px;color:#475569;line-height:1.5;">Le Haut-Commissariat au Plan (HCP), a indiqué que le volume des personnes pourvues d’un emploi contre revenu a atteint 10.643.000 personnes au deuxième trimestre 2026, enregistrent...</div>
+                                <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                                      <span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">Hespress — Société</span>
+                                                    </div>
+              </div>
+                              <a href="https://fr.hespress.com/483946-hcp-hausse-de-27-des-postes-demploi-contre-revenu-au-t2-2026.html" target="_blank" rel="noopener" style="color:#2563eb;font-size:12px;white-space:nowrap;flex-shrink:0;">Lire →</a>
+                          </div>
+          </div>
+                  </div>
+          </div>
+  </div>
+</div>
+    </div><!-- end page-content -->
+  </div><!-- end main-content -->
+</div><!-- end app-layout -->
+
+<!-- ===== MODAL IA EMBARQUÉE (Charte · Principe 7 : IA embarquée) ===== -->
+<div class="ai-modal-overlay" id="aiModalOverlay" onclick="if(event.target===this)closeAiModal()">
+  <div class="ai-modal" role="dialog" aria-modal="true">
+    <div class="ai-modal-head">
+      <div class="ai-modal-title"><span>✨</span> <span id="aiModalTitle">Assistant d'analyse ATLASIA</span></div>
+      <button class="ai-modal-close" onclick="closeAiModal()" aria-label="Fermer">×</button>
+    </div>
+    <div class="ai-modal-body" id="aiModalBody"></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   IA EMBARQUÉE ATLASIA — grounded sur les données disponibles
+   Chaque page enregistre ses analyses dans window.ATLASIA_AI[cle].
+   Une analyse = { title, interpretation, tendance, recommandation, source }
+   Conforme à la Charte : réponses fondées uniquement sur les données
+   de la plateforme, avec mention explicite des sources.
+   ===================================================================== */
+window.ATLASIA_AI = window.ATLASIA_AI || {};
+
+function _aiRender(a){
+  var html = '';
+  if(a.interpretation){ html += '<h4>🔎 Interprétation potentielle</h4><p>'+a.interpretation+'</p>'; }
+  if(a.tendance){ html += '<h4>📈 Tendance prospective</h4><p>'+a.tendance+'</p>'; }
+  if(a.recommandation){ html += '<h4>🎯 Recommandation opérationnelle</h4><p>'+a.recommandation+'</p>'; }
+  if(a.resume){ html += '<h4>📝 Synthèse</h4><p>'+a.resume+'</p>'; }
+  html += '<p class="ai-source">'+(a.source ? ('Source : '+a.source+'. ') : '')+
+          'Lecture analytique fondée sur les données disponibles dans la plateforme — non une vérité absolue.</p>';
+  return html;
+}
+
+var _aiCurrent = null; // { key, title, a }
+
+function _aiFooterHTML(){
+  return '<div class="ai-ask">'+
+    '<textarea id="aiQuestion" class="ai-ask-input" rows="2" '+
+      'placeholder="Posez une question sur ces données (optionnel)…"></textarea>'+
+    '<button class="ai-btn" onclick="atlasiaAsk()"><span class="ai-spark">✨</span> Demander à l\'IA</button>'+
+  '</div>';
+}
+
+// Appelle le proxy IA générative (api/ai.php). Repli local géré côté serveur.
+function _aiCall(payload, body){
+  fetch('api/ai.php', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).then(function(r){ return r.json(); })
+    .then(function(res){
+      var badge = res.mode === 'ai'
+        ? '<span class="ai-mode ai-mode-live">✨ IA générative</span>'
+        : '<span class="ai-mode ai-mode-local">🔒 Analyse locale</span>';
+      body.innerHTML = badge + (res.text || '') + _aiFooterHTML();
+    })
+    .catch(function(){
+      // réseau totalement indisponible => rendu local pur
+      body.innerHTML = (_aiCurrent && _aiCurrent.a ? _aiRender(_aiCurrent.a)
+        : '<p>Service IA indisponible.</p>') + _aiFooterHTML();
+    });
+}
+
+function atlasiaAI(key, title){
+  var overlay = document.getElementById('aiModalOverlay');
+  var body = document.getElementById('aiModalBody');
+  var titleEl = document.getElementById('aiModalTitle');
+  var a = window.ATLASIA_AI[key] || null;
+  _aiCurrent = { key:key, title:(a && a.title) ? a.title : (title||''), a:a };
+  titleEl.textContent = _aiCurrent.title || "Assistant d'analyse ATLASIA";
+  overlay.classList.add('open');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> Analyse des données disponibles…</div>';
+  _aiCall({ key:key, title:_aiCurrent.title, context:(a||{}) }, body);
+}
+
+// Question libre de l'utilisateur sur le même élément (grounding conservé).
+function atlasiaAsk(){
+  var q = (document.getElementById('aiQuestion')||{}).value || '';
+  if(!q.trim()){ return; }
+  var body = document.getElementById('aiModalBody');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> L\'IA analyse votre question…</div>';
+  var a = _aiCurrent ? _aiCurrent.a : null;
+  _aiCall({ key:(_aiCurrent&&_aiCurrent.key)||'', title:(_aiCurrent&&_aiCurrent.title)||'',
+            context:(a||{}), question:q }, body);
+}
+function closeAiModal(){ document.getElementById('aiModalOverlay').classList.remove('open'); }
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAiModal(); });
+</script>
+
+<!-- Scripts globaux -->
+<script>
+// Init Lucide icons
+if (typeof lucide !== 'undefined') lucide.createIcons();
+
+// Mobile menu toggle
+function initMobileMenu() {
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900) {
+    if (toggle) toggle.style.display = 'flex';
+  } else {
+    if (toggle) toggle.style.display = 'none';
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) sidebar.classList.remove('open');
+  }
+}
+window.addEventListener('resize', initMobileMenu);
+initMobileMenu();
+
+// Close sidebar on outside click (mobile)
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900 && sidebar && !sidebar.contains(e.target) && e.target !== toggle) {
+    sidebar.classList.remove('open');
+  }
+});
+
+// Search global
+document.getElementById('globalSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  if (q.length >= 3) {
+    console.log('Recherche:', q);
+  }
+});
+
+// Sidebar search
+document.getElementById('sidebarSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(q) ? '' : 'none';
+  });
+});
+
+// Animate cards on load
+document.querySelectorAll('.stat-card, .card, .project-card, .file-card').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(12px)';
+  setTimeout(() => {
+    el.style.transition = 'opacity .3s ease, transform .3s ease';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, i * 60);
+});
+</script>
+
+
+</body>
+</html>

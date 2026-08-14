@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Référentiel de Données — ATLASIA</title>
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Leaflet.js pour la carte -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  
+  <!-- Chart.js pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  
+  <style>
+    /* Overrides spécifiques à la page */
+      </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-icon">A</div>
+      <div class="logo-text">
+        <span class="logo-name">ATLASIA</span>
+        <span class="logo-tagline">Mapping Society · Powering Insight</span>
+      </div>
+    </div>
+
+    <!-- Recherche dans la sidebar -->
+    <div class="sidebar-search">
+      <input type="text" placeholder="Rechercher dans la plateforme..." id="sidebarSearch">
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">PLATEFORME</div>
+      
+            <a href="dashboard.html" class="nav-item ">
+        <span class="nav-icon">⚡</span>
+        <span>Intelligence Stratégique</span>
+              </a>
+            <a href="espaces-travail.html" class="nav-item ">
+        <span class="nav-icon">📁</span>
+        <span>Espaces de Travail</span>
+                <span class="nav-badge">3</span>
+              </a>
+            <a href="production.html" class="nav-item ">
+        <span class="nav-icon">📊</span>
+        <span>Production & Collecte</span>
+              </a>
+            <a href="referentiel.html" class="nav-item active">
+        <span class="nav-icon">🗄️</span>
+        <span>Référentiel de Données</span>
+              </a>
+            <a href="ai-studio.html" class="nav-item ">
+        <span class="nav-icon">🤖</span>
+        <span>AI Research Studio</span>
+                <span class="nav-badge">IA</span>
+              </a>
+            <a href="observatoire.html" class="nav-item ">
+        <span class="nav-icon">🔭</span>
+        <span>Observatoire Social</span>
+              </a>
+            <a href="observatoire-psychosocial.html" class="nav-item ">
+        <span class="nav-icon">🧠</span>
+        <span>Dynamiques Psychosociales</span>
+                <span class="nav-badge">V2</span>
+              </a>
+            <a href="mots-sociaux.html" class="nav-item ">
+        <span class="nav-icon">☁️</span>
+        <span>Mots sociaux du web</span>
+                <span class="nav-badge">✨</span>
+              </a>
+            <a href="bibliotheque.html" class="nav-item ">
+        <span class="nav-icon">📚</span>
+        <span>Bibliothèque Scientifique</span>
+                <span class="nav-badge">4</span>
+              </a>
+            <a href="reseau.html" class="nav-item ">
+        <span class="nav-icon">🤝</span>
+        <span>Réseau des Chercheurs</span>
+              </a>
+      
+      <div class="nav-section-label" style="margin-top:8px;">COMPTE</div>
+      <a href="profil.html" class="nav-item ">
+        <span class="nav-icon">👤</span>
+        <span>Mon Profil</span>
+      </a>
+      <a href="actualites.html" class="nav-item ">
+        <span class="nav-icon">📰</span>
+        <span>Actualités</span>
+      </a>
+      <a href="parametres.html" class="nav-item ">
+        <span class="nav-icon">⚙️</span>
+        <span>Paramètres</span>
+      </a>
+      <a href="admin.html" class="nav-item ">
+        <span class="nav-icon">🔒</span>
+        <span>Administration</span>
+      </a>
+    </nav>
+
+    <!-- Section aide -->
+    <div class="sidebar-help">
+      <div class="help-title">🤔 Besoin d'aide ?</div>
+      <div class="help-desc">Accédez à la documentation et au support technique.</div>
+      <a href="#" class="help-link">Consultez notre centre d'aide →</a>
+    </div>
+
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      
+      <!-- Hamburger (mobile) -->
+      <button class="header-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" style="display:none;" id="menuToggle">
+        ☰
+      </button>
+
+      <!-- Recherche globale -->
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Rechercher dans la plateforme ATLASIA..." id="globalSearch">
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <div class="header-btn" data-tooltip="Notifications" onclick="alert('Aucune nouvelle notification')">
+          🔔
+          <span class="notification-badge"></span>
+        </div>
+        <div class="header-btn" data-tooltip="Messages" onclick="alert('Messagerie')">💬</div>
+        <div class="header-btn" data-tooltip="Aide" onclick="alert('Centre d\'aide')">❓</div>
+        
+        <!-- User profile -->
+        <div class="header-user">
+          <div class="user-avatar">GA</div>
+          <div class="user-info">
+            <span class="user-name">Ghazi Abdessalam</span>
+            <span class="user-role">Chercheur Principal</span>
+          </div>
+          <span style="color:#94a3b8; margin-left:4px;">▾</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="page-content" id="pageContent">
+      <!-- Page header -->
+            <div class="page-header">
+        <div>
+          <h1 class="page-title">Référentiel de Données</h1>
+                    <p class="page-subtitle">Dépôt officiel — Tous les jeux de données de la plateforme</p>
+                  </div>
+                <div class="page-actions"><button class="btn btn-primary" onclick="alert('Formulaire de dépôt de dataset')">+ Déposer un dataset</button></div>
+              </div>
+      
+<!-- Stats -->
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;">
+  <div class="stat-card" style="padding:16px;"><div class="stat-icon blue">🗂️</div><div class="stat-body"><div class="stat-label">Datasets totaux</div><div class="stat-value" style="font-size:22px;">2,458</div></div></div>
+  <div class="stat-card" style="padding:16px;"><div class="stat-icon green">✅</div><div class="stat-body"><div class="stat-label">Datasets validés</div><div class="stat-value" style="font-size:22px;">2,401</div></div></div>
+  <div class="stat-card" style="padding:16px;"><div class="stat-icon orange">⏳</div><div class="stat-body"><div class="stat-label">En révision</div><div class="stat-value" style="font-size:22px;">42</div></div></div>
+  <div class="stat-card" style="padding:16px;"><div class="stat-icon purple">🔒</div><div class="stat-body"><div class="stat-label">Accès restreint</div><div class="stat-value" style="font-size:22px;">215</div></div></div>
+</div>
+
+<!-- Filtres -->
+<div class="card" style="margin-bottom:18px;">
+  <div class="card-body" style="padding:14px;">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+      <input type="text" class="form-input" placeholder="🔍 Rechercher un dataset..." style="flex:1;min-width:200px;">
+      <select class="form-select" style="width:150px;"><option>Tous les statuts</option><option>Validé</option><option>En révision</option><option>Nouveau</option></select>
+      <select class="form-select" style="width:140px;"><option>Tout accès</option><option>Public</option><option>Restreint</option><option>Membres</option></select>
+      <select class="form-select" style="width:140px;"><option>Toutes sources</option><option>HCP</option><option>ANAPEC</option><option>ONDH</option><option>ATLASIA</option></select>
+    </div>
+  </div>
+</div>
+
+<!-- Tableau -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">📦 Jeux de données disponibles</div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-outline btn-sm" onclick="alert('Export CSV')">📥 Exporter catalogue</button>
+    </div>
+  </div>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>ID Dataset</th>
+          <th>Titre</th>
+          <th>Source</th>
+          <th>Lignes</th>
+          <th>Variables</th>
+          <th>Format</th>
+          <th>Date</th>
+          <th>Statut</th>
+          <th>Accès</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+                <tr>
+          <td><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:11px;">DS-2025-001</code></td>
+          <td style="font-weight:600;max-width:220px;">Enquête nationale emploi Q1 2025</td>
+          <td>HCP</td>
+          <td>24,850</td>
+          <td>42</td>
+          <td><span class="badge badge-gray">CSV / SPSS</span></td>
+          <td>15/04/2025</td>
+          <td>
+            <span class="badge badge-success">✅ Validé</span>
+                      </td>
+          <td>
+            <span class="badge badge-success">🌐 Public</span>
+                      </td>
+          <td>
+            <div style="display:flex;gap:5px;">
+              <button class="btn btn-primary btn-sm" onclick="viewDataset('DS-2025-001')">👁️</button>
+              <button class="btn btn-outline btn-sm" onclick="alert('Téléchargement : ' + 'DS-2025-001')">⬇️</button>
+            </div>
+          </td>
+        </tr>
+                <tr>
+          <td><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:11px;">DS-2025-002</code></td>
+          <td style="font-weight:600;max-width:220px;">Youth Employment Survey 2025 — Maroc</td>
+          <td>ANAPEC</td>
+          <td>5,320</td>
+          <td>67</td>
+          <td><span class="badge badge-gray">CSV</span></td>
+          <td>02/05/2025</td>
+          <td>
+            <span class="badge badge-success">✅ Validé</span>
+                      </td>
+          <td>
+            <span class="badge badge-success">🌐 Public</span>
+                      </td>
+          <td>
+            <div style="display:flex;gap:5px;">
+              <button class="btn btn-primary btn-sm" onclick="viewDataset('DS-2025-002')">👁️</button>
+              <button class="btn btn-outline btn-sm" onclick="alert('Téléchargement : ' + 'DS-2025-002')">⬇️</button>
+            </div>
+          </td>
+        </tr>
+                <tr>
+          <td><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:11px;">DS-2024-018</code></td>
+          <td style="font-weight:600;max-width:220px;">Indice de confiance institutionnelle 2024</td>
+          <td>ONDH</td>
+          <td>12,400</td>
+          <td>38</td>
+          <td><span class="badge badge-gray">SPSS / Excel</span></td>
+          <td>10/01/2025</td>
+          <td>
+            <span class="badge badge-success">✅ Validé</span>
+                      </td>
+          <td>
+            <span class="badge badge-danger">🔒 Restreint</span>
+                      </td>
+          <td>
+            <div style="display:flex;gap:5px;">
+              <button class="btn btn-primary btn-sm" onclick="viewDataset('DS-2024-018')">👁️</button>
+              <button class="btn btn-outline btn-sm" onclick="alert('Téléchargement : ' + 'DS-2024-018')">⬇️</button>
+            </div>
+          </td>
+        </tr>
+                <tr>
+          <td><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:11px;">DS-2024-015</code></td>
+          <td style="font-weight:600;max-width:220px;">Recensement scolarisation rurale 2024</td>
+          <td>Ministère de l'Éducation</td>
+          <td>186,000</td>
+          <td>28</td>
+          <td><span class="badge badge-gray">CSV</span></td>
+          <td>05/12/2024</td>
+          <td>
+            <span class="badge badge-success">✅ Validé</span>
+                      </td>
+          <td>
+            <span class="badge badge-success">🌐 Public</span>
+                      </td>
+          <td>
+            <div style="display:flex;gap:5px;">
+              <button class="btn btn-primary btn-sm" onclick="viewDataset('DS-2024-015')">👁️</button>
+              <button class="btn btn-outline btn-sm" onclick="alert('Téléchargement : ' + 'DS-2024-015')">⬇️</button>
+            </div>
+          </td>
+        </tr>
+                <tr>
+          <td><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:11px;">DS-2024-012</code></td>
+          <td style="font-weight:600;max-width:220px;">Migration interne Maroc 2023-2024</td>
+          <td>HCP</td>
+          <td>8,750</td>
+          <td>54</td>
+          <td><span class="badge badge-gray">CSV / JSON</span></td>
+          <td>20/11/2024</td>
+          <td>
+            <span class="badge badge-warning">⏳ En révision</span>
+                      </td>
+          <td>
+            <span class="badge badge-success">🌐 Public</span>
+                      </td>
+          <td>
+            <div style="display:flex;gap:5px;">
+              <button class="btn btn-primary btn-sm" onclick="viewDataset('DS-2024-012')">👁️</button>
+              <button class="btn btn-outline btn-sm" onclick="alert('Téléchargement : ' + 'DS-2024-012')">⬇️</button>
+            </div>
+          </td>
+        </tr>
+                <tr>
+          <td><code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:11px;">DS-ATLASIA-004</code></td>
+          <td style="font-weight:600;max-width:220px;">Analyse presse arabe — Données sociales 2025</td>
+          <td>ATLASIA IA</td>
+          <td>3,240</td>
+          <td>18</td>
+          <td><span class="badge badge-gray">JSON</span></td>
+          <td>01/07/2026</td>
+          <td>
+            <span class="badge badge-info">🆕 Nouveau</span>          </td>
+          <td>
+            <span class="badge badge-purple">👥 Membres</span>          </td>
+          <td>
+            <div style="display:flex;gap:5px;">
+              <button class="btn btn-primary btn-sm" onclick="viewDataset('DS-ATLASIA-004')">👁️</button>
+              <button class="btn btn-outline btn-sm" onclick="alert('Téléchargement : ' + 'DS-ATLASIA-004')">⬇️</button>
+            </div>
+          </td>
+        </tr>
+              </tbody>
+    </table>
+  </div>
+  <div class="card-footer" style="display:flex;align-items:center;justify-content:space-between;">
+    <span style="font-size:12.5px;color:#64748b;">Affichage de 6 datasets sur 2,458 — <a href="#" style="color:#2563eb;">Voir tout</a></span>
+    <div style="display:flex;gap:6px;">
+      <button class="btn btn-outline btn-sm" onclick="changePage(-1)">◀ Préc.</button>
+      <button class="btn btn-primary btn-sm page-btn active-page" data-page="1" onclick="goToPage(1)">1</button>
+      <button class="btn btn-outline btn-sm page-btn" data-page="2" onclick="goToPage(2)">2</button>
+      <button class="btn btn-outline btn-sm page-btn" data-page="3" onclick="goToPage(3)">3</button>
+      <button class="btn btn-outline btn-sm" onclick="changePage(1)">Suiv. ▶</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function viewDataset(id) {
+  alert('📦 Dataset : ' + id + '\n\nOnglets disponibles :\n• 📊 Données brutes et traitées\n• 📋 Description & Métadonnées\n• 📖 Dictionnaire des variables\n• 📈 Statistiques descriptives\n• 🔍 Historique des modifications\n• 📥 Télécharger (CSV, SPSS, JSON)');
+}
+
+let currentPage = 1;
+const totalPages = 3;
+function goToPage(page) {
+  currentPage = page;
+  document.querySelectorAll('.page-btn').forEach(btn => {
+    const p = parseInt(btn.dataset.page);
+    btn.className = p === page ? 'btn btn-primary btn-sm page-btn active-page' : 'btn btn-outline btn-sm page-btn';
+  });
+}
+function changePage(dir) {
+  const next = currentPage + dir;
+  if (next >= 1 && next <= totalPages) goToPage(next);
+}
+</script>
+    </div><!-- end page-content -->
+  </div><!-- end main-content -->
+</div><!-- end app-layout -->
+
+<!-- ===== MODAL IA EMBARQUÉE (Charte · Principe 7 : IA embarquée) ===== -->
+<div class="ai-modal-overlay" id="aiModalOverlay" onclick="if(event.target===this)closeAiModal()">
+  <div class="ai-modal" role="dialog" aria-modal="true">
+    <div class="ai-modal-head">
+      <div class="ai-modal-title"><span>✨</span> <span id="aiModalTitle">Assistant d'analyse ATLASIA</span></div>
+      <button class="ai-modal-close" onclick="closeAiModal()" aria-label="Fermer">×</button>
+    </div>
+    <div class="ai-modal-body" id="aiModalBody"></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   IA EMBARQUÉE ATLASIA — grounded sur les données disponibles
+   Chaque page enregistre ses analyses dans window.ATLASIA_AI[cle].
+   Une analyse = { title, interpretation, tendance, recommandation, source }
+   Conforme à la Charte : réponses fondées uniquement sur les données
+   de la plateforme, avec mention explicite des sources.
+   ===================================================================== */
+window.ATLASIA_AI = window.ATLASIA_AI || {};
+
+function _aiRender(a){
+  var html = '';
+  if(a.interpretation){ html += '<h4>🔎 Interprétation potentielle</h4><p>'+a.interpretation+'</p>'; }
+  if(a.tendance){ html += '<h4>📈 Tendance prospective</h4><p>'+a.tendance+'</p>'; }
+  if(a.recommandation){ html += '<h4>🎯 Recommandation opérationnelle</h4><p>'+a.recommandation+'</p>'; }
+  if(a.resume){ html += '<h4>📝 Synthèse</h4><p>'+a.resume+'</p>'; }
+  html += '<p class="ai-source">'+(a.source ? ('Source : '+a.source+'. ') : '')+
+          'Lecture analytique fondée sur les données disponibles dans la plateforme — non une vérité absolue.</p>';
+  return html;
+}
+
+var _aiCurrent = null; // { key, title, a }
+
+function _aiFooterHTML(){
+  return '<div class="ai-ask">'+
+    '<textarea id="aiQuestion" class="ai-ask-input" rows="2" '+
+      'placeholder="Posez une question sur ces données (optionnel)…"></textarea>'+
+    '<button class="ai-btn" onclick="atlasiaAsk()"><span class="ai-spark">✨</span> Demander à l\'IA</button>'+
+  '</div>';
+}
+
+// Appelle le proxy IA générative (api/ai.php). Repli local géré côté serveur.
+function _aiCall(payload, body){
+  fetch('api/ai.php', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).then(function(r){ return r.json(); })
+    .then(function(res){
+      var badge = res.mode === 'ai'
+        ? '<span class="ai-mode ai-mode-live">✨ IA générative</span>'
+        : '<span class="ai-mode ai-mode-local">🔒 Analyse locale</span>';
+      body.innerHTML = badge + (res.text || '') + _aiFooterHTML();
+    })
+    .catch(function(){
+      // réseau totalement indisponible => rendu local pur
+      body.innerHTML = (_aiCurrent && _aiCurrent.a ? _aiRender(_aiCurrent.a)
+        : '<p>Service IA indisponible.</p>') + _aiFooterHTML();
+    });
+}
+
+function atlasiaAI(key, title){
+  var overlay = document.getElementById('aiModalOverlay');
+  var body = document.getElementById('aiModalBody');
+  var titleEl = document.getElementById('aiModalTitle');
+  var a = window.ATLASIA_AI[key] || null;
+  _aiCurrent = { key:key, title:(a && a.title) ? a.title : (title||''), a:a };
+  titleEl.textContent = _aiCurrent.title || "Assistant d'analyse ATLASIA";
+  overlay.classList.add('open');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> Analyse des données disponibles…</div>';
+  _aiCall({ key:key, title:_aiCurrent.title, context:(a||{}) }, body);
+}
+
+// Question libre de l'utilisateur sur le même élément (grounding conservé).
+function atlasiaAsk(){
+  var q = (document.getElementById('aiQuestion')||{}).value || '';
+  if(!q.trim()){ return; }
+  var body = document.getElementById('aiModalBody');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> L\'IA analyse votre question…</div>';
+  var a = _aiCurrent ? _aiCurrent.a : null;
+  _aiCall({ key:(_aiCurrent&&_aiCurrent.key)||'', title:(_aiCurrent&&_aiCurrent.title)||'',
+            context:(a||{}), question:q }, body);
+}
+function closeAiModal(){ document.getElementById('aiModalOverlay').classList.remove('open'); }
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAiModal(); });
+</script>
+
+<!-- Scripts globaux -->
+<script>
+// Init Lucide icons
+if (typeof lucide !== 'undefined') lucide.createIcons();
+
+// Mobile menu toggle
+function initMobileMenu() {
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900) {
+    if (toggle) toggle.style.display = 'flex';
+  } else {
+    if (toggle) toggle.style.display = 'none';
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) sidebar.classList.remove('open');
+  }
+}
+window.addEventListener('resize', initMobileMenu);
+initMobileMenu();
+
+// Close sidebar on outside click (mobile)
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900 && sidebar && !sidebar.contains(e.target) && e.target !== toggle) {
+    sidebar.classList.remove('open');
+  }
+});
+
+// Search global
+document.getElementById('globalSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  if (q.length >= 3) {
+    console.log('Recherche:', q);
+  }
+});
+
+// Sidebar search
+document.getElementById('sidebarSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(q) ? '' : 'none';
+  });
+});
+
+// Animate cards on load
+document.querySelectorAll('.stat-card, .card, .project-card, .file-card').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(12px)';
+  setTimeout(() => {
+    el.style.transition = 'opacity .3s ease, transform .3s ease';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, i * 60);
+});
+</script>
+
+
+</body>
+</html>

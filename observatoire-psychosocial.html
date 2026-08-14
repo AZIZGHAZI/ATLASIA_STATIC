@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Observatoire National des Dynamiques Psychosociales — ATLASIA</title>
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Leaflet.js pour la carte -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  
+  <!-- Chart.js pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  
+  <style>
+    /* Overrides spécifiques à la page */
+      </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-icon">A</div>
+      <div class="logo-text">
+        <span class="logo-name">ATLASIA</span>
+        <span class="logo-tagline">Mapping Society · Powering Insight</span>
+      </div>
+    </div>
+
+    <!-- Recherche dans la sidebar -->
+    <div class="sidebar-search">
+      <input type="text" placeholder="Rechercher dans la plateforme..." id="sidebarSearch">
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">PLATEFORME</div>
+      
+            <a href="dashboard.html" class="nav-item ">
+        <span class="nav-icon">⚡</span>
+        <span>Intelligence Stratégique</span>
+              </a>
+            <a href="espaces-travail.html" class="nav-item ">
+        <span class="nav-icon">📁</span>
+        <span>Espaces de Travail</span>
+                <span class="nav-badge">3</span>
+              </a>
+            <a href="production.html" class="nav-item ">
+        <span class="nav-icon">📊</span>
+        <span>Production & Collecte</span>
+              </a>
+            <a href="referentiel.html" class="nav-item ">
+        <span class="nav-icon">🗄️</span>
+        <span>Référentiel de Données</span>
+              </a>
+            <a href="ai-studio.html" class="nav-item ">
+        <span class="nav-icon">🤖</span>
+        <span>AI Research Studio</span>
+                <span class="nav-badge">IA</span>
+              </a>
+            <a href="observatoire.html" class="nav-item ">
+        <span class="nav-icon">🔭</span>
+        <span>Observatoire Social</span>
+              </a>
+            <a href="observatoire-psychosocial.html" class="nav-item active">
+        <span class="nav-icon">🧠</span>
+        <span>Dynamiques Psychosociales</span>
+                <span class="nav-badge">V2</span>
+              </a>
+            <a href="mots-sociaux.html" class="nav-item ">
+        <span class="nav-icon">☁️</span>
+        <span>Mots sociaux du web</span>
+                <span class="nav-badge">✨</span>
+              </a>
+            <a href="bibliotheque.html" class="nav-item ">
+        <span class="nav-icon">📚</span>
+        <span>Bibliothèque Scientifique</span>
+                <span class="nav-badge">4</span>
+              </a>
+            <a href="reseau.html" class="nav-item ">
+        <span class="nav-icon">🤝</span>
+        <span>Réseau des Chercheurs</span>
+              </a>
+      
+      <div class="nav-section-label" style="margin-top:8px;">COMPTE</div>
+      <a href="profil.html" class="nav-item ">
+        <span class="nav-icon">👤</span>
+        <span>Mon Profil</span>
+      </a>
+      <a href="actualites.html" class="nav-item ">
+        <span class="nav-icon">📰</span>
+        <span>Actualités</span>
+      </a>
+      <a href="parametres.html" class="nav-item ">
+        <span class="nav-icon">⚙️</span>
+        <span>Paramètres</span>
+      </a>
+      <a href="admin.html" class="nav-item ">
+        <span class="nav-icon">🔒</span>
+        <span>Administration</span>
+      </a>
+    </nav>
+
+    <!-- Section aide -->
+    <div class="sidebar-help">
+      <div class="help-title">🤔 Besoin d'aide ?</div>
+      <div class="help-desc">Accédez à la documentation et au support technique.</div>
+      <a href="#" class="help-link">Consultez notre centre d'aide →</a>
+    </div>
+
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      
+      <!-- Hamburger (mobile) -->
+      <button class="header-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" style="display:none;" id="menuToggle">
+        ☰
+      </button>
+
+      <!-- Recherche globale -->
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Rechercher dans la plateforme ATLASIA..." id="globalSearch">
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <div class="header-btn" data-tooltip="Notifications" onclick="alert('Aucune nouvelle notification')">
+          🔔
+          <span class="notification-badge"></span>
+        </div>
+        <div class="header-btn" data-tooltip="Messages" onclick="alert('Messagerie')">💬</div>
+        <div class="header-btn" data-tooltip="Aide" onclick="alert('Centre d\'aide')">❓</div>
+        
+        <!-- User profile -->
+        <div class="header-user">
+          <div class="user-avatar">GA</div>
+          <div class="user-info">
+            <span class="user-name">Ghazi Abdessalam</span>
+            <span class="user-role">Chercheur Principal</span>
+          </div>
+          <span style="color:#94a3b8; margin-left:4px;">▾</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="page-content" id="pageContent">
+      <!-- Page header -->
+            <div class="page-header">
+        <div>
+          <h1 class="page-title">Observatoire National des Dynamiques Psychosociales</h1>
+                    <p class="page-subtitle">Psychologie sociale appliquée — climat social, changements comportementaux &amp; aide à la décision</p>
+                  </div>
+              </div>
+      
+<!-- ===== ACCROCHE (introduction) ===== -->
+<div class="card" style="margin-bottom:16px; border-left:4px solid var(--primary);">
+  <div class="card-body" style="font-size:15px; line-height:1.6; color:#334155; font-style:italic;">
+    « Une page d&#039;analyse basée sur la psychologie sociale appliquée pour expliquer le climat social, comprendre les changements comportementaux et appuyer la prise de décision. »
+    <span style="float:right; font-style:normal; font-size:12px; color:#94a3b8;">V2.0 — corpus presse réel</span>
+  </div>
+</div>
+
+<!-- ===== VI. ALERTES (Early Warning) — en haut de page ===== -->
+<div class="alert-banner alert-none" id="alertBanner">
+  <span class="alert-ico">✅</span>
+  <div>
+    <div class="alert-title">Aucune alerte majeure</div>
+    Aucune variation majeure nécessitant une alerte n'est enregistrée pour le moment.
+  </div>
+</div>
+
+<!-- ===== I. SYNTHÈSE EXÉCUTIVE : 3 messages clés ===== -->
+<div class="exec-summary">
+  <div class="exec-summary-title">🎯 Synthèse exécutive — 3 messages clés</div>
+  <div class="exec-messages">
+    <div class="exec-msg msg-info">
+      <div class="exec-msg-icon">💬</div>
+      <div class="exec-msg-text">Le sujet le plus discuté actuellement est « Migration ».</div>
+      <div class="ai-actions"><button class="ai-btn" onclick="atlasiaAI('synth_sujet')"><span class="ai-spark">✨</span> En savoir plus</button></div>
+    </div>
+    <div class="exec-msg msg-success">
+      <div class="exec-msg-icon">🗺️</div>
+      <div class="exec-msg-text">La région de Rabat-Salé-Kénitra concentre le plus grand volume de données du corpus.</div>
+      <div class="ai-actions"><button class="ai-btn" onclick="atlasiaAI('synth_region')"><span class="ai-spark">✨</span> En savoir plus</button></div>
+    </div>
+    <div class="exec-msg msg-warning">
+      <div class="exec-msg-icon">📊</div>
+      <div class="exec-msg-text">Aucune variation anormale n'a franchi les seuils d'alerte sur la période observée.</div>
+      <div class="ai-actions"><button class="ai-btn" onclick="atlasiaAI('synth_alerte')"><span class="ai-spark">✨</span> En savoir plus</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== V. INDICATEURS PRÉLIMINAIRES (4) ===== -->
+<div class="stats-grid" style="margin-bottom:16px;">
+  <div class="stat-card">
+    <div class="stat-icon blue">📰</div>
+    <div class="stat-body">
+      <div class="stat-label">Articles analysés</div>
+      <div class="stat-value">400</div>
+      <div class="stat-change">articles de presse (RSS)</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon green">💬</div>
+    <div class="stat-body">
+      <div class="stat-label">Mentions sociales</div>
+      <div class="stat-value">539</div>
+      <div class="stat-change">occurrences de mots sociaux</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon orange">🏷️</div>
+    <div class="stat-body">
+      <div class="stat-label">Thématiques suivies</div>
+      <div class="stat-value">24</div>
+      <div class="stat-change">mots sociaux détectés</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon blue">🗺️</div>
+    <div class="stat-body">
+      <div class="stat-label">Couverture territoriale</div>
+      <div class="stat-value">12/12</div>
+      <div class="stat-change">régions couvertes</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== II. CARTE INTERACTIVE (élément central) ===== -->
+<div class="card" style="margin-bottom:16px;">
+  <div class="card-header">
+    <div class="card-title">🗺️ Carte des connaissances — volume de données par région</div>
+    <span class="badge badge-info">Critère mesurable : volume du corpus</span>
+  </div>
+  <div class="card-body">
+    <p style="font-size:13px; color:#64748b; margin:0 0 12px;">
+      Les régions sont colorées selon un <strong>critère mesurable</strong> — le nombre d'articles de presse rattachés à la région dans le corpus — et non selon des émotions
+      (« inquiétude », « colère »), faute de données suffisantes. Plus une région est foncée, plus elle est présente dans l'actualité analysée ;
+      plus elle est claire, plus il reste de données à collecter. <strong>Cliquez sur une région</strong> pour le détail actualisé.
+    </p>
+    <div id="psy-map" style="height:460px; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#eef4fb;"></div>
+    <div style="display:flex; align-items:center; gap:10px; margin-top:10px; font-size:12px; color:#64748b;">
+      <span>Moins de données</span>
+      <span style="flex:1; height:10px; border-radius:6px; background:linear-gradient(90deg,#e0e7ff,#1e3a8a);"></span>
+      <span>Plus de données</span>
+    </div>
+    <div class="ai-actions">
+      <button class="ai-btn" onclick="atlasiaAI('carte')"><span class="ai-spark">✨</span> Expliquer cette carte</button>
+    </div>
+  </div>
+</div>
+
+<div style="display:grid; grid-template-columns:1.2fr 1fr; gap:16px; margin-bottom:16px;">
+
+  <!-- ===== III. NUAGE DE MOTS ===== -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">☁️ Nuage de mots — termes les plus fréquents</div>
+    </div>
+    <div class="card-body">
+      <div class="wordcloud" id="wordcloud"></div>
+      <div class="ai-actions">
+        <button class="ai-btn" onclick="atlasiaAI('nuage')"><span class="ai-spark">✨</span> Générer un résumé</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== IV. SUJETS LES PLUS DISCUTÉS ===== -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">🔥 Sujets les plus discutés</div>
+    </div>
+    <div class="card-body">
+      <div class="topic-list">
+                <div class="topic-item">
+          <div class="topic-rank">1</div>
+          <div class="topic-main">
+            <div class="topic-name">Migration</div>
+            <div class="topic-meta">136 occurrences · plus présent à Rabat-Salé-Kénitra</div>
+            <div class="topic-bar"><span style="width:100%"></span></div>
+          </div>
+          <div class="topic-trend down">▼ 3%</div>
+        </div>
+                <div class="topic-item">
+          <div class="topic-rank">2</div>
+          <div class="topic-main">
+            <div class="topic-name">Femmes</div>
+            <div class="topic-meta">55 occurrences · plus présent à Rabat-Salé-Kénitra</div>
+            <div class="topic-bar"><span style="width:40%"></span></div>
+          </div>
+          <div class="topic-trend up">▲ 220%</div>
+        </div>
+                <div class="topic-item">
+          <div class="topic-rank">3</div>
+          <div class="topic-main">
+            <div class="topic-name">Éducation</div>
+            <div class="topic-meta">30 occurrences · plus présent à Tanger-Tétouan-Al Hoceïma</div>
+            <div class="topic-bar"><span style="width:22%"></span></div>
+          </div>
+          <div class="topic-trend flat">▬ 0%</div>
+        </div>
+                <div class="topic-item">
+          <div class="topic-rank">4</div>
+          <div class="topic-main">
+            <div class="topic-name">Santé</div>
+            <div class="topic-meta">30 occurrences · plus présent à Rabat-Salé-Kénitra</div>
+            <div class="topic-bar"><span style="width:22%"></span></div>
+          </div>
+          <div class="topic-trend up">▲ 120%</div>
+        </div>
+                <div class="topic-item">
+          <div class="topic-rank">5</div>
+          <div class="topic-main">
+            <div class="topic-name">Jeunesse</div>
+            <div class="topic-meta">29 occurrences · plus présent à Tanger-Tétouan-Al Hoceïma</div>
+            <div class="topic-bar"><span style="width:21%"></span></div>
+          </div>
+          <div class="topic-trend up">▲ 43%</div>
+        </div>
+                <div class="topic-item">
+          <div class="topic-rank">6</div>
+          <div class="topic-main">
+            <div class="topic-name">Emploi</div>
+            <div class="topic-meta">27 occurrences · plus présent à Guelmim-Oued Noun</div>
+            <div class="topic-bar"><span style="width:20%"></span></div>
+          </div>
+          <div class="topic-trend up">▲ 300%</div>
+        </div>
+                <div class="topic-item">
+          <div class="topic-rank">7</div>
+          <div class="topic-main">
+            <div class="topic-name">Sécurité</div>
+            <div class="topic-meta">26 occurrences · plus présent à Laâyoune-Sakia El Hamra</div>
+            <div class="topic-bar"><span style="width:19%"></span></div>
+          </div>
+          <div class="topic-trend down">▼ 38%</div>
+        </div>
+                <div class="topic-item">
+          <div class="topic-rank">8</div>
+          <div class="topic-main">
+            <div class="topic-name">Chômage</div>
+            <div class="topic-meta">22 occurrences · plus présent à Casablanca-Settat</div>
+            <div class="topic-bar"><span style="width:16%"></span></div>
+          </div>
+          <div class="topic-trend up">▲ 300%</div>
+        </div>
+                <div class="topic-item">
+          <div class="topic-rank">9</div>
+          <div class="topic-main">
+            <div class="topic-name">Eau</div>
+            <div class="topic-meta">12 occurrences · plus présent à L&#039;Oriental</div>
+            <div class="topic-bar"><span style="width:9%"></span></div>
+          </div>
+          <div class="topic-trend flat">▬ 0%</div>
+        </div>
+                <div class="topic-item">
+          <div class="topic-rank">10</div>
+          <div class="topic-main">
+            <div class="topic-name">Cherté de la vie</div>
+            <div class="topic-meta">9 occurrences · plus présent à Fès-Meknès</div>
+            <div class="topic-bar"><span style="width:7%"></span></div>
+          </div>
+          <div class="topic-trend up">▲ 100%</div>
+        </div>
+                <div class="topic-item">
+          <div class="topic-rank">11</div>
+          <div class="topic-main">
+            <div class="topic-name">Environnement</div>
+            <div class="topic-meta">8 occurrences · plus présent à Tanger-Tétouan-Al Hoceïma</div>
+            <div class="topic-bar"><span style="width:6%"></span></div>
+          </div>
+          <div class="topic-trend down">▼ 60%</div>
+        </div>
+                <div class="topic-item">
+          <div class="topic-rank">12</div>
+          <div class="topic-main">
+            <div class="topic-name">Manifestation</div>
+            <div class="topic-meta">4 occurrences · plus présent à Fès-Meknès</div>
+            <div class="topic-bar"><span style="width:3%"></span></div>
+          </div>
+          <div class="topic-trend up">▲ 100%</div>
+        </div>
+                <div class="topic-item">
+          <div class="topic-rank">13</div>
+          <div class="topic-main">
+            <div class="topic-name">Logement</div>
+            <div class="topic-meta">1 occurrences · plus présent à Tanger-Tétouan-Al Hoceïma</div>
+            <div class="topic-bar"><span style="width:1%"></span></div>
+          </div>
+          <div class="topic-trend down">▼ 99%</div>
+        </div>
+                <div class="topic-item">
+          <div class="topic-rank">14</div>
+          <div class="topic-main">
+            <div class="topic-name">Agriculture</div>
+            <div class="topic-meta">1 occurrences · plus présent à Tanger-Tétouan-Al Hoceïma</div>
+            <div class="topic-bar"><span style="width:1%"></span></div>
+          </div>
+          <div class="topic-trend up">▲ 100%</div>
+        </div>
+              </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== VII. SOURCES DES DONNÉES ===== -->
+<div class="card" style="margin-bottom:16px;">
+  <div class="card-header">
+    <div class="card-title">🗄️ Sources des données</div>
+  </div>
+  <div class="card-body">
+    <div style="display:flex; flex-wrap:wrap; gap:10px;">
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Hespress FR</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Hespress — Économie</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Hespress — Société</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Hespress — Politique</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Hespress — Régions</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Hespress — Sport</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Hespress — Monde</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Medias24</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 TelQuel</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Yabiladi</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Le Site Info</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 La Vie Éco</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Challenge</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Aujourd&#039;hui le Maroc</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Barlamane</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Le Desk</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Bladi</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Maroc Local</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 Le Reporter</span>
+              <span class="badge badge-info" style="font-size:13px; padding:6px 12px;">📄 EcoActu</span>
+          </div>
+    <p style="margin-top:12px; font-size:13px; color:#64748b;">Dernière mise à jour : <strong>04/08/2026 11:04</strong></p>
+    <div class="insight-note" style="border:none; padding:0; margin-top:6px;">
+      Corpus presse publique (RSS). Les couleurs de la carte traduisent le volume de données disponibles par région, non l&#039;intensité réelle des phénomènes.    </div>
+  </div>
+</div>
+
+<!-- ===== PANNEAU LATÉRAL RÉGION (drawer) ===== -->
+<div class="psy-drawer" id="psyDrawer">
+  <div class="drawer-head">
+    <div class="drawer-title" id="drawerTitle">Région</div>
+    <button class="drawer-close" onclick="closeDrawer()" aria-label="Fermer">×</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+</div>
+
+<!-- ===== FENÊTRE MOT (drawer réutilisé pour mots) ===== -->
+<div class="psy-drawer" id="wordDrawer">
+  <div class="drawer-head">
+    <div class="drawer-title" id="wordTitle">Mot</div>
+    <button class="drawer-close" onclick="closeWordDrawer()" aria-label="Fermer">×</button>
+  </div>
+  <div class="drawer-body" id="wordBody"></div>
+</div>
+
+
+<script>
+// Les données PSY_* sont définies par $extraJS (footer), exécuté durant le
+// parsing ; on initialise donc après DOMContentLoaded pour qu'elles existent.
+document.addEventListener('DOMContentLoaded', function(){
+// ===== IA embarquée : analyses de la page psychosociale =====
+window.ATLASIA_AI = window.ATLASIA_AI || {};
+Object.assign(window.ATLASIA_AI, {
+  synth_sujet: {
+    title: "Sujet le plus discuté — " + PSY_TOPSUJ,
+    interpretation: "Le sujet « " + PSY_TOPSUJ + " » enregistre le plus grand nombre d'occurrences dans le corpus documentaire disponible (études, presse, terrain).",
+    tendance: "Un sujet dominant durablement peut refléter une préoccupation sociale structurante.",
+    recommandation: "Approfondir l'analyse thématique de ce sujet et croiser avec les indicateurs économiques (emploi, activité).",
+    source: "Corpus ATLASIA — Observatoire des Dynamiques Psychosociales (" + PSY_MAJ + ")"
+  },
+  synth_region: {
+    title: "Région la mieux couverte — " + PSY_TOPREG,
+    interpretation: "La région " + PSY_TOPREG + " concentre le plus grand volume de données. La carte reflète la disponibilité des connaissances, pas nécessairement l'intensité des phénomènes.",
+    tendance: "Les régions peu couvertes constituent des angles morts : il faut y intensifier la collecte.",
+    recommandation: "Prioriser la collecte de données dans les régions les plus claires sur la carte.",
+    source: "Corpus ATLASIA — Observatoire des Dynamiques Psychosociales (" + PSY_MAJ + ")"
+  },
+  synth_alerte: {
+    title: "État des alertes",
+    interpretation: "Aucune variation anormale n'a franchi les seuils définis. Conformément à la charte, aucune alerte n'est générée sans données étayées.",
+    tendance: "La situation est stable en l'état actuel du corpus.",
+    recommandation: "Maintenir la veille ; une alerte rouge s'affichera automatiquement en cas de franchissement de seuil.",
+    source: "Corpus ATLASIA — Observatoire des Dynamiques Psychosociales (" + PSY_MAJ + ")"
+  },
+  carte: {
+    title: "Carte des connaissances",
+    interpretation: "La coloration traduit un critère MESURABLE : le volume de données disponibles par région (études, documents, presse, terrain).",
+    tendance: "À mesure que le corpus s'enrichit, la carte deviendra plus représentative de la réalité sociale.",
+    recommandation: "Lire la carte comme une carte de la connaissance disponible, à compléter là où les couleurs sont claires.",
+    source: "Corpus ATLASIA — Observatoire des Dynamiques Psychosociales (" + PSY_MAJ + ")"
+  },
+  nuage: {
+    title: "Synthèse du nuage de mots",
+    interpretation: "Les termes dominants du corpus tournent autour de l'emploi, du chômage, de l'éducation et de la cherté de la vie — des marqueurs classiques du climat social.",
+    tendance: "La prégnance des termes économiques suggère un climat social sensible aux conditions matérielles.",
+    recommandation: "Suivre l'évolution de ces termes dans le temps pour détecter les basculements du climat social.",
+    source: "Corpus ATLASIA — Observatoire des Dynamiques Psychosociales (" + PSY_MAJ + ")"
+  }
+});
+
+// ===== NUAGE DE MOTS =====
+(function(){
+  const wc = document.getElementById("wordcloud");
+  if(!wc || !PSY_WORDS.length) return;
+  const freqs = PSY_WORDS.map(w => w.freq);
+  const min = Math.min(...freqs), max = Math.max(...freqs);
+  PSY_WORDS.forEach(w => {
+    const size = 14 + Math.round((w.freq - min) / (max - min || 1) * 30); // 14 -> 44 px
+    const shade = 30 + Math.round((w.freq - min) / (max - min || 1) * 45);
+    const el = document.createElement("span");
+    el.className = "word";
+    el.textContent = w.mot;
+    el.style.fontSize = size + "px";
+    el.style.color = "hsl(221, 60%, " + (65 - (shade-30)) + "%)";
+    el.title = w.freq + " occurrences";
+    el.onclick = () => openWordDrawer(w);
+    wc.appendChild(el);
+  });
+})();
+
+// ===== FENÊTRE MOT =====
+window.openWordDrawer = function(w){
+  document.getElementById("wordTitle").textContent = "« " + w.mot + " »";
+  document.getElementById("wordBody").innerHTML =
+    "<div style=\'display:flex;flex-direction:column;gap:12px;font-size:14px;\'>" +
+      "<div><span style=\'color:#64748b\'>Fréquence d\'apparition</span><br><strong style=\'font-size:20px\'>" + w.freq + "</strong> occurrences</div>" +
+      "<div><span style=\'color:#64748b\'>Nombre d\'études</span><br><strong>" + (w.etudes||0) + "</strong></div>" +
+      "<div><span style=\'color:#64748b\'>Régions où il est le plus présent</span><br><strong>" + (w.regions||[]).join(", ") + "</strong></div>" +
+      "<div><span style=\'color:#64748b\'>Mots associés</span><br>" + (w.associes||[]).map(m=>"<span class=\'badge badge-info\' style=\'margin:2px\'>"+m+"</span>").join(" ") + "</div>" +
+      "<div class=\'ai-actions\'><button class=\'ai-btn\' onclick=\"atlasiaAI(\'mot_dyn\')\"><span class=\'ai-spark\'>✨</span> Analyser ce mot</button></div>" +
+    "</div>";
+  window.ATLASIA_AI["mot_dyn"] = {
+    title: "Analyse du mot « " + w.mot + " »",
+    interpretation: "Le terme « " + w.mot + " » apparaît " + w.freq + " fois dans le corpus et est associé à : " + (w.associes||[]).join(", ") + ".",
+    tendance: "Sa forte co-occurrence avec ces termes suggère un champ thématique cohérent à surveiller.",
+    recommandation: "Explorer les " + (w.etudes||0) + " études où ce terme apparaît pour contextualiser.",
+    source: "Corpus ATLASIA — Observatoire des Dynamiques Psychosociales (" + PSY_MAJ + ")"
+  };
+  document.getElementById("wordDrawer").classList.add("open");
+}
+window.closeWordDrawer = function(){ document.getElementById("wordDrawer").classList.remove("open"); }
+
+// ===== CARTE INTERACTIVE (colorée par volume de données) =====
+const PSY_GEOJSON = "data/morocco-regions-12.geojson";
+window.volColor = function(v, min, max){
+  const pct = (v - min) / (max - min || 1);
+  // dégradé clair -> foncé (bleu indigo)
+  const light = 92 - Math.round(pct * 62); // 92% -> 30%
+  return "hsl(226, 70%, " + light + "%)";
+}
+let psyMap, psyLayer;
+const volumes = Object.values(PSY_REGIONS).map(r => r.volume_total || 0);
+const vMin = Math.min(...volumes), vMax = Math.max(...volumes);
+
+fetch(PSY_GEOJSON).then(r=>r.json()).then(geo=>{
+  psyMap = L.map("psy-map", {center:[29.0,-7.5], zoom:5, scrollWheelZoom:true, attributionControl:false});
+  // Pas de fond de tuiles externe : la carte choroplèthe (polygones colorés par
+  // volume de données) est le contenu. Fond neutre => fonctionne 100% hors-ligne (XAMPP).
+  psyLayer = L.geoJSON(geo, {
+    style: f => {
+      const r = PSY_REGIONS[f.properties.id] || {volume_total:0};
+      return { fillColor: volColor(r.volume_total, vMin, vMax), weight:1.5, color:"#fff", fillOpacity:0.85 };
+    },
+    onEachFeature: (f, layer) => {
+      const r = PSY_REGIONS[f.properties.id] || {};
+      layer.bindTooltip(f.properties.nom + " — " + (r.volume_total||0) + " articles", {sticky:true});
+      layer.on("click", () => openRegionDrawer(f.properties.id, f.properties.nom));
+      layer.on("mouseover", () => layer.setStyle({weight:3, color:"#1e3a8a"}));
+      layer.on("mouseout",  () => psyLayer.resetStyle(layer));
+    }
+  }).addTo(psyMap);
+  psyMap.fitBounds(psyLayer.getBounds(), {padding:[10,10]});
+}).catch(err=>{
+  document.getElementById("psy-map").innerHTML = "<div style=\'display:flex;align-items:center;justify-content:center;height:100%;background:#f8fafc;color:#64748b;\'>⚠️ Chargez l\'application via un serveur (XAMPP) pour afficher la carte.</div>";
+  console.error(err);
+});
+
+// ===== PANNEAU RÉGION =====
+window.openRegionDrawer = function(id, nom){
+  const r = PSY_REGIONS[id];
+  if(!r){ return; }
+  document.getElementById("drawerTitle").textContent = nom;
+  document.getElementById("drawerBody").innerHTML =
+    "<div style=\'display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;\'>" +
+      statBox("📰 Articles de presse", r.articles_presse) + statBox("💬 Mentions sociales", r.mentions) +
+      statBox("🏷️ Thèmes distincts", r.themes_distincts) + statBox("📊 Volume total", r.volume_total) +
+    "</div>" +
+    "<div style=\'margin-bottom:12px;\'><span style=\'color:#64748b;font-size:13px\'>Sujets les plus discutés dans la presse</span><br>" +
+      ((r.sujets||[]).length ? (r.sujets||[]).map(s=>"<span class=\'badge badge-info\' style=\'margin:2px\'>"+s+"</span>").join(" ") : "<em style=\'color:#94a3b8\'>Aucune donnée pour l\'instant</em>") + "</div>" +
+    "<div style=\'font-size:13px;color:#64748b;margin-bottom:14px;\'>Volume total : <strong style=\'color:#1e293b\'>"+(r.volume_total||0)+"</strong> articles · Dernière mise à jour : "+(r.derniere_maj||PSY_MAJ)+"</div>" +
+    "<div class=\'ai-actions\'><button class=\'ai-btn\' onclick=\"atlasiaAI(\'region_dyn\')\"><span class=\'ai-spark\'>✨</span> Analyser cette région avec l\'IA</button></div>";
+  var bienDoc = (r.volume_total||0) >= 10;
+  window.ATLASIA_AI["region_dyn"] = {
+    title: "Analyse — " + nom,
+    interpretation: nom + " concentre " + (r.volume_total||0) + " articles de presse (" + (r.mentions||0) + " mentions sociales, " + (r.themes_distincts||0) + " thèmes distincts). Les sujets dominants y sont : " + ((r.sujets||[]).join(", ") || "aucun pour l'instant") + ".",
+    tendance: (bienDoc ? "Région bien couverte par la presse : les analyses y seront plus fiables." : "Région peu couverte sur la période : les conclusions doivent rester prudentes."),
+    recommandation: (bienDoc ? "Exploiter le corpus pour des analyses thématiques approfondies et un suivi dans le temps." : "Renforcer la collecte de données (presse locale, terrain) sur cette région."),
+    source: "Corpus presse ATLASIA — Observatoire des Dynamiques Psychosociales (" + (r.derniere_maj||PSY_MAJ) + ")"
+  };
+  document.getElementById("psyDrawer").classList.add("open");
+}
+window.statBox = function(label, val){
+  return "<div style=\'background:#f8fbff;border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px;\'>" +
+    "<div style=\'font-size:12px;color:#64748b\'>"+label+"</div>" +
+    "<div style=\'font-size:22px;font-weight:800;color:#1e3a8a\'>"+(val||0)+"</div></div>";
+}
+window.closeDrawer = function(){ document.getElementById("psyDrawer").classList.remove("open"); }
+}); // end DOMContentLoaded
+</script>
+
+    </div><!-- end page-content -->
+  </div><!-- end main-content -->
+</div><!-- end app-layout -->
+
+<!-- ===== MODAL IA EMBARQUÉE (Charte · Principe 7 : IA embarquée) ===== -->
+<div class="ai-modal-overlay" id="aiModalOverlay" onclick="if(event.target===this)closeAiModal()">
+  <div class="ai-modal" role="dialog" aria-modal="true">
+    <div class="ai-modal-head">
+      <div class="ai-modal-title"><span>✨</span> <span id="aiModalTitle">Assistant d'analyse ATLASIA</span></div>
+      <button class="ai-modal-close" onclick="closeAiModal()" aria-label="Fermer">×</button>
+    </div>
+    <div class="ai-modal-body" id="aiModalBody"></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   IA EMBARQUÉE ATLASIA — grounded sur les données disponibles
+   Chaque page enregistre ses analyses dans window.ATLASIA_AI[cle].
+   Une analyse = { title, interpretation, tendance, recommandation, source }
+   Conforme à la Charte : réponses fondées uniquement sur les données
+   de la plateforme, avec mention explicite des sources.
+   ===================================================================== */
+window.ATLASIA_AI = window.ATLASIA_AI || {};
+
+function _aiRender(a){
+  var html = '';
+  if(a.interpretation){ html += '<h4>🔎 Interprétation potentielle</h4><p>'+a.interpretation+'</p>'; }
+  if(a.tendance){ html += '<h4>📈 Tendance prospective</h4><p>'+a.tendance+'</p>'; }
+  if(a.recommandation){ html += '<h4>🎯 Recommandation opérationnelle</h4><p>'+a.recommandation+'</p>'; }
+  if(a.resume){ html += '<h4>📝 Synthèse</h4><p>'+a.resume+'</p>'; }
+  html += '<p class="ai-source">'+(a.source ? ('Source : '+a.source+'. ') : '')+
+          'Lecture analytique fondée sur les données disponibles dans la plateforme — non une vérité absolue.</p>';
+  return html;
+}
+
+var _aiCurrent = null; // { key, title, a }
+
+function _aiFooterHTML(){
+  return '<div class="ai-ask">'+
+    '<textarea id="aiQuestion" class="ai-ask-input" rows="2" '+
+      'placeholder="Posez une question sur ces données (optionnel)…"></textarea>'+
+    '<button class="ai-btn" onclick="atlasiaAsk()"><span class="ai-spark">✨</span> Demander à l\'IA</button>'+
+  '</div>';
+}
+
+// Appelle le proxy IA générative (api/ai.php). Repli local géré côté serveur.
+function _aiCall(payload, body){
+  fetch('api/ai.php', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).then(function(r){ return r.json(); })
+    .then(function(res){
+      var badge = res.mode === 'ai'
+        ? '<span class="ai-mode ai-mode-live">✨ IA générative</span>'
+        : '<span class="ai-mode ai-mode-local">🔒 Analyse locale</span>';
+      body.innerHTML = badge + (res.text || '') + _aiFooterHTML();
+    })
+    .catch(function(){
+      // réseau totalement indisponible => rendu local pur
+      body.innerHTML = (_aiCurrent && _aiCurrent.a ? _aiRender(_aiCurrent.a)
+        : '<p>Service IA indisponible.</p>') + _aiFooterHTML();
+    });
+}
+
+function atlasiaAI(key, title){
+  var overlay = document.getElementById('aiModalOverlay');
+  var body = document.getElementById('aiModalBody');
+  var titleEl = document.getElementById('aiModalTitle');
+  var a = window.ATLASIA_AI[key] || null;
+  _aiCurrent = { key:key, title:(a && a.title) ? a.title : (title||''), a:a };
+  titleEl.textContent = _aiCurrent.title || "Assistant d'analyse ATLASIA";
+  overlay.classList.add('open');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> Analyse des données disponibles…</div>';
+  _aiCall({ key:key, title:_aiCurrent.title, context:(a||{}) }, body);
+}
+
+// Question libre de l'utilisateur sur le même élément (grounding conservé).
+function atlasiaAsk(){
+  var q = (document.getElementById('aiQuestion')||{}).value || '';
+  if(!q.trim()){ return; }
+  var body = document.getElementById('aiModalBody');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> L\'IA analyse votre question…</div>';
+  var a = _aiCurrent ? _aiCurrent.a : null;
+  _aiCall({ key:(_aiCurrent&&_aiCurrent.key)||'', title:(_aiCurrent&&_aiCurrent.title)||'',
+            context:(a||{}), question:q }, body);
+}
+function closeAiModal(){ document.getElementById('aiModalOverlay').classList.remove('open'); }
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAiModal(); });
+</script>
+
+<!-- Scripts globaux -->
+<script>
+// Init Lucide icons
+if (typeof lucide !== 'undefined') lucide.createIcons();
+
+// Mobile menu toggle
+function initMobileMenu() {
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900) {
+    if (toggle) toggle.style.display = 'flex';
+  } else {
+    if (toggle) toggle.style.display = 'none';
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) sidebar.classList.remove('open');
+  }
+}
+window.addEventListener('resize', initMobileMenu);
+initMobileMenu();
+
+// Close sidebar on outside click (mobile)
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900 && sidebar && !sidebar.contains(e.target) && e.target !== toggle) {
+    sidebar.classList.remove('open');
+  }
+});
+
+// Search global
+document.getElementById('globalSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  if (q.length >= 3) {
+    console.log('Recherche:', q);
+  }
+});
+
+// Sidebar search
+document.getElementById('sidebarSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(q) ? '' : 'none';
+  });
+});
+
+// Animate cards on load
+document.querySelectorAll('.stat-card, .card, .project-card, .file-card').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(12px)';
+  setTimeout(() => {
+    el.style.transition = 'opacity .3s ease, transform .3s ease';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, i * 60);
+});
+</script>
+
+<script>
+const PSY_REGIONS = {"rabat-sale-kenitra":{"nom":"Rabat-Salé-Kénitra","articles_presse":33,"mentions":29,"themes_distincts":7,"volume_total":33,"sujets":["Migration","Femmes","Santé","Justice","Sécurité"],"derniere_maj":"04\/08\/2026 11:04"},"casablanca-settat":{"nom":"Casablanca-Settat","articles_presse":22,"mentions":14,"themes_distincts":8,"volume_total":22,"sujets":["Justice","Investissement","Chômage","Éducation","Santé"],"derniere_maj":"04\/08\/2026 11:04"},"marrakech-safi":{"nom":"Marrakech-Safi","articles_presse":4,"mentions":0,"themes_distincts":0,"volume_total":4,"sujets":[],"derniere_maj":"04\/08\/2026 11:04"},"fes-meknes":{"nom":"Fès-Meknès","articles_presse":16,"mentions":14,"themes_distincts":10,"volume_total":16,"sujets":["Manifestation","Prix","Cherté de la vie","Justice","Investissement"],"derniere_maj":"04\/08\/2026 11:04"},"tanger-tetouan-al-hoceima":{"nom":"Tanger-Tétouan-Al Hoceïma","articles_presse":29,"mentions":19,"themes_distincts":9,"volume_total":29,"sujets":["Migration","Jeunesse","Éducation","Santé","Numérique"],"derniere_maj":"04\/08\/2026 11:04"},"souss-massa":{"nom":"Souss-Massa","articles_presse":10,"mentions":2,"themes_distincts":2,"volume_total":10,"sujets":["Santé","Emploi"],"derniere_maj":"04\/08\/2026 11:04"},"l-oriental":{"nom":"L'Oriental","articles_presse":14,"mentions":6,"themes_distincts":4,"volume_total":14,"sujets":["Justice","Eau","Migration","Emploi"],"derniere_maj":"04\/08\/2026 11:04"},"beni-mellal-khenifra":{"nom":"Béni Mellal-Khénifra","articles_presse":3,"mentions":1,"themes_distincts":1,"volume_total":3,"sujets":["Migration"],"derniere_maj":"04\/08\/2026 11:04"},"draa-tafilalet":{"nom":"Drâa-Tafilalet","articles_presse":2,"mentions":1,"themes_distincts":1,"volume_total":2,"sujets":["Emploi"],"derniere_maj":"04\/08\/2026 11:04"},"guelmim-oued-noun":{"nom":"Guelmim-Oued Noun","articles_presse":29,"mentions":14,"themes_distincts":7,"volume_total":29,"sujets":["Femmes","Éducation","Migration","Emploi","Santé"],"derniere_maj":"04\/08\/2026 11:04"},"laayoune-sakia-el-hamra":{"nom":"Laâyoune-Sakia El Hamra","articles_presse":5,"mentions":5,"themes_distincts":4,"volume_total":5,"sujets":["Sécurité","Santé","Emploi","Jeunesse"],"derniere_maj":"04\/08\/2026 11:04"},"dakhla-oued-ed-dahab":{"nom":"Dakhla-Oued Ed-Dahab","articles_presse":3,"mentions":1,"themes_distincts":1,"volume_total":3,"sujets":["Emploi"],"derniere_maj":"04\/08\/2026 11:04"}};
+const PSY_WORDS   = [{"mot":"Migration","freq":136,"etudes":61,"regions":["Rabat-Salé-Kénitra","Tanger-Tétouan-Al Hoceïma"],"associes":["Justice","Sécurité","Jeunesse","Éducation"]},{"mot":"Femmes","freq":55,"etudes":21,"regions":["Rabat-Salé-Kénitra","Guelmim-Oued Noun"],"associes":["Emploi","Chômage","Jeunesse","Inégalités"]},{"mot":"Prix","freq":45,"etudes":11,"regions":["Fès-Meknès","Tanger-Tétouan-Al Hoceïma"],"associes":["Cherté de la vie","Grève","Transport","Retraite"]},{"mot":"Investissement","freq":37,"etudes":24,"regions":["Casablanca-Settat","Tanger-Tétouan-Al Hoceïma"],"associes":["Éducation","Justice","Sécurité","Retraite"]},{"mot":"Justice","freq":32,"etudes":16,"regions":["Casablanca-Settat","L'Oriental"],"associes":["Migration","Investissement","Manifestation","Sécurité"]},{"mot":"Éducation","freq":30,"etudes":22,"regions":["Tanger-Tétouan-Al Hoceïma","Guelmim-Oued Noun"],"associes":["Santé","Jeunesse","Emploi","Environnement"]},{"mot":"Santé","freq":30,"etudes":16,"regions":["Rabat-Salé-Kénitra","Tanger-Tétouan-Al Hoceïma"],"associes":["Éducation","Emploi","Numérique","Sécurité"]},{"mot":"Jeunesse","freq":29,"etudes":17,"regions":["Tanger-Tétouan-Al Hoceïma","Guelmim-Oued Noun"],"associes":["Emploi","Éducation","Migration","Chômage"]},{"mot":"Emploi","freq":27,"etudes":12,"regions":["Guelmim-Oued Noun","Dakhla-Oued Ed-Dahab"],"associes":["Chômage","Jeunesse","Éducation","Femmes"]},{"mot":"Sécurité","freq":26,"etudes":13,"regions":["Laâyoune-Sakia El Hamra","Rabat-Salé-Kénitra"],"associes":["Migration","Investissement","Santé","Justice"]},{"mot":"Chômage","freq":22,"etudes":10,"regions":["Guelmim-Oued Noun","Rabat-Salé-Kénitra"],"associes":["Emploi","Jeunesse","Femmes","Éducation"]},{"mot":"Eau","freq":12,"etudes":2,"regions":["L'Oriental"],"associes":[]},{"mot":"Cherté de la vie","freq":9,"etudes":3,"regions":["Fès-Meknès"],"associes":["Prix","Grève","Transport"]},{"mot":"Numérique","freq":9,"etudes":4,"regions":["Tanger-Tétouan-Al Hoceïma"],"associes":["Emploi","Santé","Éducation"]},{"mot":"Grève","freq":8,"etudes":4,"regions":["Fès-Meknès","Casablanca-Settat"],"associes":["Cherté de la vie","Prix","Transport","Jeunesse"]},{"mot":"Environnement","freq":8,"etudes":7,"regions":[],"associes":["Jeunesse","Éducation","Emploi","Chômage"]},{"mot":"Retraite","freq":8,"etudes":5,"regions":["Tanger-Tétouan-Al Hoceïma"],"associes":["Prix","Investissement","Sécurité","Migration"]},{"mot":"Manifestation","freq":4,"etudes":4,"regions":["Fès-Meknès"],"associes":["Justice","Investissement","Prix"]},{"mot":"Transport","freq":3,"etudes":1,"regions":[],"associes":["Cherté de la vie","Prix","Grève"]},{"mot":"Inégalités","freq":3,"etudes":2,"regions":[],"associes":["Emploi","Chômage","Jeunesse","Femmes"]},{"mot":"Protection sociale","freq":2,"etudes":2,"regions":["Rabat-Salé-Kénitra"],"associes":["Santé"]},{"mot":"Tourisme","freq":2,"etudes":2,"regions":["Casablanca-Settat"],"associes":["Investissement"]},{"mot":"Agriculture","freq":1,"etudes":1,"regions":["Tanger-Tétouan-Al Hoceïma"],"associes":[]},{"mot":"Logement","freq":1,"etudes":1,"regions":[],"associes":[]}];
+const PSY_MAJ     = "04\/08\/2026 11:04";
+const PSY_TOPREG  = "Rabat-Salé-Kénitra";
+const PSY_TOPSUJ  = "Migration";
+</script>
+
+</body>
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espaces de Travail &amp; Projets — ATLASIA</title>
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Leaflet.js pour la carte -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  
+  <!-- Chart.js pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  
+  <style>
+    /* Overrides spécifiques à la page */
+      </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-icon">A</div>
+      <div class="logo-text">
+        <span class="logo-name">ATLASIA</span>
+        <span class="logo-tagline">Mapping Society · Powering Insight</span>
+      </div>
+    </div>
+
+    <!-- Recherche dans la sidebar -->
+    <div class="sidebar-search">
+      <input type="text" placeholder="Rechercher dans la plateforme..." id="sidebarSearch">
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">PLATEFORME</div>
+      
+            <a href="dashboard.html" class="nav-item ">
+        <span class="nav-icon">⚡</span>
+        <span>Intelligence Stratégique</span>
+              </a>
+            <a href="espaces-travail.html" class="nav-item active">
+        <span class="nav-icon">📁</span>
+        <span>Espaces de Travail</span>
+                <span class="nav-badge">3</span>
+              </a>
+            <a href="production.html" class="nav-item ">
+        <span class="nav-icon">📊</span>
+        <span>Production & Collecte</span>
+              </a>
+            <a href="referentiel.html" class="nav-item ">
+        <span class="nav-icon">🗄️</span>
+        <span>Référentiel de Données</span>
+              </a>
+            <a href="ai-studio.html" class="nav-item ">
+        <span class="nav-icon">🤖</span>
+        <span>AI Research Studio</span>
+                <span class="nav-badge">IA</span>
+              </a>
+            <a href="observatoire.html" class="nav-item ">
+        <span class="nav-icon">🔭</span>
+        <span>Observatoire Social</span>
+              </a>
+            <a href="observatoire-psychosocial.html" class="nav-item ">
+        <span class="nav-icon">🧠</span>
+        <span>Dynamiques Psychosociales</span>
+                <span class="nav-badge">V2</span>
+              </a>
+            <a href="mots-sociaux.html" class="nav-item ">
+        <span class="nav-icon">☁️</span>
+        <span>Mots sociaux du web</span>
+                <span class="nav-badge">✨</span>
+              </a>
+            <a href="bibliotheque.html" class="nav-item ">
+        <span class="nav-icon">📚</span>
+        <span>Bibliothèque Scientifique</span>
+                <span class="nav-badge">4</span>
+              </a>
+            <a href="reseau.html" class="nav-item ">
+        <span class="nav-icon">🤝</span>
+        <span>Réseau des Chercheurs</span>
+              </a>
+      
+      <div class="nav-section-label" style="margin-top:8px;">COMPTE</div>
+      <a href="profil.html" class="nav-item ">
+        <span class="nav-icon">👤</span>
+        <span>Mon Profil</span>
+      </a>
+      <a href="actualites.html" class="nav-item ">
+        <span class="nav-icon">📰</span>
+        <span>Actualités</span>
+      </a>
+      <a href="parametres.html" class="nav-item ">
+        <span class="nav-icon">⚙️</span>
+        <span>Paramètres</span>
+      </a>
+      <a href="admin.html" class="nav-item ">
+        <span class="nav-icon">🔒</span>
+        <span>Administration</span>
+      </a>
+    </nav>
+
+    <!-- Section aide -->
+    <div class="sidebar-help">
+      <div class="help-title">🤔 Besoin d'aide ?</div>
+      <div class="help-desc">Accédez à la documentation et au support technique.</div>
+      <a href="#" class="help-link">Consultez notre centre d'aide →</a>
+    </div>
+
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      
+      <!-- Hamburger (mobile) -->
+      <button class="header-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" style="display:none;" id="menuToggle">
+        ☰
+      </button>
+
+      <!-- Recherche globale -->
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Rechercher dans la plateforme ATLASIA..." id="globalSearch">
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <div class="header-btn" data-tooltip="Notifications" onclick="alert('Aucune nouvelle notification')">
+          🔔
+          <span class="notification-badge"></span>
+        </div>
+        <div class="header-btn" data-tooltip="Messages" onclick="alert('Messagerie')">💬</div>
+        <div class="header-btn" data-tooltip="Aide" onclick="alert('Centre d\'aide')">❓</div>
+        
+        <!-- User profile -->
+        <div class="header-user">
+          <div class="user-avatar">GA</div>
+          <div class="user-info">
+            <span class="user-name">Ghazi Abdessalam</span>
+            <span class="user-role">Chercheur Principal</span>
+          </div>
+          <span style="color:#94a3b8; margin-left:4px;">▾</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="page-content" id="pageContent">
+      <!-- Page header -->
+            <div class="page-header">
+        <div>
+          <h1 class="page-title">Espaces de Travail &amp; Projets</h1>
+                    <p class="page-subtitle">Gérez vos projets de recherche de bout en bout</p>
+                  </div>
+                <div class="page-actions"><button class="btn btn-primary" onclick="newProject()">+ Nouveau projet</button></div>
+              </div>
+      
+<!-- Tabs -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab(this,'tab-all')">📁 Tous les projets (4)</div>
+  <div class="tab" onclick="showTab(this,'tab-running')">🔄 En cours</div>
+  <div class="tab" onclick="showTab(this,'tab-final')">✅ Finalisés</div>
+  <div class="tab" onclick="showTab(this,'tab-archive')">📦 Archivés</div>
+</div>
+
+<div class="tab-content active" id="tab-all">
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
+        <div class="project-card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;">
+        <div>
+          <div class="project-title">Dynamiques migratoires au Maroc 2025</div>
+          <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+            <span class="badge badge-info">Étude gouvernementale</span>
+            <span class="badge badge-gray">🏛️ HCP</span>
+          </div>
+        </div>
+        <div style="width:48px;height:48px;border-radius:12px;background:#2563eb22;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">📋</div>
+      </div>
+      <div class="project-desc">Analyse des flux migratoires internes et externes, facteurs socio-économiques.</div>
+      <div class="project-meta">
+        <span>👥 4 chercheur(s)</span>
+        <span>📅 01/01/2025 → 30/06/2025</span>
+        <span class="badge badge-info">En cours</span>
+      </div>
+      <div class="project-progress">
+        <div class="project-progress-label">
+          <span>Avancement</span>
+          <span style="font-weight:700;color:#2563eb;">72%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:72%;background:#2563eb;"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px;">
+        <button class="btn btn-primary btn-sm" onclick="openProject(1)">📂 Ouvrir</button>
+        <button class="btn btn-outline btn-sm" onclick="alert('Ajout de membres')">👥 Équipe</button>
+        <button class="btn btn-outline btn-sm" onclick="alert('Paramètres du projet')">⚙️</button>
+      </div>
+    </div>
+        <div class="project-card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;">
+        <div>
+          <div class="project-title">Les jeunes et le marché de l'emploi</div>
+          <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+            <span class="badge badge-info">Étude institutionnelle</span>
+            <span class="badge badge-gray">🏛️ ANAPEC</span>
+          </div>
+        </div>
+        <div style="width:48px;height:48px;border-radius:12px;background:#10b98122;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">📋</div>
+      </div>
+      <div class="project-desc">Enquête nationale sur l'employabilité des jeunes de 18-35 ans.</div>
+      <div class="project-meta">
+        <span>👥 3 chercheur(s)</span>
+        <span>📅 15/02/2025 → 15/08/2025</span>
+        <span class="badge badge-info">En cours</span>
+      </div>
+      <div class="project-progress">
+        <div class="project-progress-label">
+          <span>Avancement</span>
+          <span style="font-weight:700;color:#10b981;">45%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:45%;background:#10b981;"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px;">
+        <button class="btn btn-primary btn-sm" onclick="openProject(2)">📂 Ouvrir</button>
+        <button class="btn btn-outline btn-sm" onclick="alert('Ajout de membres')">👥 Équipe</button>
+        <button class="btn btn-outline btn-sm" onclick="alert('Paramètres du projet')">⚙️</button>
+      </div>
+    </div>
+        <div class="project-card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;">
+        <div>
+          <div class="project-title">Perceptions sociales de l'éducation</div>
+          <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+            <span class="badge badge-info">Projet universitaire</span>
+            <span class="badge badge-gray">🏛️ UM5 Rabat</span>
+          </div>
+        </div>
+        <div style="width:48px;height:48px;border-radius:12px;background:#7c3aed22;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">📋</div>
+      </div>
+      <div class="project-desc">Mesure des attitudes parentales et des aspirations éducatives en milieu rural.</div>
+      <div class="project-meta">
+        <span>👥 2 chercheur(s)</span>
+        <span>📅 01/09/2024 → 30/06/2025</span>
+        <span class="badge badge-success">Finalisation</span>
+      </div>
+      <div class="project-progress">
+        <div class="project-progress-label">
+          <span>Avancement</span>
+          <span style="font-weight:700;color:#7c3aed;">89%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:89%;background:#7c3aed;"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px;">
+        <button class="btn btn-primary btn-sm" onclick="openProject(3)">📂 Ouvrir</button>
+        <button class="btn btn-outline btn-sm" onclick="alert('Ajout de membres')">👥 Équipe</button>
+        <button class="btn btn-outline btn-sm" onclick="alert('Paramètres du projet')">⚙️</button>
+      </div>
+    </div>
+        <div class="project-card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;">
+        <div>
+          <div class="project-title">Cohésion sociale et liens communautaires</div>
+          <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+            <span class="badge badge-info">Thèse de doctorat</span>
+            <span class="badge badge-gray">🏛️ UCA Marrakech</span>
+          </div>
+        </div>
+        <div style="width:48px;height:48px;border-radius:12px;background:#f59e0b22;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">📋</div>
+      </div>
+      <div class="project-desc">Étude longitudinale sur les facteurs de cohésion sociale dans les médinas marocaines.</div>
+      <div class="project-meta">
+        <span>👥 1 chercheur(s)</span>
+        <span>📅 01/03/2025 → 28/02/2027</span>
+        <span class="badge badge-gray">Phase initiale</span>
+      </div>
+      <div class="project-progress">
+        <div class="project-progress-label">
+          <span>Avancement</span>
+          <span style="font-weight:700;color:#f59e0b;">28%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:28%;background:#f59e0b;"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px;">
+        <button class="btn btn-primary btn-sm" onclick="openProject(4)">📂 Ouvrir</button>
+        <button class="btn btn-outline btn-sm" onclick="alert('Ajout de membres')">👥 Équipe</button>
+        <button class="btn btn-outline btn-sm" onclick="alert('Paramètres du projet')">⚙️</button>
+      </div>
+    </div>
+      </div>
+</div>
+
+<div class="tab-content" id="tab-running">
+  <div class="empty-state"><div class="empty-icon">🔄</div><div class="empty-title">Projets en cours</div><div class="empty-desc">Voir l'onglet "Tous les projets" pour les projets actifs.</div></div>
+</div>
+<div class="tab-content" id="tab-final">
+  <div class="empty-state"><div class="empty-icon">✅</div><div class="empty-title">Aucun projet finalisé</div><div class="empty-desc">Les projets terminés apparaîtront ici.</div></div>
+</div>
+<div class="tab-content" id="tab-archive">
+  <div class="empty-state"><div class="empty-icon">📦</div><div class="empty-title">Archives vides</div><div class="empty-desc">Aucun projet archivé pour le moment.</div></div>
+</div>
+
+<!-- Modal Nouveau Projet -->
+<div class="modal-overlay" id="newProjectModal">
+  <div class="modal" style="max-width:680px;">
+    <div class="modal-header">
+      <div class="modal-title">+ Nouveau Projet de Recherche</div>
+      <div class="modal-close" onclick="document.getElementById('newProjectModal').classList.remove('open')">✕</div>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Titre du projet *</label><input class="form-input" placeholder="Ex: Le chômage des jeunes dans la région de Rabat-Salé-Kénitra"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Type de projet *</label>
+          <select class="form-select">
+            <option>Mémoire de Master</option><option>Thèse de doctorat</option><option>Projet universitaire</option><option>Étude gouvernementale</option><option>Étude institutionnelle</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Organisme responsable</label><input class="form-input" placeholder="Ex: Université Mohammed V"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Date de début</label><input type="date" class="form-input"></div>
+        <div class="form-group"><label class="form-label">Date de fin prévisionnelle</label><input type="date" class="form-input"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Description / Problématique</label><textarea class="form-textarea" placeholder="Décrivez l'objectif et la problématique du projet..."></textarea></div>
+      <div class="form-group"><label class="form-label">Mots-clés</label><input class="form-input" placeholder="Ex: chômage, jeunes, Rabat, emploi (séparés par des virgules)"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="document.getElementById('newProjectModal').classList.remove('open')">Annuler</button>
+      <button class="btn btn-primary" onclick="alert('Projet créé ! L\'espace de travail a été généré automatiquement.');document.getElementById('newProjectModal').classList.remove('open')">🚀 Créer le projet</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(btn, tabId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+function newProject() { document.getElementById('newProjectModal').classList.add('open'); }
+function openProject(id) {
+  alert('Ouverture du projet #' + id + '\n\nOnglets disponibles :\n📋 Informations générales\n👥 Membres\n📁 Documents\n📖 Revue littérature\n🔬 Conception\n📊 Données\n📈 Analyse\n📝 Rapport\n🌐 Publication');
+}
+document.getElementById('newProjectModal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+</script>
+    </div><!-- end page-content -->
+  </div><!-- end main-content -->
+</div><!-- end app-layout -->
+
+<!-- ===== MODAL IA EMBARQUÉE (Charte · Principe 7 : IA embarquée) ===== -->
+<div class="ai-modal-overlay" id="aiModalOverlay" onclick="if(event.target===this)closeAiModal()">
+  <div class="ai-modal" role="dialog" aria-modal="true">
+    <div class="ai-modal-head">
+      <div class="ai-modal-title"><span>✨</span> <span id="aiModalTitle">Assistant d'analyse ATLASIA</span></div>
+      <button class="ai-modal-close" onclick="closeAiModal()" aria-label="Fermer">×</button>
+    </div>
+    <div class="ai-modal-body" id="aiModalBody"></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   IA EMBARQUÉE ATLASIA — grounded sur les données disponibles
+   Chaque page enregistre ses analyses dans window.ATLASIA_AI[cle].
+   Une analyse = { title, interpretation, tendance, recommandation, source }
+   Conforme à la Charte : réponses fondées uniquement sur les données
+   de la plateforme, avec mention explicite des sources.
+   ===================================================================== */
+window.ATLASIA_AI = window.ATLASIA_AI || {};
+
+function _aiRender(a){
+  var html = '';
+  if(a.interpretation){ html += '<h4>🔎 Interprétation potentielle</h4><p>'+a.interpretation+'</p>'; }
+  if(a.tendance){ html += '<h4>📈 Tendance prospective</h4><p>'+a.tendance+'</p>'; }
+  if(a.recommandation){ html += '<h4>🎯 Recommandation opérationnelle</h4><p>'+a.recommandation+'</p>'; }
+  if(a.resume){ html += '<h4>📝 Synthèse</h4><p>'+a.resume+'</p>'; }
+  html += '<p class="ai-source">'+(a.source ? ('Source : '+a.source+'. ') : '')+
+          'Lecture analytique fondée sur les données disponibles dans la plateforme — non une vérité absolue.</p>';
+  return html;
+}
+
+var _aiCurrent = null; // { key, title, a }
+
+function _aiFooterHTML(){
+  return '<div class="ai-ask">'+
+    '<textarea id="aiQuestion" class="ai-ask-input" rows="2" '+
+      'placeholder="Posez une question sur ces données (optionnel)…"></textarea>'+
+    '<button class="ai-btn" onclick="atlasiaAsk()"><span class="ai-spark">✨</span> Demander à l\'IA</button>'+
+  '</div>';
+}
+
+// Appelle le proxy IA générative (api/ai.php). Repli local géré côté serveur.
+function _aiCall(payload, body){
+  fetch('api/ai.php', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).then(function(r){ return r.json(); })
+    .then(function(res){
+      var badge = res.mode === 'ai'
+        ? '<span class="ai-mode ai-mode-live">✨ IA générative</span>'
+        : '<span class="ai-mode ai-mode-local">🔒 Analyse locale</span>';
+      body.innerHTML = badge + (res.text || '') + _aiFooterHTML();
+    })
+    .catch(function(){
+      // réseau totalement indisponible => rendu local pur
+      body.innerHTML = (_aiCurrent && _aiCurrent.a ? _aiRender(_aiCurrent.a)
+        : '<p>Service IA indisponible.</p>') + _aiFooterHTML();
+    });
+}
+
+function atlasiaAI(key, title){
+  var overlay = document.getElementById('aiModalOverlay');
+  var body = document.getElementById('aiModalBody');
+  var titleEl = document.getElementById('aiModalTitle');
+  var a = window.ATLASIA_AI[key] || null;
+  _aiCurrent = { key:key, title:(a && a.title) ? a.title : (title||''), a:a };
+  titleEl.textContent = _aiCurrent.title || "Assistant d'analyse ATLASIA";
+  overlay.classList.add('open');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> Analyse des données disponibles…</div>';
+  _aiCall({ key:key, title:_aiCurrent.title, context:(a||{}) }, body);
+}
+
+// Question libre de l'utilisateur sur le même élément (grounding conservé).
+function atlasiaAsk(){
+  var q = (document.getElementById('aiQuestion')||{}).value || '';
+  if(!q.trim()){ return; }
+  var body = document.getElementById('aiModalBody');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> L\'IA analyse votre question…</div>';
+  var a = _aiCurrent ? _aiCurrent.a : null;
+  _aiCall({ key:(_aiCurrent&&_aiCurrent.key)||'', title:(_aiCurrent&&_aiCurrent.title)||'',
+            context:(a||{}), question:q }, body);
+}
+function closeAiModal(){ document.getElementById('aiModalOverlay').classList.remove('open'); }
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAiModal(); });
+</script>
+
+<!-- Scripts globaux -->
+<script>
+// Init Lucide icons
+if (typeof lucide !== 'undefined') lucide.createIcons();
+
+// Mobile menu toggle
+function initMobileMenu() {
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900) {
+    if (toggle) toggle.style.display = 'flex';
+  } else {
+    if (toggle) toggle.style.display = 'none';
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) sidebar.classList.remove('open');
+  }
+}
+window.addEventListener('resize', initMobileMenu);
+initMobileMenu();
+
+// Close sidebar on outside click (mobile)
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900 && sidebar && !sidebar.contains(e.target) && e.target !== toggle) {
+    sidebar.classList.remove('open');
+  }
+});
+
+// Search global
+document.getElementById('globalSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  if (q.length >= 3) {
+    console.log('Recherche:', q);
+  }
+});
+
+// Sidebar search
+document.getElementById('sidebarSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(q) ? '' : 'none';
+  });
+});
+
+// Animate cards on load
+document.querySelectorAll('.stat-card, .card, .project-card, .file-card').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(12px)';
+  setTimeout(() => {
+    el.style.transition = 'opacity .3s ease, transform .3s ease';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, i * 60);
+});
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Research Studio — ATLASIA</title>
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Leaflet.js pour la carte -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  
+  <!-- Chart.js pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  
+  <style>
+    /* Overrides spécifiques à la page */
+      </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-icon">A</div>
+      <div class="logo-text">
+        <span class="logo-name">ATLASIA</span>
+        <span class="logo-tagline">Mapping Society · Powering Insight</span>
+      </div>
+    </div>
+
+    <!-- Recherche dans la sidebar -->
+    <div class="sidebar-search">
+      <input type="text" placeholder="Rechercher dans la plateforme..." id="sidebarSearch">
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">PLATEFORME</div>
+      
+            <a href="dashboard.html" class="nav-item ">
+        <span class="nav-icon">⚡</span>
+        <span>Intelligence Stratégique</span>
+              </a>
+            <a href="espaces-travail.html" class="nav-item ">
+        <span class="nav-icon">📁</span>
+        <span>Espaces de Travail</span>
+                <span class="nav-badge">3</span>
+              </a>
+            <a href="production.html" class="nav-item ">
+        <span class="nav-icon">📊</span>
+        <span>Production & Collecte</span>
+              </a>
+            <a href="referentiel.html" class="nav-item ">
+        <span class="nav-icon">🗄️</span>
+        <span>Référentiel de Données</span>
+              </a>
+            <a href="ai-studio.html" class="nav-item active">
+        <span class="nav-icon">🤖</span>
+        <span>AI Research Studio</span>
+                <span class="nav-badge">IA</span>
+              </a>
+            <a href="observatoire.html" class="nav-item ">
+        <span class="nav-icon">🔭</span>
+        <span>Observatoire Social</span>
+              </a>
+            <a href="observatoire-psychosocial.html" class="nav-item ">
+        <span class="nav-icon">🧠</span>
+        <span>Dynamiques Psychosociales</span>
+                <span class="nav-badge">V2</span>
+              </a>
+            <a href="mots-sociaux.html" class="nav-item ">
+        <span class="nav-icon">☁️</span>
+        <span>Mots sociaux du web</span>
+                <span class="nav-badge">✨</span>
+              </a>
+            <a href="bibliotheque.html" class="nav-item ">
+        <span class="nav-icon">📚</span>
+        <span>Bibliothèque Scientifique</span>
+                <span class="nav-badge">4</span>
+              </a>
+            <a href="reseau.html" class="nav-item ">
+        <span class="nav-icon">🤝</span>
+        <span>Réseau des Chercheurs</span>
+              </a>
+      
+      <div class="nav-section-label" style="margin-top:8px;">COMPTE</div>
+      <a href="profil.html" class="nav-item ">
+        <span class="nav-icon">👤</span>
+        <span>Mon Profil</span>
+      </a>
+      <a href="actualites.html" class="nav-item ">
+        <span class="nav-icon">📰</span>
+        <span>Actualités</span>
+      </a>
+      <a href="parametres.html" class="nav-item ">
+        <span class="nav-icon">⚙️</span>
+        <span>Paramètres</span>
+      </a>
+      <a href="admin.html" class="nav-item ">
+        <span class="nav-icon">🔒</span>
+        <span>Administration</span>
+      </a>
+    </nav>
+
+    <!-- Section aide -->
+    <div class="sidebar-help">
+      <div class="help-title">🤔 Besoin d'aide ?</div>
+      <div class="help-desc">Accédez à la documentation et au support technique.</div>
+      <a href="#" class="help-link">Consultez notre centre d'aide →</a>
+    </div>
+
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      
+      <!-- Hamburger (mobile) -->
+      <button class="header-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" style="display:none;" id="menuToggle">
+        ☰
+      </button>
+
+      <!-- Recherche globale -->
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Rechercher dans la plateforme ATLASIA..." id="globalSearch">
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <div class="header-btn" data-tooltip="Notifications" onclick="alert('Aucune nouvelle notification')">
+          🔔
+          <span class="notification-badge"></span>
+        </div>
+        <div class="header-btn" data-tooltip="Messages" onclick="alert('Messagerie')">💬</div>
+        <div class="header-btn" data-tooltip="Aide" onclick="alert('Centre d\'aide')">❓</div>
+        
+        <!-- User profile -->
+        <div class="header-user">
+          <div class="user-avatar">GA</div>
+          <div class="user-info">
+            <span class="user-name">Ghazi Abdessalam</span>
+            <span class="user-role">Chercheur Principal</span>
+          </div>
+          <span style="color:#94a3b8; margin-left:4px;">▾</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="page-content" id="pageContent">
+      <!-- Page header -->
+            <div class="page-header">
+        <div>
+          <h1 class="page-title">AI Research Studio</h1>
+                    <p class="page-subtitle">Analysez vos données, suivez la presse marocaine et explorez les sources officielles</p>
+                  </div>
+              </div>
+      
+<style>
+  .tab-nav { display:flex; gap:6px; border-bottom:2px solid var(--border); margin-bottom:22px; flex-wrap:wrap; }
+  .tab-btn { background:none; border:none; padding:12px 20px; font-size:14px; font-weight:600; color:var(--text-muted); cursor:pointer; border-bottom:3px solid transparent; margin-bottom:-2px; transition:var(--transition); border-radius:8px 8px 0 0; }
+  .tab-btn:hover { color:var(--primary); background:var(--primary-light); }
+  .tab-btn.active { color:var(--primary); border-bottom-color:var(--primary); }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; animation:fadeIn .25s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
+
+  .news-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+  .article-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius-lg); padding:16px; display:flex; flex-direction:column; box-shadow:var(--shadow); transition:var(--transition); }
+  .article-card:hover { box-shadow:var(--shadow-md); transform:translateY(-2px); }
+  .source-badge { display:inline-block; color:#fff; font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; margin-bottom:10px; align-self:flex-start; }
+  .article-title { font-size:14px; font-weight:600; color:var(--text); line-height:1.35; margin-bottom:8px; text-decoration:none; }
+  a.article-title:hover { color:var(--primary); text-decoration:underline; }
+  .article-excerpt { font-size:12.5px; color:var(--text-muted); line-height:1.5; flex:1; margin-bottom:12px; }
+  .article-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .article-date { font-size:11.5px; color:var(--text-muted); }
+
+  .ref-section-title { font-size:16px; font-weight:700; color:var(--text); margin:24px 0 14px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+  .ref-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; }
+  .inst-card, .press-card { background:var(--card-bg); border:1px solid var(--border); border-left:4px solid var(--primary); border-radius:var(--radius); padding:14px 16px; transition:var(--transition); }
+  .press-card { border-left-color:var(--danger); }
+  .inst-card:hover, .press-card:hover { box-shadow:var(--shadow-md); transform:translateY(-2px); }
+  .ref-card-title { font-size:13.5px; font-weight:700; color:var(--text); margin-bottom:6px; }
+  .ref-card-desc { font-size:12px; color:var(--text-muted); line-height:1.5; margin-bottom:10px; }
+  .ref-card-link { font-size:12px; font-weight:600; color:var(--primary); text-decoration:none; }
+  .ref-card-link:hover { text-decoration:underline; }
+  .news-toolbar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:16px; }
+  .news-counter { font-size:12.5px; color:var(--text-muted); margin-bottom:14px; }
+</style>
+
+<!-- Onglets -->
+<div class="tab-nav">
+  <button class="tab-btn active" data-tab="assistant" onclick="switchTab('assistant')">🤖 Assistant IA</button>
+  <button class="tab-btn" data-tab="presse" onclick="switchTab('presse')">📰 Veille Presse</button>
+  <button class="tab-btn" data-tab="sources" onclick="switchTab('sources')">📚 Sources &amp; Références</button>
+</div>
+
+<!-- ============ ONGLET 1 : ASSISTANT IA ============ -->
+<div class="tab-panel active" id="tab-assistant">
+  <!-- Features Grid -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;">
+        <div class="ai-feature-card" onclick="openAIFeature('Résumé automatique')">
+      <div class="ai-feature-icon" style="background:#dbeafe;border-radius:16px;width:60px;height:60px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;">📝</div>
+      <div class="ai-feature-title">Résumé automatique</div>
+      <div class="ai-feature-desc">Résumez automatiquement tout document PDF, rapport ou étude en quelques secondes grâce à l'IA.</div>
+      <button class="btn btn-primary btn-sm" style="margin-top:14px;width:100%;">Utiliser →</button>
+    </div>
+        <div class="ai-feature-card" onclick="openAIFeature('Analyse de texte')">
+      <div class="ai-feature-icon" style="background:#d1fae5;border-radius:16px;width:60px;height:60px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;">🔍</div>
+      <div class="ai-feature-title">Analyse de texte</div>
+      <div class="ai-feature-desc">Extrayez les thèmes principaux, entités nommées et tendances d'un corpus de documents scientifiques.</div>
+      <button class="btn btn-primary btn-sm" style="margin-top:14px;width:100%;">Utiliser →</button>
+    </div>
+        <div class="ai-feature-card" onclick="openAIFeature('Analyse de sentiments')">
+      <div class="ai-feature-icon" style="background:#fef3c7;border-radius:16px;width:60px;height:60px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;">😊</div>
+      <div class="ai-feature-title">Analyse de sentiments</div>
+      <div class="ai-feature-desc">Mesurez le sentiment et les émotions dans les données textuelles (enquêtes, forums, presse).</div>
+      <button class="btn btn-primary btn-sm" style="margin-top:14px;width:100%;">Utiliser →</button>
+    </div>
+        <div class="ai-feature-card" onclick="openAIFeature('Statistiques descriptives')">
+      <div class="ai-feature-icon" style="background:#ede9fe;border-radius:16px;width:60px;height:60px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;">📊</div>
+      <div class="ai-feature-title">Statistiques descriptives</div>
+      <div class="ai-feature-desc">Générez automatiquement des tableaux, graphiques et analyses à partir de vos jeux de données.</div>
+      <button class="btn btn-primary btn-sm" style="margin-top:14px;width:100%;">Utiliser →</button>
+    </div>
+        <div class="ai-feature-card" onclick="openAIFeature('Géo-analyse')">
+      <div class="ai-feature-icon" style="background:#ffedd5;border-radius:16px;width:60px;height:60px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;">🗺️</div>
+      <div class="ai-feature-title">Géo-analyse</div>
+      <div class="ai-feature-desc">Localisez et visualisez les tendances sociales sur la carte du Maroc par région et province.</div>
+      <button class="btn btn-primary btn-sm" style="margin-top:14px;width:100%;">Utiliser →</button>
+    </div>
+        <div class="ai-feature-card" onclick="openAIFeature('Rédaction de rapports')">
+      <div class="ai-feature-icon" style="background:#fee2e2;border-radius:16px;width:60px;height:60px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;">📋</div>
+      <div class="ai-feature-title">Rédaction de rapports</div>
+      <div class="ai-feature-desc">Générez une première ébauche de rapport structuré (intro, méthodo, résultats, conclusion) en un clic.</div>
+      <button class="btn btn-primary btn-sm" style="margin-top:14px;width:100%;">Utiliser →</button>
+    </div>
+        <div class="ai-feature-card" onclick="openAIFeature('Détection de lacunes')">
+      <div class="ai-feature-icon" style="background:#ecfeff;border-radius:16px;width:60px;height:60px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;">🔗</div>
+      <div class="ai-feature-title">Détection de lacunes</div>
+      <div class="ai-feature-desc">Identifiez les Research Gaps dans un corpus de littérature académique grâce au traitement du langage naturel.</div>
+      <button class="btn btn-primary btn-sm" style="margin-top:14px;width:100%;">Utiliser →</button>
+    </div>
+        <div class="ai-feature-card" onclick="openAIFeature('Recommandations')">
+      <div class="ai-feature-icon" style="background:#f0fdf4;border-radius:16px;width:60px;height:60px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;">🤝</div>
+      <div class="ai-feature-title">Recommandations</div>
+      <div class="ai-feature-desc">Obtenez des recommandations politiques (Policy Briefs) basées sur l'analyse automatique des données sociales.</div>
+      <button class="btn btn-primary btn-sm" style="margin-top:14px;width:100%;">Utiliser →</button>
+    </div>
+        <div class="ai-feature-card" onclick="openAIFeature('Veille en ligne')">
+      <div class="ai-feature-icon" style="background:#e0f2fe;border-radius:16px;width:60px;height:60px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;">🌐</div>
+      <div class="ai-feature-title">Veille en ligne</div>
+      <div class="ai-feature-desc">Analysez les derniers articles de la presse marocaine sur un sujet donné.</div>
+      <button class="btn btn-primary btn-sm" style="margin-top:14px;width:100%;">Utiliser →</button>
+    </div>
+        <div class="ai-feature-card" onclick="openAIFeature('Agrégateur 2026')">
+      <div class="ai-feature-icon" style="background:#f5f3ff;border-radius:16px;width:60px;height:60px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;">📡</div>
+      <div class="ai-feature-title">Agrégateur 2026</div>
+      <div class="ai-feature-desc">Résumez les données HCP T2 2026 et leur couverture médiatique.</div>
+      <button class="btn btn-primary btn-sm" style="margin-top:14px;width:100%;">Utiliser →</button>
+    </div>
+      </div>
+
+  <!-- Zone de test IA interactive -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">🤖 Assistant IA — Test en direct</div>
+      <span class="badge badge-success" id="aiModeBadge">🟢 IA disponible</span>
+    </div>
+    <div class="card-body">
+      <div style="background:#f8fafc;border-radius:var(--radius);padding:16px;min-height:200px;margin-bottom:16px;overflow-y:auto;max-height:340px;" id="aiChat">
+        <div style="display:flex;gap:10px;margin-bottom:12px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:#2563eb;display:flex;align-items:center;justify-content:center;color:white;font-size:14px;flex-shrink:0;">🤖</div>
+          <div style="background:white;border-radius:0 10px 10px 10px;padding:10px 14px;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,.06);max-width:80%;">
+            Bonjour ! Je suis l'IA d'ATLASIA. Je peux analyser vos documents, résumer des études, exploiter les indicateurs HCP T2 2026 et la presse marocaine récente. Que souhaitez-vous faire ?
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <input type="text" class="form-input" id="aiInput" placeholder="Ex: Résume l'étude sur le chômage des jeunes au Maroc..." style="flex:1;">
+        <button class="btn btn-primary" onclick="sendAIMessage()">▶ Envoyer</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+        <button class="btn btn-outline btn-sm" onclick="setPrompt('Résume les tendances du chômage au Maroc 2025')">📊 Chômage 2025</button>
+        <button class="btn btn-outline btn-sm" onclick="setPrompt('Analyse les données de scolarisation rurales')">🎓 Scolarisation</button>
+        <button class="btn btn-outline btn-sm" onclick="setPrompt('Génère un rapport sur la cohésion sociale')">📋 Rapport cohésion</button>
+        <button class="btn btn-outline btn-sm" onclick="setPrompt('Quels sont les research gaps en sociologie marocaine ?')">🔍 Research Gaps</button>
+        <button class="btn btn-outline btn-sm" onclick="setPrompt('Quels sujets dominent la presse marocaine en ce moment ?')">📰 Presse &amp; société</button>
+        <button class="btn btn-outline btn-sm" onclick="setPrompt('Synthèse des indicateurs HCP T2 2026 : chômage 9,5%, activité 42,2%, PIB +4,8%, IPC +1,2%. Analyse et implications.')">🌍 T2 2026 : synthèse</button>
+        <button class="btn btn-outline btn-sm" onclick="setPrompt('Analyse de l\'emploi des femmes au Maroc : activité 18,1%, emploi 15,4% (T2 2026).')">👩 Emploi féminin</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ONGLET 2 : VEILLE PRESSE ============ -->
+<div class="tab-panel" id="tab-presse">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">📰 Veille de la presse marocaine</div>
+      <span class="badge badge-info">Corpus RSS en direct</span>
+    </div>
+    <div class="card-body">
+      <div class="news-toolbar">
+        <input type="text" class="form-input" id="newsSearch" placeholder="🔍 Rechercher un mot-clé (chômage, eau, investissement…)" style="flex:1;min-width:220px;">
+        <select class="form-input" id="newsSource" style="max-width:240px;" onchange="loadArticles(document.getElementById('newsSearch').value, this.value)">
+          <option value="">Toutes les sources</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('newsSearch').value='';loadArticles('', document.getElementById('newsSource').value);">↺ Réinitialiser</button>
+      </div>
+      <div class="news-counter" id="newsCounter">Chargement des articles…</div>
+      <div class="news-grid" id="newsGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ONGLET 3 : SOURCES & RÉFÉRENCES ============ -->
+<div class="tab-panel" id="tab-sources">
+  <div class="card">
+    <div class="card-body">
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">
+        ATLASIA s'appuie exclusivement sur des sources publiques, officielles et vérifiables. Voici les principales références mobilisées.
+      </p>
+
+      <div class="ref-section-title">🏛️ Sources institutionnelles</div>
+      <div class="ref-grid">
+                <div class="inst-card">
+          <div class="ref-card-title">Haut-Commissariat au Plan (HCP)</div>
+          <div class="ref-card-desc">Statistiques officielles : recensements, enquêtes emploi, comptes nationaux et indices des prix.</div>
+          <a class="ref-card-link" href="https://www.hcp.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="inst-card">
+          <div class="ref-card-title">Bank Al-Maghrib</div>
+          <div class="ref-card-desc">Banque centrale : politique monétaire, taux directeur, inflation et statistiques financières.</div>
+          <a class="ref-card-link" href="https://www.bkam.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="inst-card">
+          <div class="ref-card-title">Ministère de l&#039;Économie et des Finances</div>
+          <div class="ref-card-desc">Loi de finances, budget de l&#039;État, dette publique et politiques économiques.</div>
+          <a class="ref-card-link" href="https://www.finances.gov.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="inst-card">
+          <div class="ref-card-title">Observatoire National du Développement Humain (ONDH)</div>
+          <div class="ref-card-desc">Suivi et évaluation des politiques de développement humain et de lutte contre la pauvreté.</div>
+          <a class="ref-card-link" href="https://www.ondh.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="inst-card">
+          <div class="ref-card-title">Conseil Économique, Social et Environnemental (CESE)</div>
+          <div class="ref-card-desc">Avis et rapports consultatifs sur les grandes politiques publiques du Royaume.</div>
+          <a class="ref-card-link" href="https://www.cese.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="inst-card">
+          <div class="ref-card-title">Agence de Promotion et de l&#039;Investissement (APEI)</div>
+          <div class="ref-card-desc">Promotion de l&#039;investissement, appui à l&#039;entreprise et attractivité des territoires.</div>
+          <a class="ref-card-link" href="https://www.apei.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="inst-card">
+          <div class="ref-card-title">Office des Changes</div>
+          <div class="ref-card-desc">Statistiques du commerce extérieur, balance des paiements et transferts des MRE.</div>
+          <a class="ref-card-link" href="https://www.oc.gov.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="inst-card">
+          <div class="ref-card-title">Portail national Open Data</div>
+          <div class="ref-card-desc">Données ouvertes de l&#039;administration marocaine, accessibles et réutilisables.</div>
+          <a class="ref-card-link" href="https://www.data.gov.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="inst-card">
+          <div class="ref-card-title">ONDH — Observatoires thématiques</div>
+          <div class="ref-card-desc">Observatoires sectoriels du développement humain (santé, éducation, territoires).</div>
+          <a class="ref-card-link" href="https://www.ondh.ma/fr/content/observatoires" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="inst-card">
+          <div class="ref-card-title">Caisse de Dépôt et de Gestion (CDG)</div>
+          <div class="ref-card-desc">Investisseur institutionnel de long terme au service du développement du pays.</div>
+          <a class="ref-card-link" href="https://www.cdg.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="inst-card">
+          <div class="ref-card-title">Maroc PME</div>
+          <div class="ref-card-desc">Agence nationale d&#039;appui et de financement des très petites, petites et moyennes entreprises.</div>
+          <a class="ref-card-link" href="https://www.marocpme.gov.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="inst-card">
+          <div class="ref-card-title">OFPPT</div>
+          <div class="ref-card-desc">Office de la Formation Professionnelle et de la Promotion du Travail.</div>
+          <a class="ref-card-link" href="https://www.ofppt.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+              </div>
+
+      <div class="ref-section-title">📰 Presse marocaine en ligne</div>
+      <div class="ref-grid">
+                <div class="press-card">
+          <div class="ref-card-title">Hespress</div>
+          <div class="ref-card-desc">Premier site d&#039;information généraliste du Maroc (édition française).</div>
+          <a class="ref-card-link" href="https://fr.hespress.com" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="press-card">
+          <div class="ref-card-title">Medias24</div>
+          <div class="ref-card-desc">Média économique et financier de référence, données et enquêtes.</div>
+          <a class="ref-card-link" href="https://www.medias24.com" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="press-card">
+          <div class="ref-card-title">Le360</div>
+          <div class="ref-card-desc">Actualité générale, politique, économie et société.</div>
+          <a class="ref-card-link" href="https://fr.le360.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="press-card">
+          <div class="ref-card-title">TelQuel</div>
+          <div class="ref-card-desc">Magazine d&#039;analyse politique, économique et sociétale.</div>
+          <a class="ref-card-link" href="https://telquel.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="press-card">
+          <div class="ref-card-title">Yabiladi</div>
+          <div class="ref-card-desc">Actualité du Maroc et des Marocains résidant à l&#039;étranger.</div>
+          <a class="ref-card-link" href="https://www.yabiladi.com" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="press-card">
+          <div class="ref-card-title">La Vie Éco</div>
+          <div class="ref-card-desc">Hebdomadaire économique et financier de référence.</div>
+          <a class="ref-card-link" href="https://www.lavieeco.com" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="press-card">
+          <div class="ref-card-title">Challenge</div>
+          <div class="ref-card-desc">Magazine d&#039;actualité économique et de business.</div>
+          <a class="ref-card-link" href="https://www.challenge.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="press-card">
+          <div class="ref-card-title">Aujourd&#039;hui le Maroc</div>
+          <div class="ref-card-desc">Quotidien d&#039;information générale et économique.</div>
+          <a class="ref-card-link" href="https://aujourdhui.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="press-card">
+          <div class="ref-card-title">Le Site Info</div>
+          <div class="ref-card-desc">Actualité en continu et information de proximité.</div>
+          <a class="ref-card-link" href="https://www.lesiteinfo.com" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="press-card">
+          <div class="ref-card-title">Barlamane</div>
+          <div class="ref-card-desc">Actualité politique, parlementaire et institutionnelle.</div>
+          <a class="ref-card-link" href="https://www.barlamane.com" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="press-card">
+          <div class="ref-card-title">Le Desk</div>
+          <div class="ref-card-desc">Média indépendant d&#039;investigation et de data-journalisme.</div>
+          <a class="ref-card-link" href="https://ledesk.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+                <div class="press-card">
+          <div class="ref-card-title">EcoActu</div>
+          <div class="ref-card-desc">Actualité économique, financière et entrepreneuriale.</div>
+          <a class="ref-card-link" href="https://www.ecoactu.ma" target="_blank" rel="noopener">Visiter le site ↗</a>
+        </div>
+              </div>
+
+      <div class="ref-section-title">📚 Revues académiques &amp; rapports</div>
+      <div class="ref-grid">
+                <div class="inst-card" style="border-left-color:var(--success);">
+          <div class="ref-card-title">RMEDC — Revue Marocaine d&#039;Études et de Développement Comparé</div>
+          <div class="ref-card-desc">Publications universitaires sur l&#039;économie et le développement au Maroc.</div>
+                  </div>
+                <div class="inst-card" style="border-left-color:var(--success);">
+          <div class="ref-card-title">REMAREM — Revue Marocaine de Recherche en Management et Marketing</div>
+          <div class="ref-card-desc">Recherche académique en management, marketing et sciences de gestion.</div>
+                    <a class="ref-card-link" href="https://revues.imist.ma" target="_blank" rel="noopener">Consulter ↗</a>
+                  </div>
+                <div class="inst-card" style="border-left-color:var(--success);">
+          <div class="ref-card-title">PNUD — Rapport Mondial sur le Développement Humain</div>
+          <div class="ref-card-desc">Indice de Développement Humain (IDH) et analyses comparatives internationales.</div>
+                    <a class="ref-card-link" href="https://hdr.undp.org" target="_blank" rel="noopener">Consulter ↗</a>
+                  </div>
+                <div class="inst-card" style="border-left-color:var(--success);">
+          <div class="ref-card-title">World Bank Open Data — Maroc</div>
+          <div class="ref-card-desc">Indicateurs de développement de la Banque mondiale pour le Maroc.</div>
+                    <a class="ref-card-link" href="https://data.worldbank.org/country/morocco" target="_blank" rel="noopener">Consulter ↗</a>
+                  </div>
+                <div class="inst-card" style="border-left-color:var(--success);">
+          <div class="ref-card-title">IMF Data Mapper — Maroc</div>
+          <div class="ref-card-desc">Données et projections macroéconomiques du Fonds monétaire international.</div>
+                    <a class="ref-card-link" href="https://www.imf.org/external/datamapper/profile/MAR" target="_blank" rel="noopener">Consulter ↗</a>
+                  </div>
+              </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =================== Gestion des onglets =================== */
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+  if (history.replaceState) history.replaceState(null, '', '#tab-' + name);
+  if (name === 'presse' && !window._articlesLoaded) {
+    loadArticles();
+    window._articlesLoaded = true;
+  }
+}
+
+/* =================== Assistant IA =================== */
+let currentTool = '';
+const TOOL_PROMPTS = {
+  'Résumé automatique'      : "Résume les principales tendances sociales et économiques du Maroc à partir des données disponibles.",
+  'Analyse de texte'        : "Analyse le corpus de presse : quels sont les thèmes principaux et les mots les plus fréquents ?",
+  'Analyse de sentiments'   : "Quel climat social se dégage des sujets et mots les plus discutés dans la presse ?",
+  'Statistiques descriptives':"Présente les statistiques descriptives clés (chômage, activité, population) au niveau national et régional.",
+  'Géo-analyse'             : "Compare les régions du Maroc selon le chômage et le volume de couverture presse. Quelles disparités territoriales ?",
+  'Rédaction de rapports'   : "Rédige l'ébauche d'un rapport structuré (intro, méthodo, résultats, recommandations) sur la situation sociale du Maroc.",
+  'Détection de lacunes'    : "À partir des sujets couverts par la presse, identifie les Research Gaps / angles morts thématiques ou régionaux.",
+  'Recommandations'         : "Formule des recommandations de politique publique (Policy Brief) fondées sur les données disponibles.",
+  'Veille en ligne'         : "Analyse les derniers articles de la presse marocaine : quels sont les sujets dominants et le climat social actuel ?",
+  'Agrégateur 2026'         : "Résume les indicateurs HCP du 2e trimestre 2026 (chômage, activité, emploi, PIB, IPC) et leur couverture médiatique récente."
+};
+
+function openAIFeature(title) {
+  currentTool = title;
+  const p = TOOL_PROMPTS[title] || ('Utilise l\'outil : ' + title);
+  document.getElementById('aiInput').value = p;
+  document.getElementById('aiChat').scrollIntoView({behavior:'smooth', block:'center'});
+  sendAIMessage();
+}
+function setPrompt(text) {
+  currentTool = '';
+  document.getElementById('aiInput').value = text;
+  document.getElementById('aiInput').focus();
+}
+
+function _bubbleUser(msg){
+  return `<div style="display:flex;gap:10px;margin-bottom:12px;justify-content:flex-end;">
+    <div style="background:#2563eb;color:white;border-radius:10px 0 10px 10px;padding:10px 14px;font-size:13px;max-width:80%;">${msg.replace(/</g,'&lt;')}</div>
+    <div style="width:32px;height:32px;border-radius:50%;background:#10b981;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;flex-shrink:0;">GA</div>
+  </div>`;
+}
+function _bubbleAI(html){
+  return `<div style="display:flex;gap:10px;margin-bottom:12px;">
+    <div style="width:32px;height:32px;border-radius:50%;background:#2563eb;display:flex;align-items:center;justify-content:center;color:white;font-size:14px;flex-shrink:0;">🤖</div>
+    <div class="ai-answer" style="background:white;border-radius:0 10px 10px 10px;padding:10px 14px;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,.06);max-width:85%;">${html}</div>
+  </div>`;
+}
+
+function sendAIMessage() {
+  const input = document.getElementById('aiInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  const chat = document.getElementById('aiChat');
+  const tool = currentTool;
+
+  chat.innerHTML += _bubbleUser(msg);
+  input.value = '';
+  chat.scrollTop = chat.scrollHeight;
+
+  chat.innerHTML += `<div id="typing" style="display:flex;gap:10px;margin-bottom:12px;">
+    <div style="width:32px;height:32px;border-radius:50%;background:#2563eb;display:flex;align-items:center;justify-content:center;color:white;font-size:14px;flex-shrink:0;">🤖</div>
+    <div style="background:white;border-radius:0 10px 10px 10px;padding:10px 14px;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,.06);">💬 En cours d'analyse…</div>
+  </div>`;
+  chat.scrollTop = chat.scrollHeight;
+
+  fetch('api/ai.php', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ prompt: msg, tool: tool })
+  }).then(r => r.json()).then(res => {
+    document.getElementById('typing')?.remove();
+    const badge = document.getElementById('aiModeBadge');
+    if (res.mode === 'ai') { badge.textContent = '✨ IA générative active'; badge.className = 'badge badge-success'; }
+    else { badge.textContent = '🔒 Analyse locale (données)'; badge.className = 'badge badge-info'; }
+    chat.innerHTML += _bubbleAI(res.text || '<p>Aucune réponse.</p>');
+    chat.scrollTop = chat.scrollHeight;
+    currentTool = '';
+  }).catch(() => {
+    document.getElementById('typing')?.remove();
+    chat.innerHTML += _bubbleAI('<p style="color:#b45309">⚠️ Service IA indisponible. Chargez l\'application via un serveur (XAMPP) et réessayez.</p>');
+    chat.scrollTop = chat.scrollHeight;
+    currentTool = '';
+  });
+}
+
+document.getElementById('aiInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { currentTool = ''; sendAIMessage(); }
+});
+
+/* =================== Veille Presse =================== */
+const SOURCE_COLORS = {
+  'hespress':'#ef4444', 'medias24':'#2563eb', 'le360':'#f59e0b',
+  'telquel':'#8b5cf6', 'yabiladi':'#10b981'
+};
+function sourceColor(src) {
+  const s = (src || '').toLowerCase();
+  for (const key in SOURCE_COLORS) { if (s.indexOf(key) !== -1) return SOURCE_COLORS[key]; }
+  return '#6b7280';
+}
+function relativeDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d)) return '';
+  const diff = (Date.now() - d.getTime()) / 1000;
+  if (diff < 3600) return 'il y a ' + Math.max(1, Math.round(diff/60)) + ' min';
+  if (diff < 86400) return 'il y a ' + Math.round(diff/3600) + ' h';
+  if (diff < 2592000) return 'il y a ' + Math.round(diff/86400) + ' j';
+  return d.toLocaleDateString('fr-FR', {day:'2-digit', month:'short', year:'numeric'});
+}
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function renderArticles(data) {
+  const grid = document.getElementById('newsGrid');
+  const counter = document.getElementById('newsCounter');
+  const arts = data.articles || [];
+  // Remplir le sélecteur de sources (une seule fois)
+  const sel = document.getElementById('newsSource');
+  if (sel.options.length <= 1 && (data.sources || []).length) {
+    data.sources.forEach(s => {
+      const o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o);
+    });
+  }
+  let maj = '';
+  if (data.generated) {
+    const d = new Date(data.generated);
+    if (!isNaN(d)) maj = ' · dernière mise à jour ' + d.toLocaleString('fr-FR', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  }
+  counter.textContent = (data.total || arts.length) + ' article' + ((data.total||arts.length) > 1 ? 's' : '') + maj;
+
+  if (!arts.length) { grid.innerHTML = '<p style="color:var(--text-muted);font-size:13px;">Aucun article ne correspond à votre recherche.</p>'; return; }
+
+  grid.innerHTML = arts.map(a => {
+    const color = sourceColor(a.source);
+    const excerpt = (a.summary || '').replace(/\s+/g,' ').trim().slice(0, 100);
+    const exStr = excerpt ? esc(excerpt) + (a.summary && a.summary.length > 100 ? '…' : '') : '';
+    const titleHtml = a.url
+      ? `<a class="article-title" href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a>`
+      : `<span class="article-title">${esc(a.title)}</span>`;
+    const payload = esc(JSON.stringify({t:a.title||'', s:a.source||'', d:a.summary||''}));
+    return `<div class="article-card">
+      <span class="source-badge" style="background:${color}">${esc(a.source)}</span>
+      ${titleHtml}
+      <div class="article-excerpt">${exStr}</div>
+      <div class="article-meta">
+        <span class="article-date">🕒 ${relativeDate(a.date)}</span>
+        <button class="btn btn-outline btn-sm" onclick='analyzeArticleData(${payload})'>🔄 Analyser avec l'IA</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+let _newsTimer = null;
+function loadArticles(q, source) {
+  q = (q !== undefined) ? q : document.getElementById('newsSearch').value;
+  source = (source !== undefined) ? source : document.getElementById('newsSource').value;
+  const counter = document.getElementById('newsCounter');
+  counter.textContent = 'Chargement des articles…';
+  const params = new URLSearchParams({ q: q || '', source: source || '', limit: 24 });
+  fetch('api/news.php?' + params.toString())
+    .then(r => r.json())
+    .then(renderArticles)
+    .catch(() => { counter.textContent = '⚠️ Impossible de charger les articles (lancez l\'application via un serveur PHP).'; });
+}
+
+function analyzeArticleData(obj) {
+  analyzeArticle(obj.t, obj.s, obj.d);
+}
+function analyzeArticle(title, source, summary) {
+  const prompt = `Analyse cet article de la presse marocaine [${source}] : « ${title} ». ${summary ? 'Résumé : ' + summary + '. ' : ''}Quels enseignements sociaux ou économiques peut-on en tirer, à la lumière des données ATLASIA ?`;
+  switchTab('assistant');
+  currentTool = 'Veille en ligne';
+  document.getElementById('aiInput').value = prompt;
+  document.getElementById('aiChat').scrollIntoView({behavior:'smooth', block:'center'});
+  sendAIMessage();
+}
+
+// Recherche avec anti-rebond
+document.getElementById('newsSearch').addEventListener('input', function() {
+  clearTimeout(_newsTimer);
+  const v = this.value, src = document.getElementById('newsSource').value;
+  _newsTimer = setTimeout(() => loadArticles(v, src), 400);
+});
+
+/* =================== Initialisation depuis le hash =================== */
+(function initFromHash() {
+  const h = (location.hash || '').replace('#tab-', '');
+  if (h === 'presse' || h === 'sources' || h === 'assistant') switchTab(h);
+  // Précharger les articles pour que l'onglet Presse soit prêt
+  if (h !== 'presse') { loadArticles(); window._articlesLoaded = true; }
+})();
+</script>
+    </div><!-- end page-content -->
+  </div><!-- end main-content -->
+</div><!-- end app-layout -->
+
+<!-- ===== MODAL IA EMBARQUÉE (Charte · Principe 7 : IA embarquée) ===== -->
+<div class="ai-modal-overlay" id="aiModalOverlay" onclick="if(event.target===this)closeAiModal()">
+  <div class="ai-modal" role="dialog" aria-modal="true">
+    <div class="ai-modal-head">
+      <div class="ai-modal-title"><span>✨</span> <span id="aiModalTitle">Assistant d'analyse ATLASIA</span></div>
+      <button class="ai-modal-close" onclick="closeAiModal()" aria-label="Fermer">×</button>
+    </div>
+    <div class="ai-modal-body" id="aiModalBody"></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   IA EMBARQUÉE ATLASIA — grounded sur les données disponibles
+   Chaque page enregistre ses analyses dans window.ATLASIA_AI[cle].
+   Une analyse = { title, interpretation, tendance, recommandation, source }
+   Conforme à la Charte : réponses fondées uniquement sur les données
+   de la plateforme, avec mention explicite des sources.
+   ===================================================================== */
+window.ATLASIA_AI = window.ATLASIA_AI || {};
+
+function _aiRender(a){
+  var html = '';
+  if(a.interpretation){ html += '<h4>🔎 Interprétation potentielle</h4><p>'+a.interpretation+'</p>'; }
+  if(a.tendance){ html += '<h4>📈 Tendance prospective</h4><p>'+a.tendance+'</p>'; }
+  if(a.recommandation){ html += '<h4>🎯 Recommandation opérationnelle</h4><p>'+a.recommandation+'</p>'; }
+  if(a.resume){ html += '<h4>📝 Synthèse</h4><p>'+a.resume+'</p>'; }
+  html += '<p class="ai-source">'+(a.source ? ('Source : '+a.source+'. ') : '')+
+          'Lecture analytique fondée sur les données disponibles dans la plateforme — non une vérité absolue.</p>';
+  return html;
+}
+
+var _aiCurrent = null; // { key, title, a }
+
+function _aiFooterHTML(){
+  return '<div class="ai-ask">'+
+    '<textarea id="aiQuestion" class="ai-ask-input" rows="2" '+
+      'placeholder="Posez une question sur ces données (optionnel)…"></textarea>'+
+    '<button class="ai-btn" onclick="atlasiaAsk()"><span class="ai-spark">✨</span> Demander à l\'IA</button>'+
+  '</div>';
+}
+
+// Appelle le proxy IA générative (api/ai.php). Repli local géré côté serveur.
+function _aiCall(payload, body){
+  fetch('api/ai.php', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).then(function(r){ return r.json(); })
+    .then(function(res){
+      var badge = res.mode === 'ai'
+        ? '<span class="ai-mode ai-mode-live">✨ IA générative</span>'
+        : '<span class="ai-mode ai-mode-local">🔒 Analyse locale</span>';
+      body.innerHTML = badge + (res.text || '') + _aiFooterHTML();
+    })
+    .catch(function(){
+      // réseau totalement indisponible => rendu local pur
+      body.innerHTML = (_aiCurrent && _aiCurrent.a ? _aiRender(_aiCurrent.a)
+        : '<p>Service IA indisponible.</p>') + _aiFooterHTML();
+    });
+}
+
+function atlasiaAI(key, title){
+  var overlay = document.getElementById('aiModalOverlay');
+  var body = document.getElementById('aiModalBody');
+  var titleEl = document.getElementById('aiModalTitle');
+  var a = window.ATLASIA_AI[key] || null;
+  _aiCurrent = { key:key, title:(a && a.title) ? a.title : (title||''), a:a };
+  titleEl.textContent = _aiCurrent.title || "Assistant d'analyse ATLASIA";
+  overlay.classList.add('open');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> Analyse des données disponibles…</div>';
+  _aiCall({ key:key, title:_aiCurrent.title, context:(a||{}) }, body);
+}
+
+// Question libre de l'utilisateur sur le même élément (grounding conservé).
+function atlasiaAsk(){
+  var q = (document.getElementById('aiQuestion')||{}).value || '';
+  if(!q.trim()){ return; }
+  var body = document.getElementById('aiModalBody');
+  body.innerHTML = '<div class="ai-loading"><span class="ai-spinner"></span> L\'IA analyse votre question…</div>';
+  var a = _aiCurrent ? _aiCurrent.a : null;
+  _aiCall({ key:(_aiCurrent&&_aiCurrent.key)||'', title:(_aiCurrent&&_aiCurrent.title)||'',
+            context:(a||{}), question:q }, body);
+}
+function closeAiModal(){ document.getElementById('aiModalOverlay').classList.remove('open'); }
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAiModal(); });
+</script>
+
+<!-- Scripts globaux -->
+<script>
+// Init Lucide icons
+if (typeof lucide !== 'undefined') lucide.createIcons();
+
+// Mobile menu toggle
+function initMobileMenu() {
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900) {
+    if (toggle) toggle.style.display = 'flex';
+  } else {
+    if (toggle) toggle.style.display = 'none';
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) sidebar.classList.remove('open');
+  }
+}
+window.addEventListener('resize', initMobileMenu);
+initMobileMenu();
+
+// Close sidebar on outside click (mobile)
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 900 && sidebar && !sidebar.contains(e.target) && e.target !== toggle) {
+    sidebar.classList.remove('open');
+  }
+});
+
+// Search global
+document.getElementById('globalSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  if (q.length >= 3) {
+    console.log('Recherche:', q);
+  }
+});
+
+// Sidebar search
+document.getElementById('sidebarSearch')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(q) ? '' : 'none';
+  });
+});
+
+// Animate cards on load
+document.querySelectorAll('.stat-card, .card, .project-card, .file-card').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(12px)';
+  setTimeout(() => {
+    el.style.transition = 'opacity .3s ease, transform .3s ease';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, i * 60);
+});
+</script>
+
+
+</body>
+</html>
