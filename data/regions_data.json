@@ -1,0 +1,1252 @@
+{
+  "_meta": {
+    "source": "HCP — EMO 2026 (T2), Point de Conjoncture N°50 (Juillet 2026), IPC Avril-Mai 2026, Chiffres Clés 2026",
+    "derniere_mise_a_jour": "2026-08-04",
+    "last_update": "2026-08-04",
+    "annee_reference": "2026",
+    "notes": "Indicateurs nationaux d'emploi issus de l'Enquête sur la main-d'œuvre (EMO) du HCP, 2e trimestre 2026. Croissance et conjoncture : Point de Conjoncture N°50 (juillet 2026). Indice des prix à la consommation : IPC base 100 = 2017, mai 2026. Chiffres clés 2025/2026. Les données régionales emploi 2023 (Enquête Emploi) sont conservées à titre historique ; les taux régionaux T2 2026 (activité/emploi/chômage/sous-utilisation) proviennent de l'EMO T2 2026."
+  },
+  "national_series": {
+    "description": "Évolution des principaux indicateurs nationaux — HCP, 2015-T2 2026",
+    "annees": [
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      "T2 2026"
+    ],
+    "taux_chomage": {
+      "libelle": "Taux de chômage national (15 ans et plus, %)",
+      "unite": "%",
+      "valeurs": [
+        9.7,
+        9.4,
+        10.2,
+        9.5,
+        9.2,
+        11.9,
+        12.3,
+        11.8,
+        13,
+        13.3,
+        13.0,
+        9.5
+      ],
+      "source": "HCP — Annuaires Statistiques, table 14-4 (emploi, ensemble)"
+    },
+    "taux_activite": {
+      "libelle": "Taux d'activité national (15 ans et plus, %)",
+      "unite": "%",
+      "valeurs": [
+        47.4,
+        46.4,
+        46.7,
+        46,
+        45.8,
+        44.8,
+        45.3,
+        44.3,
+        43.6,
+        43.5,
+        43.5,
+        42.2
+      ],
+      "source": "HCP — Annuaires Statistiques, table 14-4 (emploi, ensemble)"
+    },
+    "pib_prix_courants_mdh": {
+      "libelle": "Produit intérieur brut aux prix courants (Millions DH)",
+      "unite": "MDH",
+      "valeurs": [
+        988021,
+        1016119,
+        1063297,
+        1106822,
+        1152806,
+        1089521,
+        1284154,
+        1330158,
+        1463358,
+        1614569,
+        1720201,
+        null
+      ],
+      "source": "HCP — Annuaires Statistiques, synthèse des principaux indicateurs. Valeurs prix courants (susceptibles de révisions entre éditions)."
+    }
+  },
+  "population_recensements": {
+    "description": "Population légale du Maroc selon les Recensements Généraux de la Population et de l'Habitat (RGPH)",
+    "unite": "habitants",
+    "annees": [
+      1971,
+      1982,
+      1994,
+      2004,
+      2014,
+      2024
+    ],
+    "valeurs": [
+      15379000,
+      20419000,
+      26073717,
+      29891708,
+      33848242,
+      36828330
+    ],
+    "source": "HCP — RGPH (Annuaire Statistique du Maroc 2024)"
+  },
+  "national": {
+    "population_2024": 36828330,
+    "population_urbaine": 23110108,
+    "population_rurale": 13718222,
+    "pib_2023_mDH": 1463358,
+    "superficie_km2": 710850,
+    "taux_chomage_national_2023": 13,
+    "taux_chomage_urbain_2023": 16.8,
+    "taux_chomage_rural_2023": 6.3,
+    "taux_activite_national_2023": 43.6,
+    "taux_activite_urbain_2023": 41.8,
+    "taux_activite_rural_2023": 47.3,
+    "hopitaux_publics_2022": 152,
+    "lits_hopitaux_2022": 21455,
+    "admissions_hopitaux_2022": 1043904,
+    "periode_reference": "T2 2026",
+    "taux_chomage_2026_t2": 9.5,
+    "taux_chomage_urbain_2026_t2": 11.9,
+    "taux_chomage_rural_2026_t2": 5.4,
+    "taux_chomage_hommes_2026_t2": 8.1,
+    "taux_chomage_femmes_2026_t2": 14.8,
+    "taux_chomage_jeunes_15_24_2026_t2": 27.2,
+    "taux_chomage_25_34_2026_t2": 14.5,
+    "taux_activite_2026_t2": 42.2,
+    "taux_activite_hommes_2026_t2": 66.5,
+    "taux_activite_femmes_2026_t2": 18.1,
+    "taux_emploi_2026_t2": 38.2,
+    "taux_emploi_hommes_2026_t2": 61.1,
+    "taux_emploi_femmes_2026_t2": 15.4,
+    "taux_sous_utilisation_2026_t2": 18.9,
+    "population_age_travailler_2026_t2": 27886000,
+    "main_oeuvre_2026_t2": 11764000,
+    "emploi_remunere_2026_t2": 10643000,
+    "emploi_source": "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026",
+    "pib_croissance_2026_t1": 4.6,
+    "pib_croissance_2026_t2": 4.8,
+    "pib_croissance_2026_t3_prev": 5.4,
+    "taux_directeur_bam_2026": 2.25,
+    "inflation_2026_t1": -0.1,
+    "inflation_2026_t2": 1.1,
+    "va_agricole_2026_t2": 20.5,
+    "va_tertiaire_2026_t1": 4.3,
+    "industrie_manuf_2026_t2": 0.3,
+    "consommation_menages_2026_t2": 4.7,
+    "masse_monetaire_m3_mdh_2026": 2149531,
+    "masse_monetaire_m3_var": 12.1,
+    "creances_economie_var": 10.2,
+    "exportations_mdh_2026": 315822,
+    "exportations_var": 8.5,
+    "importations_mdh_2026": 390524,
+    "importations_var": 12.2,
+    "solde_commercial_mdh_2026": -74702,
+    "taux_couverture_2026": 80.9,
+    "recettes_mre_mdh_2026": 50223,
+    "recettes_mre_var": 8.8,
+    "nuitees_tourisme_milliers_2026": 14040,
+    "nuitees_tourisme_var": 11.2,
+    "indice_masi_2026": 18874.97,
+    "indice_masi_var": 5.0,
+    "capitalisation_boursiere_mdh_2026": 1100599,
+    "capitalisation_boursiere_var": 16.5,
+    "conjoncture_source": "HCP — Point de Conjoncture N°50, Juillet 2026",
+    "ipc_general_mai_2026": 120.4,
+    "ipc_var_mensuelle_mai_2026": -0.9,
+    "ipc_var_annuelle_mai_2026": 1.2,
+    "ipc_var_5mois_2026": 0.5,
+    "ipc_alimentaire_mai_2026": 129.1,
+    "ipc_alimentaire_var_mensuelle": -2.1,
+    "ipc_non_alimentaire_mai_2026": 114.8,
+    "ipc_source": "HCP — Indice des Prix à la Consommation, mai 2026",
+    "pib_2025_mdh": 1720201,
+    "pib_2024r_mdh": 1614569,
+    "population_2025": 37010000,
+    "population_urbaine_2025": 23372000,
+    "densite_2025": 52.1,
+    "taux_natalite_2025": 13.9,
+    "taux_mortalite_2025": 6.1,
+    "taux_activite_2025": 43.5,
+    "taux_activite_hommes_2025": 68.5,
+    "taux_activite_femmes_2025": 19.0,
+    "taux_chomage_2025": 13.0,
+    "taux_chomage_urbain_2025": 16.4,
+    "taux_chomage_rural_2025": 6.6,
+    "smig_horaire_2025": 17.1,
+    "smag_journalier_2025": 93,
+    "indice_production_industrielle_manuf_2025": 127.7,
+    "chiffres_cles_source": "HCP — Chiffres Clés 2026"
+  },
+  "regions": [
+    {
+      "id": "tanger-tetouan-al-hoceima",
+      "nom": "Tanger-Tétouan-Al Hoceïma",
+      "nom_arabe": "طنجة - تطوان - الحسيمة",
+      "chef_lieu": "Tanger",
+      "population": {
+        "total_2024": 4030222,
+        "source": "RGPH 2024"
+      },
+      "emploi": {
+        "taux_activite_2023": 48.7,
+        "taux_chomage_2023": 10.1,
+        "taux_activite_urbain_2023": 44.8,
+        "taux_chomage_urbain_2023": 14.1,
+        "taux_activite_rural_2023": 55.7,
+        "taux_chomage_rural_2023": 4.2,
+        "source": "HCP — Enquête Emploi 2023"
+      },
+      "sante": {
+        "hopitaux_publics_2022": 18,
+        "lits_fonctionnels_2022": 2015,
+        "admissions_2022": 134367,
+        "journees_hospitalisation_2022": 469795,
+        "source": "Ministère de la Santé 2022"
+      },
+      "emploi_2026_t2": {
+        "taux_activite": 46.8,
+        "taux_emploi": 43.9,
+        "taux_chomage": 6.1,
+        "taux_chomage_note": null,
+        "taux_sous_utilisation": 15.6,
+        "source": "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"
+      }
+    },
+    {
+      "id": "l-oriental",
+      "nom": "L'Oriental",
+      "nom_arabe": "الشرق",
+      "chef_lieu": "Oujda",
+      "population": {
+        "total_2024": 2294665,
+        "source": "RGPH 2024"
+      },
+      "emploi": {
+        "taux_activite_2023": 40.1,
+        "taux_chomage_2023": 19.6,
+        "taux_activite_urbain_2023": 38.9,
+        "taux_chomage_urbain_2023": 21.3,
+        "taux_activite_rural_2023": 43.5,
+        "taux_chomage_rural_2023": 15.2,
+        "source": "HCP — Enquête Emploi 2023"
+      },
+      "sante": {
+        "hopitaux_publics_2022": 15,
+        "lits_fonctionnels_2022": 2118,
+        "admissions_2022": 80365,
+        "journees_hospitalisation_2022": 335036,
+        "source": "Ministère de la Santé 2022"
+      },
+      "emploi_2026_t2": {
+        "taux_activite": 36.6,
+        "taux_emploi": 31.9,
+        "taux_chomage": 12.7,
+        "taux_chomage_note": null,
+        "taux_sous_utilisation": 26.2,
+        "source": "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"
+      }
+    },
+    {
+      "id": "fes-meknes",
+      "nom": "Fès-Meknès",
+      "nom_arabe": "فاس - مكناس",
+      "chef_lieu": "Fès",
+      "population": {
+        "total_2024": 4467911,
+        "source": "RGPH 2024"
+      },
+      "emploi": {
+        "taux_activite_2023": 41.8,
+        "taux_chomage_2023": 14.2,
+        "taux_activite_urbain_2023": 39.4,
+        "taux_chomage_urbain_2023": 19.3,
+        "taux_activite_rural_2023": 46.5,
+        "taux_chomage_rural_2023": 5.5,
+        "source": "HCP — Enquête Emploi 2023"
+      },
+      "sante": {
+        "hopitaux_publics_2022": 19,
+        "lits_fonctionnels_2022": 2729,
+        "admissions_2022": 142475,
+        "journees_hospitalisation_2022": 565277,
+        "source": "Ministère de la Santé 2022"
+      },
+      "emploi_2026_t2": {
+        "taux_activite": 40.0,
+        "taux_emploi": 35.6,
+        "taux_chomage": 10.9,
+        "taux_chomage_note": null,
+        "taux_sous_utilisation": 23.4,
+        "source": "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"
+      }
+    },
+    {
+      "id": "rabat-sale-kenitra",
+      "nom": "Rabat-Salé-Kénitra",
+      "nom_arabe": "الرباط - سلا - القنيطرة",
+      "chef_lieu": "Rabat",
+      "population": {
+        "total_2024": 5132639,
+        "source": "RGPH 2024"
+      },
+      "emploi": {
+        "taux_activite_2023": 44,
+        "taux_chomage_2023": 11.6,
+        "taux_activite_urbain_2023": 42.1,
+        "taux_chomage_urbain_2023": 14.5,
+        "taux_activite_rural_2023": 49.9,
+        "taux_chomage_rural_2023": 4.3,
+        "source": "HCP — Enquête Emploi 2023"
+      },
+      "sante": {
+        "hopitaux_publics_2022": 19,
+        "lits_fonctionnels_2022": 3826,
+        "admissions_2022": 141208,
+        "journees_hospitalisation_2022": 772384,
+        "source": "Ministère de la Santé 2022"
+      },
+      "emploi_2026_t2": {
+        "taux_activite": 42.2,
+        "taux_emploi": 38.4,
+        "taux_chomage": 8.8,
+        "taux_chomage_note": null,
+        "taux_sous_utilisation": 14.7,
+        "source": "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"
+      }
+    },
+    {
+      "id": "beni-mellal-khenifra",
+      "nom": "Béni Mellal-Khénifra",
+      "nom_arabe": "بني ملال - خنيفرة",
+      "chef_lieu": "Béni Mellal",
+      "population": {
+        "total_2024": 2525801,
+        "source": "RGPH 2024"
+      },
+      "emploi": {
+        "taux_activite_2023": 40,
+        "taux_chomage_2023": 12.8,
+        "taux_activite_urbain_2023": 35.5,
+        "taux_chomage_urbain_2023": 17.7,
+        "taux_activite_rural_2023": 45.4,
+        "taux_chomage_rural_2023": 8.2,
+        "source": "HCP — Enquête Emploi 2023"
+      },
+      "sante": {
+        "hopitaux_publics_2022": 11,
+        "lits_fonctionnels_2022": 1306,
+        "admissions_2022": 72355,
+        "journees_hospitalisation_2022": 244989,
+        "source": "Ministère de la Santé 2022"
+      },
+      "emploi_2026_t2": {
+        "taux_activite": 40.2,
+        "taux_emploi": 37.0,
+        "taux_chomage": 7.9,
+        "taux_chomage_note": null,
+        "taux_sous_utilisation": 16.6,
+        "source": "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"
+      }
+    },
+    {
+      "id": "casablanca-settat",
+      "nom": "Casablanca-Settat",
+      "nom_arabe": "الدار البيضاء - سطات",
+      "chef_lieu": "Casablanca",
+      "population": {
+        "total_2024": 7688967,
+        "source": "RGPH 2024"
+      },
+      "emploi": {
+        "taux_activite_2023": 46.1,
+        "taux_chomage_2023": 15,
+        "taux_activite_urbain_2023": 44.3,
+        "taux_chomage_urbain_2023": 17.8,
+        "taux_activite_rural_2023": 52.9,
+        "taux_chomage_rural_2023": 6.1,
+        "source": "HCP — Enquête Emploi 2023"
+      },
+      "sante": {
+        "hopitaux_publics_2022": 25,
+        "lits_fonctionnels_2022": 3832,
+        "admissions_2022": 167496,
+        "journees_hospitalisation_2022": 757897,
+        "source": "Ministère de la Santé 2022"
+      },
+      "emploi_2026_t2": {
+        "taux_activite": 46.7,
+        "taux_emploi": 40.7,
+        "taux_chomage": 12.8,
+        "taux_chomage_note": null,
+        "taux_sous_utilisation": 20.7,
+        "source": "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"
+      }
+    },
+    {
+      "id": "marrakech-safi",
+      "nom": "Marrakech-Safi",
+      "nom_arabe": "مراكش - آسفي",
+      "chef_lieu": "Marrakech",
+      "population": {
+        "total_2024": 4892393,
+        "source": "RGPH 2024"
+      },
+      "emploi": {
+        "taux_activite_2023": 44,
+        "taux_chomage_2023": 7.7,
+        "taux_activite_urbain_2023": 41.7,
+        "taux_chomage_urbain_2023": 12.2,
+        "taux_activite_rural_2023": 46,
+        "taux_chomage_rural_2023": 4.1,
+        "source": "HCP — Enquête Emploi 2023"
+      },
+      "sante": {
+        "hopitaux_publics_2022": 16,
+        "lits_fonctionnels_2022": 2427,
+        "admissions_2022": 130260,
+        "journees_hospitalisation_2022": 501645,
+        "source": "Ministère de la Santé 2022"
+      },
+      "emploi_2026_t2": {
+        "taux_activite": 43.1,
+        "taux_emploi": 39.7,
+        "taux_chomage": 7.9,
+        "taux_chomage_note": null,
+        "taux_sous_utilisation": 16.9,
+        "source": "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"
+      }
+    },
+    {
+      "id": "draa-tafilalet",
+      "nom": "Drâa-Tafilalet",
+      "nom_arabe": "درعة - تافيلالت",
+      "chef_lieu": "Errachidia",
+      "population": {
+        "total_2024": 1655623,
+        "source": "RGPH 2024"
+      },
+      "emploi": {
+        "taux_activite_2023": 41.7,
+        "taux_chomage_2023": 11.9,
+        "taux_activite_urbain_2023": 38.7,
+        "taux_chomage_urbain_2023": 18,
+        "taux_activite_rural_2023": 43.5,
+        "taux_chomage_rural_2023": 8.6,
+        "source": "HCP — Enquête Emploi 2023"
+      },
+      "sante": {
+        "hopitaux_publics_2022": 11,
+        "lits_fonctionnels_2022": 838,
+        "admissions_2022": 52636,
+        "journees_hospitalisation_2022": 171737,
+        "source": "Ministère de la Santé 2022"
+      },
+      "emploi_2026_t2": {
+        "taux_activite": 30.5,
+        "taux_emploi": 28.0,
+        "taux_chomage": 8.3,
+        "taux_chomage_note": null,
+        "taux_sous_utilisation": 16.2,
+        "source": "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"
+      }
+    },
+    {
+      "id": "souss-massa",
+      "nom": "Souss-Massa",
+      "nom_arabe": "سوس - ماسة",
+      "chef_lieu": "Agadir",
+      "population": {
+        "total_2024": 3020431,
+        "source": "RGPH 2024"
+      },
+      "emploi": {
+        "taux_activite_2023": 39,
+        "taux_chomage_2023": 13.5,
+        "taux_activite_urbain_2023": 40.7,
+        "taux_chomage_urbain_2023": 15.5,
+        "taux_activite_rural_2023": 35.8,
+        "taux_chomage_rural_2023": 9.5,
+        "source": "HCP — Enquête Emploi 2023"
+      },
+      "sante": {
+        "hopitaux_publics_2022": 8,
+        "lits_fonctionnels_2022": 1535,
+        "admissions_2022": 87367,
+        "journees_hospitalisation_2022": 355469,
+        "source": "Ministère de la Santé 2022"
+      },
+      "emploi_2026_t2": {
+        "taux_activite": 37.6,
+        "taux_emploi": 34.9,
+        "taux_chomage": 7.1,
+        "taux_chomage_note": null,
+        "taux_sous_utilisation": 17.6,
+        "source": "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"
+      }
+    },
+    {
+      "id": "guelmim-oued-noun",
+      "nom": "Guelmim-Oued Noun",
+      "nom_arabe": "كلميم - واد نون",
+      "chef_lieu": "Guelmim",
+      "population": {
+        "total_2024": 448685,
+        "source": "RGPH 2024"
+      },
+      "emploi": {
+        "taux_activite_2023": 45.3,
+        "taux_chomage_2023": 20.3,
+        "taux_activite_urbain_2023": 43.4,
+        "taux_chomage_urbain_2023": 22.8,
+        "taux_activite_rural_2023": 53.8,
+        "taux_chomage_rural_2023": 11,
+        "note": "Données HCP 2023 regroupées sous 'Régions du Sud'",
+        "source": "HCP — Enquête Emploi 2023 + Annuaire Régional Guelmim 2021"
+      },
+      "sante": {
+        "hopitaux_publics_2022": 5,
+        "lits_fonctionnels_2022": 370,
+        "admissions_2022": 13004,
+        "journees_hospitalisation_2022": 43838,
+        "source": "Ministère de la Santé 2022"
+      },
+      "emploi_2026_t2": {
+        "taux_activite": 40.8,
+        "taux_emploi": 35.2,
+        "taux_chomage": 13.8,
+        "taux_chomage_note": null,
+        "taux_sous_utilisation": 33.7,
+        "source": "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"
+      }
+    },
+    {
+      "id": "laayoune-sakia-el-hamra",
+      "nom": "Laâyoune-Sakia El Hamra",
+      "nom_arabe": "العيون - الساقية الحمراء",
+      "chef_lieu": "Laâyoune",
+      "population": {
+        "total_2024": 451028,
+        "source": "RGPH 2024"
+      },
+      "emploi": {
+        "taux_activite_2023": 45.3,
+        "taux_chomage_2023": 20.3,
+        "taux_activite_urbain_2023": 43.4,
+        "taux_chomage_urbain_2023": 22.8,
+        "note": "Données HCP 2023 regroupées sous 'Régions du Sud'",
+        "source": "HCP — Enquête Emploi 2023"
+      },
+      "sante": {
+        "hopitaux_publics_2022": 4,
+        "lits_fonctionnels_2022": 379,
+        "admissions_2022": 16727,
+        "journees_hospitalisation_2022": 54424,
+        "source": "Ministère de la Santé 2022"
+      },
+      "emploi_2026_t2": {
+        "taux_activite": 39.7,
+        "taux_emploi": 36.0,
+        "taux_chomage": 9.2,
+        "taux_chomage_note": null,
+        "taux_sous_utilisation": 28.2,
+        "source": "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"
+      }
+    },
+    {
+      "id": "dakhla-oued-ed-dahab",
+      "nom": "Dakhla-Oued Ed-Dahab",
+      "nom_arabe": "الداخلة - وادي الذهب",
+      "chef_lieu": "Dakhla",
+      "population": {
+        "total_2024": 219965,
+        "source": "RGPH 2024"
+      },
+      "emploi": {
+        "taux_activite_2023": 45.3,
+        "taux_chomage_2023": 20.3,
+        "taux_activite_urbain_2023": 43.4,
+        "taux_chomage_urbain_2023": 22.8,
+        "note": "Données HCP 2023 regroupées sous 'Régions du Sud'",
+        "source": "HCP — Enquête Emploi 2023"
+      },
+      "sante": {
+        "hopitaux_publics_2022": 1,
+        "lits_fonctionnels_2022": 80,
+        "admissions_2022": 5644,
+        "journees_hospitalisation_2022": 17479,
+        "source": "Ministère de la Santé 2022"
+      },
+      "emploi_2026_t2": {
+        "taux_activite": 59.2,
+        "taux_emploi": 57.8,
+        "taux_chomage": null,
+        "taux_chomage_note": "Non significatif (faible effectif)",
+        "taux_sous_utilisation": 8.6,
+        "source": "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026"
+      }
+    }
+  ],
+  "psychosocial": {
+    "_meta": {
+      "titre": "Observatoire National des Dynamiques Psychosociales",
+      "accroche": "Une page d'analyse basée sur la psychologie sociale appliquée pour expliquer le climat social, comprendre les changements comportementaux et appuyer la prise de décision.",
+      "version": "V2.0 — corpus presse réel",
+      "derniere_mise_a_jour": "04/08/2026 11:04",
+      "sources": [
+        "Hespress FR",
+        "Hespress — Économie",
+        "Hespress — Société",
+        "Hespress — Politique",
+        "Hespress — Régions",
+        "Hespress — Sport",
+        "Hespress — Monde",
+        "Medias24",
+        "TelQuel",
+        "Yabiladi",
+        "Le Site Info",
+        "La Vie Éco",
+        "Challenge",
+        "Aujourd'hui le Maroc",
+        "Barlamane",
+        "Le Desk",
+        "Bladi",
+        "Maroc Local",
+        "Le Reporter",
+        "EcoActu"
+      ],
+      "nb_articles": 400,
+      "methode": "Fréquences réelles calculées sur les titres et chapôs des articles RSS de la presse marocaine publique. La carte est colorée selon un critère MESURABLE : le volume d'articles rattachés à chaque région.",
+      "note": "Corpus presse publique (RSS). Les couleurs de la carte traduisent le volume de données disponibles par région, non l'intensité réelle des phénomènes."
+    },
+    "kpis": {
+      "volume_total": 400,
+      "mentions_total": 539,
+      "etudes_total": 261,
+      "regions_couvertes": 12,
+      "nb_regions": 12,
+      "nb_sujets": 14,
+      "nb_mots": 24
+    },
+    "regions": {
+      "rabat-sale-kenitra": {
+        "nom": "Rabat-Salé-Kénitra",
+        "articles_presse": 33,
+        "mentions": 29,
+        "themes_distincts": 7,
+        "volume_total": 33,
+        "sujets": [
+          "Migration",
+          "Femmes",
+          "Santé",
+          "Justice",
+          "Sécurité"
+        ],
+        "derniere_maj": "04/08/2026 11:04"
+      },
+      "casablanca-settat": {
+        "nom": "Casablanca-Settat",
+        "articles_presse": 22,
+        "mentions": 14,
+        "themes_distincts": 8,
+        "volume_total": 22,
+        "sujets": [
+          "Justice",
+          "Investissement",
+          "Chômage",
+          "Éducation",
+          "Santé"
+        ],
+        "derniere_maj": "04/08/2026 11:04"
+      },
+      "marrakech-safi": {
+        "nom": "Marrakech-Safi",
+        "articles_presse": 4,
+        "mentions": 0,
+        "themes_distincts": 0,
+        "volume_total": 4,
+        "sujets": [],
+        "derniere_maj": "04/08/2026 11:04"
+      },
+      "fes-meknes": {
+        "nom": "Fès-Meknès",
+        "articles_presse": 16,
+        "mentions": 14,
+        "themes_distincts": 10,
+        "volume_total": 16,
+        "sujets": [
+          "Manifestation",
+          "Prix",
+          "Cherté de la vie",
+          "Justice",
+          "Investissement"
+        ],
+        "derniere_maj": "04/08/2026 11:04"
+      },
+      "tanger-tetouan-al-hoceima": {
+        "nom": "Tanger-Tétouan-Al Hoceïma",
+        "articles_presse": 29,
+        "mentions": 19,
+        "themes_distincts": 9,
+        "volume_total": 29,
+        "sujets": [
+          "Migration",
+          "Jeunesse",
+          "Éducation",
+          "Santé",
+          "Numérique"
+        ],
+        "derniere_maj": "04/08/2026 11:04"
+      },
+      "souss-massa": {
+        "nom": "Souss-Massa",
+        "articles_presse": 10,
+        "mentions": 2,
+        "themes_distincts": 2,
+        "volume_total": 10,
+        "sujets": [
+          "Santé",
+          "Emploi"
+        ],
+        "derniere_maj": "04/08/2026 11:04"
+      },
+      "l-oriental": {
+        "nom": "L'Oriental",
+        "articles_presse": 14,
+        "mentions": 6,
+        "themes_distincts": 4,
+        "volume_total": 14,
+        "sujets": [
+          "Justice",
+          "Eau",
+          "Migration",
+          "Emploi"
+        ],
+        "derniere_maj": "04/08/2026 11:04"
+      },
+      "beni-mellal-khenifra": {
+        "nom": "Béni Mellal-Khénifra",
+        "articles_presse": 3,
+        "mentions": 1,
+        "themes_distincts": 1,
+        "volume_total": 3,
+        "sujets": [
+          "Migration"
+        ],
+        "derniere_maj": "04/08/2026 11:04"
+      },
+      "draa-tafilalet": {
+        "nom": "Drâa-Tafilalet",
+        "articles_presse": 2,
+        "mentions": 1,
+        "themes_distincts": 1,
+        "volume_total": 2,
+        "sujets": [
+          "Emploi"
+        ],
+        "derniere_maj": "04/08/2026 11:04"
+      },
+      "guelmim-oued-noun": {
+        "nom": "Guelmim-Oued Noun",
+        "articles_presse": 29,
+        "mentions": 14,
+        "themes_distincts": 7,
+        "volume_total": 29,
+        "sujets": [
+          "Femmes",
+          "Éducation",
+          "Migration",
+          "Emploi",
+          "Santé"
+        ],
+        "derniere_maj": "04/08/2026 11:04"
+      },
+      "laayoune-sakia-el-hamra": {
+        "nom": "Laâyoune-Sakia El Hamra",
+        "articles_presse": 5,
+        "mentions": 5,
+        "themes_distincts": 4,
+        "volume_total": 5,
+        "sujets": [
+          "Sécurité",
+          "Santé",
+          "Emploi",
+          "Jeunesse"
+        ],
+        "derniere_maj": "04/08/2026 11:04"
+      },
+      "dakhla-oued-ed-dahab": {
+        "nom": "Dakhla-Oued Ed-Dahab",
+        "articles_presse": 3,
+        "mentions": 1,
+        "themes_distincts": 1,
+        "volume_total": 3,
+        "sujets": [
+          "Emploi"
+        ],
+        "derniere_maj": "04/08/2026 11:04"
+      }
+    },
+    "mots_cles": [
+      {
+        "mot": "Migration",
+        "freq": 136,
+        "etudes": 61,
+        "regions": [
+          "Rabat-Salé-Kénitra",
+          "Tanger-Tétouan-Al Hoceïma"
+        ],
+        "associes": [
+          "Justice",
+          "Sécurité",
+          "Jeunesse",
+          "Éducation"
+        ]
+      },
+      {
+        "mot": "Femmes",
+        "freq": 55,
+        "etudes": 21,
+        "regions": [
+          "Rabat-Salé-Kénitra",
+          "Guelmim-Oued Noun"
+        ],
+        "associes": [
+          "Emploi",
+          "Chômage",
+          "Jeunesse",
+          "Inégalités"
+        ]
+      },
+      {
+        "mot": "Prix",
+        "freq": 45,
+        "etudes": 11,
+        "regions": [
+          "Fès-Meknès",
+          "Tanger-Tétouan-Al Hoceïma"
+        ],
+        "associes": [
+          "Cherté de la vie",
+          "Grève",
+          "Transport",
+          "Retraite"
+        ]
+      },
+      {
+        "mot": "Investissement",
+        "freq": 37,
+        "etudes": 24,
+        "regions": [
+          "Casablanca-Settat",
+          "Tanger-Tétouan-Al Hoceïma"
+        ],
+        "associes": [
+          "Éducation",
+          "Justice",
+          "Sécurité",
+          "Retraite"
+        ]
+      },
+      {
+        "mot": "Justice",
+        "freq": 32,
+        "etudes": 16,
+        "regions": [
+          "Casablanca-Settat",
+          "L'Oriental"
+        ],
+        "associes": [
+          "Migration",
+          "Investissement",
+          "Manifestation",
+          "Sécurité"
+        ]
+      },
+      {
+        "mot": "Éducation",
+        "freq": 30,
+        "etudes": 22,
+        "regions": [
+          "Tanger-Tétouan-Al Hoceïma",
+          "Guelmim-Oued Noun"
+        ],
+        "associes": [
+          "Santé",
+          "Jeunesse",
+          "Emploi",
+          "Environnement"
+        ]
+      },
+      {
+        "mot": "Santé",
+        "freq": 30,
+        "etudes": 16,
+        "regions": [
+          "Rabat-Salé-Kénitra",
+          "Tanger-Tétouan-Al Hoceïma"
+        ],
+        "associes": [
+          "Éducation",
+          "Emploi",
+          "Numérique",
+          "Sécurité"
+        ]
+      },
+      {
+        "mot": "Jeunesse",
+        "freq": 29,
+        "etudes": 17,
+        "regions": [
+          "Tanger-Tétouan-Al Hoceïma",
+          "Guelmim-Oued Noun"
+        ],
+        "associes": [
+          "Emploi",
+          "Éducation",
+          "Migration",
+          "Chômage"
+        ]
+      },
+      {
+        "mot": "Emploi",
+        "freq": 27,
+        "etudes": 12,
+        "regions": [
+          "Guelmim-Oued Noun",
+          "Dakhla-Oued Ed-Dahab"
+        ],
+        "associes": [
+          "Chômage",
+          "Jeunesse",
+          "Éducation",
+          "Femmes"
+        ]
+      },
+      {
+        "mot": "Sécurité",
+        "freq": 26,
+        "etudes": 13,
+        "regions": [
+          "Laâyoune-Sakia El Hamra",
+          "Rabat-Salé-Kénitra"
+        ],
+        "associes": [
+          "Migration",
+          "Investissement",
+          "Santé",
+          "Justice"
+        ]
+      },
+      {
+        "mot": "Chômage",
+        "freq": 22,
+        "etudes": 10,
+        "regions": [
+          "Guelmim-Oued Noun",
+          "Rabat-Salé-Kénitra"
+        ],
+        "associes": [
+          "Emploi",
+          "Jeunesse",
+          "Femmes",
+          "Éducation"
+        ]
+      },
+      {
+        "mot": "Eau",
+        "freq": 12,
+        "etudes": 2,
+        "regions": [
+          "L'Oriental"
+        ],
+        "associes": []
+      },
+      {
+        "mot": "Cherté de la vie",
+        "freq": 9,
+        "etudes": 3,
+        "regions": [
+          "Fès-Meknès"
+        ],
+        "associes": [
+          "Prix",
+          "Grève",
+          "Transport"
+        ]
+      },
+      {
+        "mot": "Numérique",
+        "freq": 9,
+        "etudes": 4,
+        "regions": [
+          "Tanger-Tétouan-Al Hoceïma"
+        ],
+        "associes": [
+          "Emploi",
+          "Santé",
+          "Éducation"
+        ]
+      },
+      {
+        "mot": "Grève",
+        "freq": 8,
+        "etudes": 4,
+        "regions": [
+          "Fès-Meknès",
+          "Casablanca-Settat"
+        ],
+        "associes": [
+          "Cherté de la vie",
+          "Prix",
+          "Transport",
+          "Jeunesse"
+        ]
+      },
+      {
+        "mot": "Environnement",
+        "freq": 8,
+        "etudes": 7,
+        "regions": [],
+        "associes": [
+          "Jeunesse",
+          "Éducation",
+          "Emploi",
+          "Chômage"
+        ]
+      },
+      {
+        "mot": "Retraite",
+        "freq": 8,
+        "etudes": 5,
+        "regions": [
+          "Tanger-Tétouan-Al Hoceïma"
+        ],
+        "associes": [
+          "Prix",
+          "Investissement",
+          "Sécurité",
+          "Migration"
+        ]
+      },
+      {
+        "mot": "Manifestation",
+        "freq": 4,
+        "etudes": 4,
+        "regions": [
+          "Fès-Meknès"
+        ],
+        "associes": [
+          "Justice",
+          "Investissement",
+          "Prix"
+        ]
+      },
+      {
+        "mot": "Transport",
+        "freq": 3,
+        "etudes": 1,
+        "regions": [],
+        "associes": [
+          "Cherté de la vie",
+          "Prix",
+          "Grève"
+        ]
+      },
+      {
+        "mot": "Inégalités",
+        "freq": 3,
+        "etudes": 2,
+        "regions": [],
+        "associes": [
+          "Emploi",
+          "Chômage",
+          "Jeunesse",
+          "Femmes"
+        ]
+      },
+      {
+        "mot": "Protection sociale",
+        "freq": 2,
+        "etudes": 2,
+        "regions": [
+          "Rabat-Salé-Kénitra"
+        ],
+        "associes": [
+          "Santé"
+        ]
+      },
+      {
+        "mot": "Tourisme",
+        "freq": 2,
+        "etudes": 2,
+        "regions": [
+          "Casablanca-Settat"
+        ],
+        "associes": [
+          "Investissement"
+        ]
+      },
+      {
+        "mot": "Agriculture",
+        "freq": 1,
+        "etudes": 1,
+        "regions": [
+          "Tanger-Tétouan-Al Hoceïma"
+        ],
+        "associes": []
+      },
+      {
+        "mot": "Logement",
+        "freq": 1,
+        "etudes": 1,
+        "regions": [],
+        "associes": []
+      }
+    ],
+    "sujets": [
+      {
+        "nom": "Migration",
+        "freq": 136,
+        "evolution": -3,
+        "region": "Rabat-Salé-Kénitra"
+      },
+      {
+        "nom": "Femmes",
+        "freq": 55,
+        "evolution": 220,
+        "region": "Rabat-Salé-Kénitra"
+      },
+      {
+        "nom": "Éducation",
+        "freq": 30,
+        "evolution": 0,
+        "region": "Tanger-Tétouan-Al Hoceïma"
+      },
+      {
+        "nom": "Santé",
+        "freq": 30,
+        "evolution": 120,
+        "region": "Rabat-Salé-Kénitra"
+      },
+      {
+        "nom": "Jeunesse",
+        "freq": 29,
+        "evolution": 43,
+        "region": "Tanger-Tétouan-Al Hoceïma"
+      },
+      {
+        "nom": "Emploi",
+        "freq": 27,
+        "evolution": 300,
+        "region": "Guelmim-Oued Noun"
+      },
+      {
+        "nom": "Sécurité",
+        "freq": 26,
+        "evolution": -38,
+        "region": "Laâyoune-Sakia El Hamra"
+      },
+      {
+        "nom": "Chômage",
+        "freq": 22,
+        "evolution": 300,
+        "region": "Casablanca-Settat"
+      },
+      {
+        "nom": "Eau",
+        "freq": 12,
+        "evolution": 0,
+        "region": "L'Oriental"
+      },
+      {
+        "nom": "Cherté de la vie",
+        "freq": 9,
+        "evolution": 100,
+        "region": "Fès-Meknès"
+      },
+      {
+        "nom": "Environnement",
+        "freq": 8,
+        "evolution": -60,
+        "region": "Tanger-Tétouan-Al Hoceïma"
+      },
+      {
+        "nom": "Manifestation",
+        "freq": 4,
+        "evolution": 100,
+        "region": "Fès-Meknès"
+      },
+      {
+        "nom": "Logement",
+        "freq": 1,
+        "evolution": -99,
+        "region": "Tanger-Tétouan-Al Hoceïma"
+      },
+      {
+        "nom": "Agriculture",
+        "freq": 1,
+        "evolution": 100,
+        "region": "Tanger-Tétouan-Al Hoceïma"
+      }
+    ]
+  },
+  "secteurs": {
+    "libelle": "Répartition de l'emploi par secteur d'activité (T2 2026)",
+    "source": "HCP — Enquête sur la main-d'œuvre (EMO), T2 2026",
+    "valeurs": [
+      {
+        "secteur": "Services",
+        "part": 49.3
+      },
+      {
+        "secteur": "Agriculture, forêt et pêche",
+        "part": 24.1
+      },
+      {
+        "secteur": "Industrie (y c. artisanat)",
+        "part": 13.7
+      },
+      {
+        "secteur": "BTP",
+        "part": 12.7
+      }
+    ]
+  },
+  "evolution": {
+    "libelle": "Évolution trimestrielle des indicateurs d'emploi (2026)",
+    "source": "HCP — Enquête sur la main-d'œuvre (EMO), 2026",
+    "trimestres": [
+      "T1 2026",
+      "T2 2026"
+    ],
+    "taux_chomage": [
+      12.8,
+      9.5
+    ],
+    "taux_activite": [
+      43.5,
+      42.2
+    ],
+    "pib_croissance": [
+      4.6,
+      4.8
+    ],
+    "inflation": [
+      -0.1,
+      1.1
+    ],
+    "note": "Le taux de chômage T1 2026 (12,8 %) reflète le pic saisonnier hivernal ; le repli à 9,5 % au T2 2026 traduit la reprise de l'activité agricole et touristique."
+  }
+}
